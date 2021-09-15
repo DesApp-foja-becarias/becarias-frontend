@@ -12,7 +12,6 @@ import {
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { DateTime } from 'luxon';
 import { Face } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -33,11 +32,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function fechaFormatoHumano(fecha) {
-  return DateTime.fromISO(fecha)
-    .setLocale('es')
-    .toLocaleString(DateTime.DATE_FULL);
-}
 
 export default function ListadoUsuarios() {
   const classes = useStyles();
@@ -75,9 +69,7 @@ export default function ListadoUsuarios() {
               </ListItemAvatar>
               <ListItemText
                 primary={`${it.apellido}, ${it.nombre}`}
-                secondary={`Nació el ${fechaFormatoHumano(
-                  it.fechaNacimiento
-                )}.`}
+
               />
               <ListItemSecondaryAction>
                 <IconButton
@@ -122,8 +114,8 @@ export default function ListadoUsuarios() {
       {hasError
         ? errorRendering()
         : usuarios == null
-        ? loadingRendering()
-        : usuariosRendering()}
+          ? loadingRendering()
+          : usuariosRendering()}
     </Grid>
   );
 }
