@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {
+  CircularProgress,
+  CssBaseline,
+  ThemeProvider,
+} from '@material-ui/core';
+import theme from './theme';
+import { RecoilRoot } from 'recoil';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Alert } from '@material-ui/lab';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <CssBaseline />
+      <RecoilRoot>
+        <Suspense fallback={<CircularProgress />}>
+          <ErrorBoundary
+            fallback={<Alert severity="error">Algo se rompió feo :(</Alert>}
+          >
+            <App />
+          </ErrorBoundary>
+        </Suspense>
+      </RecoilRoot>
+    </React.StrictMode>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
