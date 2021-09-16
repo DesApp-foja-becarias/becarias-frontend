@@ -2,6 +2,7 @@ import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
+import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar";
 
 const useStyles = makeStyles(() => ({
@@ -29,7 +30,7 @@ export default function App() {
           <Switch>
 
             <Route path="/">
-              <Home />
+              <Login />
             </Route>
           </Switch>
         </Router>
