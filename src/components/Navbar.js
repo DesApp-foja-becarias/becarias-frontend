@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
@@ -13,12 +12,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import iconUnahur from "../assets/unahur-isologo.svg";
 import HomeIcon from '@material-ui/icons/Home';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import becariaUnahur from '../assets/becarias-logo.svg'
 
 //import UserMenuButton from './UserMenuButton';
 
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   toolbar: {
-    minHeight: "3em",
+    minHeight: "4.5em",
   },
   list: {
     width: "100%",
@@ -138,9 +137,10 @@ function Navbar() {
             >
               {/* ACA ESTA LA IMAGEN */}
 
+
               <img
                 className={classes.logoImg}
-                src={iconUnahur}
+                src={becariaUnahur}
                 alt="icono unahur"
               />
 
