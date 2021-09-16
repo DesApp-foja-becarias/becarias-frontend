@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Typography } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
@@ -18,6 +19,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import Popover from '@material-ui/core/Popover';
+import UserMenuButton from './UserMenuButton';
+
 
 //TODO: pasar el Drawer a un componente propio
 
@@ -28,9 +32,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
-  },
+
   toolbar: {
     minHeight: "3em",
   },
@@ -86,51 +88,74 @@ const listItems = [
 
 function Navbar() {
   const [openDrawer, toggleDrawer] = useState(false);
+  const [openUserMenu, toggleUserMenu] = useState(false);
   const classes = useStyles();
   return (
     <div>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={() => toggleDrawer(!openDrawer)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
-            <div className={classes.drawerMinSize} /> {/* ;) guiño guiño */}
-            <List>
-              {listItems.map((items, index) => (
-                <Container disableGutters key={index}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      {
-                        items.icon
-                      }
-                    </ListItemIcon>
-                    <ListItemText primary={items.name} />
-                  </ListItem>
+          <Grid container >
+            <Grid item xs={4}
+            >
+              {/* ACA ESTA EL MENU */}
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={() => toggleDrawer(!openDrawer)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
+              <div className={classes.drawerMinSize} /> {/* ;) guiño guiño */}
+              <List>
+                {listItems.map((items, index) => (
+                  <Container disableGutters key={index}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        {
+                          items.icon
+                        }
+                      </ListItemIcon>
+                      <ListItemText primary={items.name} />
+                    </ListItem>
 
-                  <Divider />
-                </Container>
-              ))}
-              {
-                //TODO: BOTON DE SALIDA ARMARLO MAS TARDE :B
-              }
-            </List>
-          </Drawer>
-          {
-            //TODO: AGREGAR LOGO Y POSICIONAR ESTO EN EL CENTRO
-            <img
-              className={classes.logoImg}
-              src={iconUnahur}
-              alt="icono unahur"
-            />
-          }
-          <Button color="inherit">aca iria el nombre del usuario</Button>
+                    <Divider />
+                  </Container>
+                ))}
+                {
+                  //TODO: BOTON DE SALIDA ARMARLO MAS TARDE :B
+                }
+              </List>
+            </Drawer>
+            <Grid item xs={4}
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {/* ACA ESTA LA IMAGEN */}
+
+              <img
+                className={classes.logoImg}
+                src={iconUnahur}
+                alt="icono unahur"
+              />
+
+            </Grid>
+            <Grid item xs={4}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              {/* ACA ESTA EL USUARIO */}
+
+              <UserMenuButton></UserMenuButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
