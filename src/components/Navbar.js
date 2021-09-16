@@ -19,8 +19,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import Popover from '@material-ui/core/Popover';
-import UserMenuButton from './UserMenuButton';
+
+//import UserMenuButton from './UserMenuButton';
 
 
 //TODO: pasar el Drawer a un componente propio
@@ -153,7 +153,6 @@ function Navbar() {
             >
               {/* ACA ESTA EL USUARIO */}
 
-              <UserMenuButton></UserMenuButton>
             </Grid>
           </Grid>
         </Toolbar>
