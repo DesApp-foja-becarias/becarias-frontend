@@ -17,7 +17,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import becariaUnahur from '../assets/becarias-logo.svg'
+import becariaUnahur from '../../assets/becarias-logo.svg'
+import ButtonUser from "./ButtonUser";
 
 //import UserMenuButton from './UserMenuButton';
 
@@ -85,9 +86,18 @@ const listItems = [
   },
 ];
 
+
+
+
+
+
 function Navbar() {
   const [openDrawer, toggleDrawer] = useState(false);
   const [openUserMenu, toggleUserMenu] = useState(false);
+  
+  //NOTE: AUTH QUE LE TIENE QUE CAER DE CONTEXTO PERO MIENTRAS TANTO ESTA ACA ESTE USER.
+  const [user, setUser] = useState({});
+
   const classes = useStyles();
   return (
     <div>
@@ -96,7 +106,7 @@ function Navbar() {
           <Grid container >
             <Grid item xs={4}
             >
-              {/* ACA ESTA EL MENU */}
+             { user && (
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -106,6 +116,7 @@ function Navbar() {
               >
                 <MenuIcon />
               </IconButton>
+              )}
             </Grid>
             <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
               <div className={classes.drawerMinSize} /> {/* ;) guiño guiño */}
@@ -151,7 +162,11 @@ function Navbar() {
               justifyContent="flex-end"
               alignItems="center"
             >
-              {/* ACA ESTA EL USUARIO */}
+              {/* ACA ESTA EL USUARIO */
+              user && (
+              <ButtonUser/>
+              )  
+            }
 
             </Grid>
           </Grid>
