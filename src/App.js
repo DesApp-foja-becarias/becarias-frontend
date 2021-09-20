@@ -1,6 +1,7 @@
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import DatosBecaria from "./components/DatosBecaria/DatosBecaria";
 import Home from "./components/Home";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
@@ -33,7 +34,7 @@ export default function App() {
         <Router>
           <Switch>
             <Route path="/">
-              <Login />
+              <DatosBecaria />
             </Route>
           </Switch>
         </Router>
