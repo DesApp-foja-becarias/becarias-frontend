@@ -1,6 +1,14 @@
 import { createTheme } from '@material-ui/core';
 
 export const themeOptions = {
+  typography: {
+    fontFamily: 'Lato, sans-serif',
+    h4:{
+      fontSize: '410px',
+      color:'red'
+    }
+    
+  },
   palette: {
     type: 'light',
     primary: {
@@ -18,10 +26,7 @@ export const themeOptions = {
       main: '#f44336',
     },
   },
-  typography: {
-    // use lato font in material ui
-    fontFamily: 'Lato, sans-serif',
-  },
+  
 
 
 };

@@ -34,7 +34,11 @@ export default function App() {
         <Router>
           <Switch>
             <Route path="/">
-              <DatosBecaria />
+              {
+      //        <Login />
+              
+             <DatosBecaria />
+}
             </Route>
           </Switch>
         </Router>
