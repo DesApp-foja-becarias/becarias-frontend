@@ -5,8 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import {
   CircularProgress,
   CssBaseline,
-  ThemeProvider,
-} from '@material-ui/core';
+  ThemeProvider
+} from '@mui/material';
+
 import theme from './theme';
 
 ReactDOM.render(

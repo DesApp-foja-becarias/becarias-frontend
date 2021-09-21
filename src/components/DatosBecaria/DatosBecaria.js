@@ -1,8 +1,8 @@
-import { Container } from '@material-ui/core'
+import  Container  from '@mui/material/Container'
 import Dato from './Dato'
 import React from 'react'
 import Typography from '@mui/material/Typography';
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';

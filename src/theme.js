@@ -1,14 +1,7 @@
-import { createTheme } from '@material-ui/core';
+import { createTheme } from '@mui/material/styles';
 
 export const themeOptions = {
-  typography: {
-    fontFamily: 'Lato, sans-serif',
-    h4:{
-      fontSize: '410px',
-      color:'red'
-    }
-    
-  },
+
   palette: {
     type: 'light',
     primary: {
@@ -25,6 +18,15 @@ export const themeOptions = {
     error: {
       main: '#f44336',
     },
+    
+  },
+  typography: {
+    fontFamily: 'Lato, sans-serif',
+    h4:{
+      fontSize: '410px',
+      color:'red'
+    }
+    
   },
   
 
