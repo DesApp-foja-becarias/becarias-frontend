@@ -34,7 +34,7 @@ export default function Dato({title, value,mail,cell}) {
     return (
         <div>
             <Box className={classes.Box}>  
-              <Typography  variant="h6">{title}</Typography> 
+              <Typography sx={{}}  variant="h6" >{title}</Typography> 
               
               <Box class={classes.spacer}/>  
               

@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
         width: '200px',
         border: 'solid black 3px',
     },
-
-    }));
+  })
+  );
 
 export default function DatosBecaria() {
     const datos = 
         {
-            nombre: 'Elizabeth',
-            apellido: 'De la Iglesia',
+            nombre: 'Mariana Agustina',
+            apellido: 'Etchegaray',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
             fechaNacimiento: '12/12/12',
@@ -43,17 +43,17 @@ export default function DatosBecaria() {
 
 
         }
+    
 
     const classes = useStyles();
-
     return (
         <Container maxWidth="md">
             <Container id='nombreBecaria'>
               <Grid container>
                 <Grid container xs={8}>
                   <Box>
-                    <Typography variant='h5'>{datos.apellido}</Typography>
-                    <Typography variant='h5'>{datos.nombre}</Typography>
+                    <Typography variant='h4'>{datos.apellido}</Typography>
+                    <Typography >{datos.nombre}</Typography>
                   </Box>
                 </Grid>
                 <Grid container xs={4}>
