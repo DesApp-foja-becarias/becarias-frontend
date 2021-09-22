@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -45,7 +44,9 @@ export default function Dato({title, value,mail,cell}) {
                   cell && <WhatsAppIcon />
               }    
             </Box>
-            <Typography variant="subtitle2">{mail|| cell || value}</Typography>
+            <Box ml={'2px'}>
+                <Typography variant="subtitle2">{mail|| cell || value}</Typography>
+            </Box>
         </div>
     )
 }
