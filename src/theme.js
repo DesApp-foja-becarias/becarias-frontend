@@ -23,9 +23,21 @@ export const themeOptions = {
   typography: {
     fontFamily: 'Lato, sans-serif',
     h4:{
-      fontSize: '410px',
-      color:'red'
+      fontWeight: 700,
+      fontSize: '2rem',
+      
+      color:'#35919D'
+    },
+    h5:{
+      
+      fontSize: '1.5rem',
+      fontWeight: 400,
+      color:'#4DD0E1'
+    },
+    h6:{
+      color:'#35919D'
     }
+    
     
   },
   

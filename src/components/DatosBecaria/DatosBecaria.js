@@ -9,8 +9,15 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Divider from '@mui/material/Divider';
 
 const useStyles = makeStyles((theme) => ({
+    rootContainer:{
+      padding: '15px',
+      boxShadow: '0px 0px 10px #00000029',
+      borderRadius: '10px',
+      backgroundColor: '#fafafa',
+    },
     image: {
         height: '200ps',
         width: '200px',
@@ -47,13 +54,14 @@ export default function DatosBecaria() {
 
     const classes = useStyles();
     return (
-        <Container maxWidth="md">
-            <Container id='nombreBecaria'>
+        <Container className={classes.rootContainer} maxWidth="md">
+         
+            <Container  id='nombreBecaria'>
               <Grid container>
                 <Grid container xs={8}>
                   <Box>
                     <Typography variant='h4'>{datos.apellido}</Typography>
-                    <Typography >{datos.nombre}</Typography>
+                    <Typography variant='h5'>{datos.nombre}</Typography>
                   </Box>
                 </Grid>
                 <Grid container xs={4}>
@@ -71,11 +79,14 @@ export default function DatosBecaria() {
                 </Grid>
               </Grid>
             </Container>
+            <Box mb={2} mt={2}>
+              <Divider />
+            </Box>
             <Container id='datosGenerales' >
               <Container id='datosGeneralesUp' disableGutters>
                   <Container id='DatosPersonales' disableGutters>
                       <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
-                      <Dato title='DNI' value={datos.dni} mail=''/>
+                      <Dato title='DNI' value={datos.dni} />
                       <Dato title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
                       <Dato title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
                   </Container>
