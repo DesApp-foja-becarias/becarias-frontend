@@ -2,6 +2,7 @@ import  Container  from '@mui/material/Container'
 import Dato from './Dato'
 import React from 'react'
 import Typography from '@mui/material/Typography';
+import { Table, TableCell,TableBody,TableRow,TableHead } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
         width: '200px',
         border: 'solid black 3px',
     },
+    subtitulo:{
+      fontSize: '2.5em',
+    }
   })
   );
 
@@ -43,7 +47,7 @@ export default function DatosBecaria() {
             
             estadoActual: 'Aprobada',
             carrera: 'Ingenieria en Informatica',
-            tutor: '[Juan Perez]',
+            tutor: 'Juan Perez',
             //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
             historial:[],
             actividad:[],
@@ -82,19 +86,93 @@ export default function DatosBecaria() {
               <Divider />
             </Box>
             <Container id='datosGenerales' >
-              <Container id='datosGeneralesUp' disableGutters>
-                  <Container id='DatosPersonales' disableGutters>
+              <Grid container id='datosGeneralesUp' disableGutters>
+                  <Grid item xs={12} sm={6} id='DatosPersonales' disableGutters>
                       <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                      <Box mb={2} mt={2}/>
+                      <Typography variant="subtitle1">Datos de personales</Typography>
                       <Dato title='DNI' value={datos.dni} />
                       <Dato title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
                       <Dato title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
-                  </Container>
-                  <Container id='datosContCar' disableGutters>
-                   
-                  </Container>
-              </Container>
+                  </Grid>
+                  <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
+                  
+                  <Typography variant="subtitle1">Datos de contacto</Typography>
+                  
+                    <Dato title='Correo' value={datos.email} mail/>
+                    <Dato title='Celular' value={datos.telefono} cell/>
+                    <Box mb={2} mt={2}>
+                      <Divider />
+                    </Box>
+                    <Typography variant="subtitle1">Datos de carrera</Typography>
+                 
+                    <Dato title='Estado Actual' value={datos.estadoActual} />
+                    <Dato title='Carrera' value={datos.carrera} />
+                    <Dato title='Tutor' value={datos.tutor} />
+                    <Typography variant='h6'>Historial</Typography>
+                    <Typography variant='h6'>---------</Typography>
+                  </Grid>
+              </Grid>
+              <Box mb={2} mt={2}>
+                <Divider />
+              </Box>
               <Container id='datosGeneralesBottom'>
-
+                <Typography variant='subtitle1'>Actividad</Typography>
+                <Box mb={6} >
+                <Table bgcolor='#f0f0f0'>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Actividad</TableCell>
+                      <TableCell>Fecha</TableCell>
+                      <TableCell>Estado</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Actividad 1</TableCell>
+                      <TableCell>12/12/12</TableCell>
+                      <TableCell>Aprobada</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Actividad 2</TableCell>
+                      <TableCell>12/12/12</TableCell>
+                      <TableCell>Aprobada</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Actividad 3</TableCell>
+                      <TableCell>12/12/12</TableCell>
+                      <TableCell>Aprobada</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                </Box>
+                <Typography variant='subtitle1'>Datos de la cuenta</Typography>
+                <Table bgcolor='#f0f0f0' >
+                      <TableHead >
+                        <TableRow >
+                          <TableCell><Typography fontWeight='bold' variant='body1'>Actividad</Typography></TableCell>
+                          <TableCell><Typography fontWeight='bold' variant='body1'>Fecha</Typography></TableCell>
+                          <TableCell><Typography fontWeight='bold' variant='body1'>Estado</Typography></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Actividad 1</TableCell>
+                          <TableCell>12/12/12</TableCell>
+                          <TableCell>Aprobada</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Actividad 2</TableCell>
+                          <TableCell>12/12/12</TableCell>
+                          <TableCell>Aprobada</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Actividad 3</TableCell>
+                          <TableCell>12/12/12</TableCell>
+                          <TableCell>Aprobada</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
               </Container>
             </Container>
         </Container>

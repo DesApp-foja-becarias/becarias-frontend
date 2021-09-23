@@ -36,8 +36,11 @@ export const themeOptions = {
     },
     h6:{
       color:'#35919D'
-    }
-    
+    },
+    subtitle1:{
+      fontSize: '1.3rem',
+      color: '#c2c2c2',
+    },
     
   },
   
