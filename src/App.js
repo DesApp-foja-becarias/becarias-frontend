@@ -4,13 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DatosBecaria from "./components/DatosBecaria/DatosBecaria";
 
 import Login from "./components/Login/Login";
+import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
 
 
 const useStyles = makeStyles(() => ({
   root: {
     marginTop: "50px",
-    height:"100%",
+    height: "100%",
   },
   fixedHeader: {
     marginBottom: "40px",
@@ -35,10 +36,11 @@ export default function App() {
           <Switch>
             <Route path="/">
               {
-      //        <Login />
-              
-             <DatosBecaria />
-}
+                //        <Login />
+
+                //<DatosBecaria />
+                <Main />
+              }
             </Route>
           </Switch>
         </Router>
