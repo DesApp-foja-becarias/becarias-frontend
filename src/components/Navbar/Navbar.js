@@ -156,7 +156,7 @@ function Navbar() {
               {/* ACA ESTA EL USUARIO */
               user && (
               <ButtonUser/>
-              )  
+              )
             }
 
             </Grid>
