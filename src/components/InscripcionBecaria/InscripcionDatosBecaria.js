@@ -63,12 +63,13 @@ export default function IngresoDatosBecaria() {
                     />
                 </Grid>
                 <Grid item xs={6} spacing xs={2}>
-                    <TextField className={classes.textField} 
-                        placeholder="Fecha de Nacimiento" 
-                        focused variant="outlined" 
-                        size="small"
-                        margin="normal"
-                    />
+                    <Typography variant='h6' 
+                        color= "black"
+                        align="center"
+                    >
+                        Fecha de nacimiento
+                    </Typography>
+                    
                     <TextField className={classes.textField} 
                         placeholder="Dìa" 
                         focused variant="outlined" 
@@ -117,12 +118,12 @@ export default function IngresoDatosBecaria() {
                     />
                 </Grid>
                 <Grid item xs={6} spacing xs={2}>
-                    <TextField className={classes.textField} 
-                        placeholder="Fecha de convocatoria" 
-                        focused variant="outlined" 
-                        margin="normal"
-                        size="small"
-                    />
+                    <Typography variant='h6' 
+                        color= "black"
+                        align="center"
+                    >
+                        Fecha de convocatoria
+                    </Typography>
                      <TextField className={classes.textField} 
                         placeholder="Dìa" 
                         focused variant="outlined" 
@@ -143,12 +144,12 @@ export default function IngresoDatosBecaria() {
                     />
                 </Grid>
                 <Grid item xs={6} spacing xs={2}>
-                    <TextField className={classes.textField} 
-                        placeholder="Fecha de Inscripcion" 
-                        focused variant="outlined" 
-                        size="small"
-                        margin="normal"
-                    />
+                    <Typography variant='h6' 
+                        color= "black"
+                        align="center"
+                    >
+                        Fecha de inscripciòn
+                    </Typography>
                     <TextField className={classes.textField} 
                         placeholder="Dìa" 
                         focused variant="outlined" 
