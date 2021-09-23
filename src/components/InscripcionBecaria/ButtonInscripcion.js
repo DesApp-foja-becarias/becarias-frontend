@@ -1,13 +1,13 @@
 import {makeStyles} from '@mui/styles';
-import Grid  from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import  ButtonGroup  from '@mui/material/ButtonGroup';
+import { Box } from '@mui/system';
+import { Input } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     boton:{
-        justifyContent:"center",
-        fontSize: "200%",
-        textAlign: "center",
+        width: '130px',
+        
     },
     
 }));
@@ -15,11 +15,9 @@ const useStyles = makeStyles((theme) => ({
 export default function IngresoDatosBecaria() {
     const classes = useStyles();
     return(
-        <Grid container mt={3} spacing={3} justifyContent="center">
-            <Grid item xs={8} 
-            >
+        <Box  mt={3}  >
+           
                 <ButtonGroup 
-                    variant="contained" 
                     aria-label="outlined button group"
                     size="large"
                 >
@@ -39,7 +37,7 @@ export default function IngresoDatosBecaria() {
                         DNI
                     </Button>
                 </ButtonGroup>
-            </Grid>
-        </Grid>
+           
+        </Box>
     );
 }
