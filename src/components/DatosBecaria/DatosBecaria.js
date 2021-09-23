@@ -50,7 +50,6 @@ export default function DatosBecaria() {
 
 
         }
-    
 
     const classes = useStyles();
     return (
