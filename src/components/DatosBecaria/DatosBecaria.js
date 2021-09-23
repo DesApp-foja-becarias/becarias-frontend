@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
         width: '200px',
         border: 'solid black 3px',
     },
+
     subtitulo:{
       fontSize: '2.5em',
     }
@@ -47,14 +48,15 @@ export default function DatosBecaria() {
             
             estadoActual: 'Aprobada',
             carrera: 'Ingenieria en Informatica',
+
             tutor: 'Juan Perez',
+
             //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
             historial:[],
             actividad:[],
 
 
         }
-
     const classes = useStyles();
     return (
         <Container className={classes.rootContainer} maxWidth="md">
@@ -86,6 +88,7 @@ export default function DatosBecaria() {
               <Divider />
             </Box>
             <Container id='datosGenerales' >
+
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={6} id='DatosPersonales' disableGutters>
                       <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
