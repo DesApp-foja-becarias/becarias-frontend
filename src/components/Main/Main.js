@@ -18,12 +18,12 @@ export default function Main() {
     const classes = useStyles();
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters="true">
-            <Container>
-                <Container>
+            <Container maxWidth="xl" disableGutters="true">
+                <Container maxWidth="xl" disableGutters="true">
                     <Button variant="contained" sx={{ m: "2rem", py: "2rem" }} >Inscripción Becaria</Button>
                     <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
                 </Container>
-                <Container className={classes.search}>
+                <Container className={classes.search} maxWidth="xl" disableGutters="true">
                     <Searcher />
                 </Container>
             </Container>
