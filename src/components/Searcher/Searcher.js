@@ -5,56 +5,71 @@ const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'firstName',
-    headerName: 'First name',
+    headerName: 'Nombre',
     width: 150,
     editable: true,
   },
   {
     field: 'lastName',
-    headerName: 'Last name',
+    headerName: 'Apellido',
     width: 150,
     editable: true,
   },
   {
+    field: 'dni',
+    headerName: 'DNI',
+    width:160,
+    editable:true,
+  },
+  {
     field: 'age',
-    headerName: 'Age',
+    headerName: 'Edad',
     type: 'number',
     width: 110,
     editable: true,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
+    field: 'state',
+    headerName: 'Estado',
+    //description: 'This column has a value getter and is not sortable.',
+    //sortable: false,
     width: 160,
-    valueGetter: (params) =>
+    /*valueGetter: (params) =>
       `${params.getValue(params.id, 'firstName') || ''} ${
         params.getValue(params.id, 'lastName') || ''
-      }`,
+      }`,*/
   },
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { id: 1, lastName: 'Fabiola', firstName: 'Suarez', dni: "42.312.342" ,age: 35 , state: 'Aceptada'},
+  { id: 2, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada'},
+  { id: 3, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 21 , state: 'En espera'},
+  { id: 4, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 35 , state: 'Rechazada'},
+  { id: 5, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Analizandose'},
+  { id: 7, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'En espera'},
+  { id: 8, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada'},
+  { id: 9, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada'},
+  { id: 10, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Aceptada'},
+  { id: 11, lastName: 'Fabiola', firstName: 'Suarez', dni: "42.312.342" ,age: 35 , state: 'Aceptada'},
+  { id: 12, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada'},
+  { id: 13, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 21 , state: 'Rechazada'},
+  { id: 14, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 35 , state: 'Rechazada'},
+  { id: 15, lastName: 'Carol', firstName: 'Suris', dni: "37.659.881" ,age: 25 , state: 'Analizandose'},
+  { id: 17, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Aceptada'},
+  { id: 18, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Aceptada'},
+  { id: 19, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'En espera'},
+  { id: 20, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada'},
 ];
 
 export default function Searcher() {
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 650, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
         disableSelectionOnClick
       />
