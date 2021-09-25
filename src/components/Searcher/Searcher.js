@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'id', headerName: 'ID', width: 50 },
   {
     field: 'firstName',
     headerName: 'Nombre',
@@ -33,7 +33,7 @@ const columns = [
     headerName: 'Estado',
     //description: 'This column has a value getter and is not sortable.',
     //sortable: false,
-    width: 160,
+    width: 150,
     /*valueGetter: (params) =>
       `${params.getValue(params.id, 'firstName') || ''} ${
         params.getValue(params.id, 'lastName') || ''
