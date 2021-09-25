@@ -36,7 +36,7 @@ export default function IngresoDatosBecaria() {
     const classes = useStyles();
     return(
         <Container sx={{display:'flex'}} className={classes.container} maxWidth="sm">
-            <Typography variant='h3' color= "primary"align="center">Incripciòn Becaria</Typography>
+            <Typography variant='h3' color="primary" align="center">Incripciòn Becaria</Typography>
             <Grid container mt={3} spacing={2} >
                 <Grid item 
                     spacing xs={6}
@@ -119,7 +119,7 @@ export default function IngresoDatosBecaria() {
                         />
                 </Grid>
                 <Grid item 
-                    spacing xs={6}
+                    spacing xs={6} 
                 >
                     <TextField className={classes.textField} 
                         placeholder="Carrera" 
@@ -161,9 +161,9 @@ export default function IngresoDatosBecaria() {
                 </Grid>
                 
             </Grid>   
-            <Typography variant='h4'align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
+            <Typography variant='h4' color="primary" align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
             <ButtonInscripcion/>
-            <Box mt={3}>
+            <Box mt={3} mb={3}>
                 <Button  className={classes.boton}
                     variant="contained" 
                 >

@@ -15,8 +15,7 @@ const useStyles = makeStyles((theme) => ({
 export default function IngresoDatosBecaria() {
     const classes = useStyles();
     return(
-        <Box  mt={3}  >
-           
+        <Box  mt={3} >
                 <ButtonGroup 
                     aria-label="outlined button group"
                     size="large"
