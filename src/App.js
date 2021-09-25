@@ -38,12 +38,14 @@ export default function App() {
           <Route path="/login">
             <Login />
           </Route>
-          
           <Route path="/inscribirbecaria">
             <InscripcionBecaria />
           </Route>
-          <Route path="/">
+          <Route path="/becaria">
             <DatosBecaria />
+          </Route>
+          <Route  path="/">
+            <Main />
           </Route>
         </Switch>
         </Container>

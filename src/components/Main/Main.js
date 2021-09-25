@@ -1,6 +1,7 @@
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Searcher from '../Searcher/Searcher';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
     search: {
         marginRight: "20%",
     },
+    link:{
+        textDecoration: "none",
+
+    }
 }));
 
 export default function Main() {
@@ -20,8 +25,12 @@ export default function Main() {
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters="true">
             <Container maxWidth="xl" disableGutters="true">
                 <Container maxWidth="xl" disableGutters="true">
-                    <Button variant="contained" sx={{ m: "2rem", py: "2rem" }} >Inscripción Becaria</Button>
-                    <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
+                    <Link className={classes.link} to="/inscribirbecaria">
+                        <Button variant="contained" sx={{ m: "2rem", py: "2rem" }} >Inscripción Becaria</Button>
+                    </Link>
+                    <Link  className={classes.link} to="/inscribirtutor">
+                        <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
+                    </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters="true">
                     <Searcher />
