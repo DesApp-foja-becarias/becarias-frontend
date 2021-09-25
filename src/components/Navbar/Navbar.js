@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import {AppBar,Grid,Toolbar,Container,IconButton,Drawer,List,ListItem,ListItemIcon,ListItemText,Divider} from "@mui/material";
+import { Link } from "react-router-dom";
 
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -47,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
     width: "8em",
     height: "auto",
   },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.text.primary,
+  }
 }));
 
 const listItems = [
@@ -62,7 +67,7 @@ const listItems = [
   },
   {
     name: "Inscribir Becaria",
-    path: "/",
+    path: "/inscribirbecaria",
     icon: <GroupAddIcon />
   },
   {
@@ -76,10 +81,6 @@ const listItems = [
     icon: <SettingsIcon />,
   },
 ];
-
-
-
-
 
 
 function Navbar() {
@@ -114,6 +115,7 @@ function Navbar() {
               <List>
                 {listItems.map((items, index) => (
                   <Container disableGutters key={index}>
+                    <Link className={classes.link}to={items.path}>
                     <ListItem button>
                       <ListItemIcon>
                         {
@@ -122,13 +124,10 @@ function Navbar() {
                       </ListItemIcon>
                       <ListItemText primary={items.name} />
                     </ListItem>
-
+                    </Link>
                     <Divider />
                   </Container>
                 ))}
-                {
-                  //TODO: BOTON DE SALIDA ARMARLO MAS TARDE :B
-                }
               </List>
             </Drawer>
             <Grid item xs={4}

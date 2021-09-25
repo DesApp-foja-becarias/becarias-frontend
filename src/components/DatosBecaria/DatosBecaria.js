@@ -71,14 +71,14 @@ export default function DatosBecaria() {
                 </Grid>
                 <Grid container xs={4}>
                   <Box>
-                    <IconButton>
-                      <EditIcon />
+                    <IconButton  color='warning'>
+                      <EditIcon fontSize='large' />
                     </IconButton>
-                    <IconButton>
-                      <PersonAddAlt1Icon />
+                    <IconButton color='success'>
+                      <PersonAddAlt1Icon  fontSize='large'/>
                     </IconButton>
-                    <IconButton>
-                      <CancelIcon />
+                    <IconButton color='error'>
+                      <CancelIcon fontSize='large'/>
                     </IconButton>
                   </Box>
                 </Grid>
@@ -125,9 +125,9 @@ export default function DatosBecaria() {
                 <Table bgcolor='#f0f0f0'>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Actividad</TableCell>
-                      <TableCell>Fecha</TableCell>
-                      <TableCell>Estado</TableCell>
+                      <TableCell><Typography fontWeight='bold' variant='body1'>Actividad</Typography></TableCell>
+                      <TableCell><Typography fontWeight='bold' variant='body1'>Fecha</Typography></TableCell>
+                      <TableCell><Typography fontWeight='bold' variant='body1'>Estado</Typography></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -148,6 +148,9 @@ export default function DatosBecaria() {
                     </TableRow>
                   </TableBody>
                 </Table>
+                </Box>
+                <Box mb={2}>
+                  <Divider />
                 </Box>
                 <Typography variant='subtitle1'>Datos de la cuenta</Typography>
                 <Table bgcolor='#f0f0f0' >

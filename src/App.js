@@ -30,21 +30,24 @@ export default function App() {
 
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
-      <Navbar/>
-      <InscripcionBecaria/>
-      <Container maxWidth="xl" className={classes.root}>
-        <Router>
-          <Switch>
-            <Route path="/">
-              {
-      //        <Login />
-              
-         //    <DatosBecaria />
-}
-            </Route>
-          </Switch>
-        </Router>
-      </Container>
+      <Router>
+        <Navbar/>
+        <Container maxWidth="xl" className={classes.root}>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          
+          <Route path="/inscribirbecaria">
+            <InscripcionBecaria />
+          </Route>
+          <Route path="/">
+            <DatosBecaria />
+          </Route>
+        </Switch>
+
+        </Container>
+      </Router>
     </Container>
   );
 }
