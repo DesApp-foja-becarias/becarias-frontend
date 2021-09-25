@@ -61,8 +61,8 @@ const listItems = [
     icon: <HomeIcon />,
   },
   {
-    name: "Buscador",
-    path: "/news",
+    name: "Becaria",
+    path: "/becaria",
     icon: <SearchIcon />
   },
   {
@@ -72,7 +72,7 @@ const listItems = [
   },
   {
     name: "Inscribir Tutor",
-    path: "/",
+    path: "/inscribirtutor",
     icon: <PersonAddIcon />
   },
   {
