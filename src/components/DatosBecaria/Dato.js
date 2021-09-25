@@ -45,7 +45,7 @@ export default function Dato({title, value,mail,cell}) {
               }    
             </Box>
             <Box ml={'2px'}>
-                <Typography variant="subtitle2">{mail|| cell || value}</Typography>
+                <Typography variant="body1">{value}</Typography>
             </Box>
         </div>
     )

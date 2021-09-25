@@ -1,25 +1,26 @@
-import { Container,  TextField, Button } from '@mui/material';
+import { Container,  TextField, Button, Box } from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import iconLogin from "../../assets/logo_gatito.jpg";
+import LogoUnahur from "../../assets/unahur-imagotipo.svg";
+
 
 const useStyles = makeStyles((theme) => ({
     logo: {
-        width: "400px",
+        width: "200px",
         justifyContent: "center",
     },
     container: {
-        textAlign: "center",
         display: "flex",
+        textAlign: "center",
         justifyContent: "center",
         alignItems: "center",
     },
     textField: {
         color: "green",
-        width: "400px",
+        width: "320px",
         marginTop: "30px",
     },
     button: {
-        width: "370px",
+        width: "320px",
         height: "60px",
         marginTop: "40px",
         fontSize: "130%",
@@ -32,22 +33,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
     const classes = useStyles();
     return (
-        <Container className={classes.container}>
-            <Container>
+        <Container maxWidth='sm'>
+            <Container  className={classes.container}>
                 <Container color="black">
-                    <img className={classes.logo} src={iconLogin} />
+                    <img className={classes.logo} alt='logo' src={LogoUnahur} />
                 </Container>
-
-                    <Container className={classes.textField}>
-                        <TextField label="Username" variant="outlined" fullWidth />
-                    </Container>
-                    <Container className={classes.textField}>
-                        <TextField placeholder="Password" focused variant="outlined" fullWidth />
-                    </Container>
-                    <Container>
-                        <Button className={classes.button} href="">INGRESAR</Button>
-                    </Container>
-
+                    <Box mt={6}>
+                        <TextField className={classes.textField} label="Usuario" variant="outlined"  />
+                    </Box>
+                    <Box mt={2} >
+                        <TextField className={classes.textField} label="Contraseña" variant="outlined"  />
+                    </Box>
+                    <Box mt={3} mb={2}>
+                        <Button variant='outlined' className={classes.button} href="">INGRESAR</Button>
+                    </Box>
             </Container>
         </Container>
     );

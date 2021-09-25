@@ -6,6 +6,7 @@ import DatosBecaria from "./components/DatosBecaria/DatosBecaria";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
+import InscripcionBecaria from "./components/InscripcionBecaria/InscripcionDatosBecaria";
 
 
 const useStyles = makeStyles(() => ({
@@ -30,21 +31,23 @@ export default function App() {
 
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
-      <Navbar />
-      <Container maxWidth="xl" className={classes.root}>
-        <Router>
-          <Switch>
-            <Route path="/">
-              {
-                //        <Login />
-
-                //<DatosBecaria />
-                <Main />
-              }
-            </Route>
-          </Switch>
-        </Router>
-      </Container>
+      <Router>
+        <Navbar/>
+        <Container maxWidth="xl" className={classes.root}>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          
+          <Route path="/inscribirbecaria">
+            <InscripcionBecaria />
+          </Route>
+          <Route path="/">
+            <DatosBecaria />
+          </Route>
+        </Switch>
+        </Container>
+      </Router>
     </Container>
   );
 }
