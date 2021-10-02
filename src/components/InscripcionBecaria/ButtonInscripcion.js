@@ -35,8 +35,11 @@ export default function IngresoDatosBecaria() {
                     <Button className={classes.boton}>
                         DNI
                     </Button>
+                  
+                    <Button className={classes.boton}>
+                        Certificado de materias aprobadas
+                    </Button>
                 </ButtonGroup>
-           
         </Box>
     );
 }
