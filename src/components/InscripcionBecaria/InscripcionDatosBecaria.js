@@ -1,9 +1,8 @@
 import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import TextField from '@mui/material/TextField';
 import ButtonInscripcion from './ButtonInscripcion';
-import {Select, MenuItem, OutlinedInput,InputLabel,Paper,Divider, Input,Button,Grid,Typography,Container,Box  } from '@mui/material';
-
+import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Input,Button,Grid,Typography,Container,Box  } from '@mui/material';
+import { carreras } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -45,16 +44,75 @@ export default function IngresoDatosBecaria() {
         direccion: '',
         localidad: '',
         provincia: '',
-        carrera: '',
+        carrera: [],
         fechaConvocatoria: '',
         fechaInscripcion: '',
-    });
-    const updateBecaria = (e) => {
+    })
+    
+    const [error, setError] = useState({
+        nombre: false,
+        apellido: false,
+        dni: false,
+        correoElectronico: false,
+        fechaNacimiento: false,
+        telefono: false,
+        direccion: false,
+        localidad: false,
+        provincia: false,
+        carrera: false,
+        fechaConvocatoria: false,
+        fechaInscripcion: false,
+    })
+    
+    const updateError = (e,value) => {
+        setError({
+            ...error,
+            [e.target.name]: value,
+        });
+    }
+    
+    const updateBecaria =  (e) => {
         setBecaria({
             ...becaria,
             [e.target.name]: e.target.value,
-        });
-    };
+        })
+    }
+    
+    const validateNotEmpty = (e) => {
+        if (becaria[e.target.name].length > 0) {
+            updateError (e,false);
+        }
+        else {
+            updateError (e,true);
+        }
+    }
+
+    const validateDni = (e) => {
+        if (e.target.value > 0 && e.target.value <100000000){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
+
+    const validateEmail = (e) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
+
+    const validatePhone = (e) => {
+        if (e.target.value > 0 && e.target.value <100000000){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
 
     return(
         <Container maxWidth="md">
@@ -66,160 +124,196 @@ export default function IngresoDatosBecaria() {
             <Typography variant='h3' color='primary' align="center">Inscripciòn Becaria</Typography>
             <Grid container mt={3} spacing={4} >
                 <Grid item 
-                    spacing xs={6}
+                    xs={6}
                 >
                     <InputLabel htmlFor="apellido">Apellido</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField 
                         placeholder="Apellido"
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
+                        variant="outlined" 
                         name="apellido"
-                        onChange={updateBecaria}
+                        margin="normal"
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.apellido}
+                        helperText={error.apellido ? 'Campo obligatorio' : ''}
                         required
                         />
                 </Grid>
-                <Grid item 
-                    spacing xs={6}
+                <Grid item
+                    xs={6}
                 >
                     <InputLabel htmlFor="nombre">Nombre</InputLabel>
-                    <OutlinedInput className={classes.textField} 
-                        placeholder="Nombre" 
-                        focused variant="outlined" 
-                        size="normal"
-                        margin="normal"
+                    <TextField
+                        placeholder="Nombre"
+                        variant="outlined"
                         name="nombre"
-                        onChange={updateBecaria}
+                        margin="normal"
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.nombre}
+                        helperText={error.nombre ? 'Campo obligatorio' : ''}
                         required
                     />
                 </Grid>
                 <Grid item 
-                    spacing xs={6}
+                    xs={6}
                 >
                     <InputLabel htmlFor="dni">DNI</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField  
                         placeholder="DNI" 
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
+                        variant="outlined"
                         name="dni"
                         type="number"
-                        onChange={updateBecaria}
+                        onBlur={validateDni}
+                        margin="normal"
+                        helperText={error.dni?'Dni Invalido':''}
+                        error={error.dni}
                         required
                         />
                 </Grid>
                 <Grid item xs={6} >
                     <InputLabel htmlFor="Correo electronico">Correo electrónico</InputLabel>
-                    <OutlinedInput className={classes.textField}
+                    <TextField className={classes.textField}
                         placeholder="Correo electrónico"
-                        focused variant="outlined"
+                        variant="outlined"
                         size="normal"
                         margin="normal"
                         name="correoElectronico"
-                        onChange={updateBecaria}
+                        onBlur={validateEmail}
+                        error={error.correoElectronico}
+                        helperText={error.correoElectronico?'Correo electronico invalido':''}
                         required
                     />
                 </Grid>
                 <Grid item xs={6} >
-                    <InputLabel htmlFor="fechaDeInscripción">Fecha de Nacimiento</InputLabel>
-                    <OutlinedInput 
+                    <InputLabel htmlFor="fechaDeNacimiento">Fecha de Nacimiento</InputLabel>
+                    <TextField 
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
+                        margin="normal"
                         name="fechaNacimiento"
-                        onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.fechaNacimiento}
+                        helperText={error.fechaNacimiento?'Fecha de nacimiento invalida':''}
                         required
                     />
                 </Grid>
                 <Grid item 
-                    spacing xs={6}
+                    xs={6}
                 >
                     <InputLabel htmlFor='telefono'>Telefono</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField className={classes.textField} 
                         placeholder="Telefono" 
-                        focused variant="outlined" 
+                        variant="outlined" 
                         size="normal" 
                         margin="normal"
                         name="telefono"
+                        onBlur={validatePhone} 
                         onChange={updateBecaria}
+                        error={error.telefono}
+                        helperText={error.telefono?'Telefono invalido':''}
                         required
                     />
                 </Grid>
-                <Grid item 
-                    spacing xs={6}
+                <Grid 
+                    item 
+                    xs={6}
                 >
                     <InputLabel htmlFor='direccion'>Dirección</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField className={classes.textField} 
                         placeholder="Dirección" 
-                        focused variant="outlined" 
+                        variant="outlined" 
                         size="normal"
                         margin="normal"
                         name="direccion"
+                        onBlur={validateNotEmpty} 
                         onChange={updateBecaria}
+                        error={error.direccion}
+                        helperText={error.direccion?'Direccion invalida':''}
                         required
                         />
                 </Grid>
                 <Grid item 
-                    spacing xs={6}
+                    xs={6}
                 >
                     <InputLabel htmlFor='localidad'>Localidad</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField className={classes.textField} 
                         placeholder="Localidad" 
-                        focused variant="outlined" 
+                        variant="outlined" 
                         size="normal"
                         margin="normal"
                         name="localidad"
-                        onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.localidad}
+                        helperText={error.localidad?'Localidad invalida':''}
                         required
                     />
                 </Grid>
                 <Grid item 
-                    spacing xs={6}
+                    xs={6}
                 >
                     <InputLabel htmlFor='provincia'>Provincia</InputLabel>
-                    <OutlinedInput className={classes.textField} 
+                    <TextField className={classes.textField} 
                         placeholder="Provincia" 
-                        focused variant="outlined" 
+                        variant="outlined" 
                         size="normal" 
                         margin="normal"
                         name="provincia"
-                        onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.provincia}
+                        helperText={error.provincia?'Provincia invalida':''}
                         required
                         />
                 </Grid>
                 <Grid item 
-                    spacing xs={6} 
+                    xs={6} 
                 >
                     <InputLabel htmlFor='Carrera'>Carrera</InputLabel>
-                    {/* <Select
+                    <Select
                         multiple
-                        
+                        name="carrera"
+                        value={becaria.carrera}
+                        renderValue={selected =>
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {selected.map((value) => (
+                                <Chip key={value} label={value} />
+                            ))}
+                            </Box>}
+                        onChange={updateBecaria}
+                        placeholder="Carrera"
+                        sx={{width: '13em' , marginTop:'1em'}}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select> */}
+                        
+                        {carreras.map(carrera => (
+                            <MenuItem key={carrera.id} value={carrera.nombre}>
+                                {carrera.nombre}
+                            </MenuItem>
+                        ))}
+                    </Select>
                 </Grid>
                 
                 <Grid item xs={6} >
                     
                     <InputLabel htmlFor='fechaDeConvocatoria'>Fecha de convocatoria</InputLabel>
-                    <OutlinedInput 
+                    <TextField 
                         type="date" 
                         variant='outlined'
                         name="fechaConvocatoria"
-                        onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.fechaConvocatoria}
+                        helperText={error.fechaConvocatoria?'Fecha de convocatoria invalida':''}
                         required
                     />
                     
                 </Grid>
                 <Grid item xs={6} >
                     <InputLabel htmlFor='fechaDeInscripción'>Fecha de Inscripciòn</InputLabel>                                        
-                    <OutlinedInput 
+                    <TextField 
                         type="date" 
                         variant='outlined'
                         name="fechaInscripcion"
-                        onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.fechaInscripcion}
+                        helperText={error.fechaInscripcion?'Fecha de inscripción invalida':''}
                         required
                         />
                 </Grid>
