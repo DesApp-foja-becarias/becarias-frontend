@@ -22,6 +22,10 @@ export const themeOptions = {
   },
   typography: {
     fontFamily: 'Lato, sans-serif',
+    h3:{
+      fontSize: '2.5rem',
+      fontWeight: '700',
+    },
     h4:{
       fontWeight: 700,
       fontSize: '2rem',
