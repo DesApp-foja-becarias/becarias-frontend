@@ -7,6 +7,7 @@ import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
 import InscripcionBecaria from "./components/InscripcionBecaria/InscripcionDatosBecaria";
+import InscripcionTutor from "./components/InscripcionTutor/InscripcionDatosTutor";
 
 
 const useStyles = makeStyles(() => ({
@@ -37,6 +38,9 @@ export default function App() {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/inscribirtutor">
+            <InscripcionTutor />
           </Route>
           <Route path="/inscribirbecaria">
             <InscripcionBecaria />
