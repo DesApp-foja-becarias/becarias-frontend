@@ -1,5 +1,5 @@
 import React from 'react'
-import Typography from '@mui/material/Typography';
+import { Input, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
@@ -27,25 +27,27 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-export default function Dato({title, value,mail,cell}) {
+export default function Dato({title, value,mail,cell,editable}) {
 
     const classes = useStyles();
     return (
         <div>
             <Box className={classes.Box}>  
-              <Typography sx={{}}  variant="h6" >{title}</Typography> 
-              
-              <Box class={classes.spacer}/>  
-              
-              {
-                  mail && <EmailIcon />
-              }
-              {
-                  cell && <WhatsAppIcon />
-              }    
+                <Typography sx={{}}  variant="h6" >{title}</Typography> 
+            
+                <Box class={classes.spacer}/>  
+                
+                {
+                    mail && <EmailIcon />
+                }
+                {
+                    cell && <WhatsAppIcon />
+                }    
             </Box>
             <Box ml={'2px'}>
-                <Typography variant="body1">{value}</Typography>
+                {editable?
+                <Input size='small' defaultValue={value}></Input>:
+                <Typography variant="body1">{value}</Typography>}
             </Box>
         </div>
     )
