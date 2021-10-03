@@ -2,7 +2,7 @@ import  Container  from '@mui/material/Container'
 import Dato from './Dato'
 import React from 'react'
 import Typography from '@mui/material/Typography';
-import { Table, TableCell,TableBody,TableRow,TableHead } from '@mui/material';
+import { Table, TableCell,TableBody,TableRow,TableHead, Tooltip } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -71,15 +71,21 @@ export default function DatosBecaria() {
                 </Grid>
                 <Grid container xs={4}>
                   <Box>
+                    <Tooltip title='Editar'>
                     <IconButton  color='warning'>
                       <EditIcon fontSize='large' />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Aprobar'>
                     <IconButton color='success'>
                       <PersonAddAlt1Icon  fontSize='large'/>
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Dar de baja'>
                     <IconButton color='error'>
                       <CancelIcon fontSize='large'/>
                     </IconButton>
+                    </Tooltip>
                   </Box>
                 </Grid>
               </Grid>
@@ -88,15 +94,14 @@ export default function DatosBecaria() {
               <Divider />
             </Box>
             <Container id='datosGenerales' >
-
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={6} id='DatosPersonales' disableGutters>
                       <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
                       <Box mb={2} mt={2}/>
                       <Typography variant="subtitle1">Datos de personales</Typography>
-                      <Dato title='DNI' value={datos.dni} />
-                      <Dato title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
-                      <Dato title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
+                      <Dato  title='DNI' value={datos.dni} />
+                      <Dato  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                      <Dato  title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   
