@@ -1,16 +1,10 @@
-import  Container  from '@mui/material/Container'
 import Dato from './Dato'
-import React from 'react'
-import Typography from '@mui/material/Typography';
-import { Table, TableCell,TableBody,TableRow,TableHead, Tooltip } from '@mui/material';
+import React, { useState } from 'react'
+import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
 import { makeStyles } from "@mui/styles";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Divider from '@mui/material/Divider';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -45,46 +39,44 @@ export default function DatosBecaria() {
             pais: 'Argentina',
             provincia: 'Buenos Aires',
             ciudad: 'La Plata',
-            
             estadoActual: 'Aprobada',
             carrera: 'Ingenieria en Informatica',
-
             tutor: 'Juan Perez',
 
             //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
             historial:[],
             actividad:[],
-
-
         }
+    
+    const [datosBecariaEdit, setDatosBecariaEdit] = useState(datos);
+    const [isEditable, setIsEditable] = useState(true);
     const classes = useStyles();
     return (
         <Container className={classes.rootContainer} maxWidth="md">
-         
             <Container  id='nombreBecaria'>
               <Grid container>
                 <Grid container xs={8}>
                   <Box>
-                    <Typography variant='h4'>{datos.apellido}</Typography>
-                    <Typography variant='h5'>{datos.nombre}</Typography>
+                    {isEditable? <Input defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
+                    {isEditable? <Input defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
                   </Box>
                 </Grid>
                 <Grid container xs={4}>
                   <Box>
                     <Tooltip title='Editar'>
-                    <IconButton  color='warning'>
-                      <EditIcon fontSize='large' />
-                    </IconButton>
+                      <IconButton  color='warning'>
+                        <EditIcon fontSize='large' />
+                      </IconButton>
                     </Tooltip>
                     <Tooltip title='Aprobar'>
-                    <IconButton color='success'>
-                      <PersonAddAlt1Icon  fontSize='large'/>
-                    </IconButton>
+                      <IconButton color='success'>
+                        <PersonAddAlt1Icon  fontSize='large'/>
+                      </IconButton>
                     </Tooltip>
                     <Tooltip title='Dar de baja'>
-                    <IconButton color='error'>
-                      <CancelIcon fontSize='large'/>
-                    </IconButton>
+                      <IconButton color='error'>
+                        <CancelIcon fontSize='large'/>
+                      </IconButton>
                     </Tooltip>
                   </Box>
                 </Grid>
@@ -92,16 +84,22 @@ export default function DatosBecaria() {
             </Container>
             <Box mb={2} mt={2}>
               <Divider />
-            </Box>
+            </Box> 
             <Container id='datosGenerales' >
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={6} id='DatosPersonales' disableGutters>
-                      <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
-                      <Box mb={2} mt={2}/>
-                      <Typography variant="subtitle1">Datos de personales</Typography>
-                      <Dato  title='DNI' value={datos.dni} />
-                      <Dato  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
-                      <Dato  title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
+                    <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <Box mb={2} mt={2}/>
+                    <Typography variant="subtitle1">Datos de personales</Typography>
+                    <Dato editable title='DNI' value={datos.dni} />
+                    <Dato  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                    <Dato  title='Domicilio' value={datos.direccion}/>
+                    <Dato  title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
+                    {/*
+                      <Dato  title='Localidad' value={datos.ciudad}/>
+                      <Dato  title='Provincia' value={datos.provincia}/>
+                      <Dato  title='Pais' value={datos.pais}/>
+                    */ }
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   
