@@ -1,10 +1,12 @@
 import Dato from './Dato'
-import React, { useState } from 'react'
+import React, { useState , useEffect, useContext} from 'react'
 import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { BecariaContext } from '../../context/DatosBecariaContext';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -48,37 +50,49 @@ export default function DatosBecaria() {
             actividad:[],
         }
     
-    const [datosBecariaEdit, setDatosBecariaEdit] = useState(datos);
-    const [isEditable, setIsEditable] = useState(true);
+    const {isEditable , setIsEditable, datosBecariaEdit, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
+    
+    useEffect(() => {
+      setBecariaInitialState(datos)
+    }, [])
+
     const classes = useStyles();
     return (
         <Container className={classes.rootContainer} maxWidth="md">
             <Container  id='nombreBecaria'>
               <Grid container>
-                <Grid container xs={8}>
+                <Grid container item xs={8}>
                   <Box>
-                    {isEditable? <Input defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
-                    {isEditable? <Input defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
+                    {isEditable? <Input name='apellido' onBlur={updateBecariaState}  defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
+                    {isEditable? <Input name='apellido' onBlur={updateBecariaState} defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
                   </Box>
                 </Grid>
-                <Grid container xs={4}>
+                <Grid container item xs={4}>
+                  {isEditable?
+                  <Tooltip title='Terminar de Editar' followCursor >
+                  <IconButton  color='success' onClick={() => setIsEditable(!isEditable)}>
+                    <CheckCircleOutlineIcon fontSize='large'/>
+                  </IconButton>
+                  </Tooltip>
+                  :
                   <Box>
-                    <Tooltip title='Editar'>
-                      <IconButton  color='warning'>
-                        <EditIcon fontSize='large' />
+                    <Tooltip title='Editar' followCursor>
+                      <IconButton  color='warning' onClick={() => setIsEditable(!isEditable)}>
+                        <EditIcon fontSize='large'  />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title='Aprobar'>
+                    <Tooltip title='Aprobar' followCursor>
                       <IconButton color='success'>
                         <PersonAddAlt1Icon  fontSize='large'/>
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title='Dar de baja'>
+                    <Tooltip title='Dar de baja' followCursor>
                       <IconButton color='error'>
                         <CancelIcon fontSize='large'/>
                       </IconButton>
                     </Tooltip>
                   </Box>
+                }
                 </Grid>
               </Grid>
             </Container>
@@ -91,30 +105,30 @@ export default function DatosBecaria() {
                     <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
-                    <Dato editable title='DNI' value={datos.dni} />
-                    <Dato  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
-                    <Dato  title='Domicilio' value={datos.direccion}/>
-                    <Dato  title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
+                    <Dato name='dni' title='DNI' value={datos.dni} />
+                    <Dato name='fechaNacimiento'  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                    <Dato name='direccion' title='Domicilio' value={datos.direccion}/>
+                    <Dato name='ciudad' title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
                     {/*
-                      <Dato  title='Localidad' value={datos.ciudad}/>
-                      <Dato  title='Provincia' value={datos.provincia}/>
-                      <Dato  title='Pais' value={datos.pais}/>
+                      <Dato name='ciudad' title='Localidad' value={datos.ciudad}/>
+                      <Dato name='provincia' title='Provincia' value={datos.provincia}/>
+                      <Dato name='pais' title='Pais' value={datos.pais}/>
                     */ }
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   
                   <Typography variant="subtitle1">Datos de contacto</Typography>
                   
-                    <Dato title='Correo' value={datos.email} mail/>
-                    <Dato title='Celular' value={datos.telefono} cell/>
+                    <Dato name='email' title='Correo' value={datos.email} mail/>
+                    <Dato name='telefono' title='Celular' value={datos.telefono} cell/>
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
                     <Typography variant="subtitle1">Datos de carrera</Typography>
                  
-                    <Dato title='Estado Actual' value={datos.estadoActual} />
-                    <Dato title='Carrera' value={datos.carrera} />
-                    <Dato title='Tutor' value={datos.tutor} />
+                    <Dato name='estadoActual' title='Estado Actual' value={datos.estadoActual} />
+                    <Dato name='carrera' title='Carrera' value={datos.carrera} />
+                    <Dato name='tutor' title='Tutor' value={datos.tutor} />
                     <Typography variant='h6'>Historial</Typography>
                     <Typography variant='h6'>---------</Typography>
                   </Grid>

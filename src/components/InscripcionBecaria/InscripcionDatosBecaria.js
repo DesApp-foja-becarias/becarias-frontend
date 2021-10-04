@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function IngresoDatosBecaria() {
-    const classes = useStyles();
-
+    const classes = useStyles()
     const [becaria, setBecaria] = useState({
         nombre: '',
         apellido: '',
@@ -48,7 +47,6 @@ export default function IngresoDatosBecaria() {
         fechaConvocatoria: '',
         fechaInscripcion: '',
     })
-    
     const [error, setError] = useState({
         nombre: false,
         apellido: false,

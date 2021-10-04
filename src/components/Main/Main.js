@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Main() {
     const classes = useStyles();
     return (
-        <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters="true">
-            <Container maxWidth="xl" disableGutters="true">
-                <Container maxWidth="xl" disableGutters="true">
+        <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
+            <Container maxWidth="xl" disableGutters>
+                <Container maxWidth="xl" disableGutters>
                     <Link className={classes.link} to="/inscribirbecaria">
                         <Button variant="contained" sx={{ m: "2rem", py: "2rem" }} >Inscripción Becaria</Button>
                     </Link>
@@ -32,7 +32,7 @@ export default function Main() {
                         <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
                     </Link>
                 </Container>
-                <Container className={classes.search} maxWidth="xl" disableGutters="true">
+                <Container className={classes.search} maxWidth="xl" disableGutters>
                     <Searcher />
                 </Container>
             </Container>
