@@ -8,6 +8,7 @@ import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
 import InscripcionBecaria from "./components/InscripcionBecaria/InscripcionDatosBecaria";
 import InscripcionTutor from "./components/InscripcionTutor/InscripcionDatosTutor";
+import DatosTutor from "./components/DatosTutor/DatosTutor";
 
 
 const useStyles = makeStyles(() => ({
@@ -38,6 +39,9 @@ export default function App() {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/tutor">
+            <DatosTutor />
           </Route>
           <Route path="/inscribirtutor">
             <InscripcionTutor />
