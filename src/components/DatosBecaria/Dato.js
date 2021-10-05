@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Input, TextField, Typography } from '@mui/material';
+import { IconButton, Input, Select, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
@@ -29,28 +29,30 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-export default function Dato({title, value,mail,cell,editable, name}) {
+export default function Dato({title, value,mail,cell, name}) {
     const {isEditable, updateBecariaState} = useContext(BecariaContext);
     const classes = useStyles();
+
+    const showInputOrValue = () =>isEditable?
+                <Input 
+                size='small' 
+                name={name} 
+                onBlur={updateBecariaState} 
+                defaultValue={value}
+                />: <Typography variant="body1">{value}</Typography>
+    
     return (
         <div>
             <Box className={classes.Box}>  
                 <Typography sx={{}}  variant="h6" >{title}</Typography> 
             
                 <Box className={classes.spacer}/>  
-                
-                {
-                    mail && <EmailIcon />
-                }
-                {
-                    cell && <WhatsAppIcon />
-                }
+                {mail && <IconButton color='success'><EmailIcon  /></IconButton>}
+                {cell && <IconButton color='success' href={`https://wa.me/54${value}`}><WhatsAppIcon /></IconButton>}
+
             </Box>
             <Box ml={'2px'}>
-                {isEditable?
-                <Input size='small' name={name} onBlur={updateBecariaState} defaultValue={value}></Input>:
-                <Typography variant="body1">{value}</Typography>
-                }
+                {showInputOrValue()}
             </Box>
         </div>
     )
