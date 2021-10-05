@@ -11,6 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import becariaUnahur from '../../assets/becarias-logo.svg'
 import ButtonUser from "./ButtonUser";
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 
 //import UserMenuButton from './UserMenuButton';
 
@@ -64,6 +65,11 @@ const listItems = [
     name: "Becaria",
     path: "/becaria",
     icon: <SearchIcon />
+  },
+  {
+    name: "Tutor",
+    path: "/tutor",
+    icon: <PermContactCalendarIcon />
   },
   {
     name: "Inscribir Becaria",

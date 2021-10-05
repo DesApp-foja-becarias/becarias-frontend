@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 export default function DatosBecaria() {
     const datos = 
         {
-            nombre: 'Mariana Agustina',
-            apellido: 'Etchegaray',
+            nombre: 'Belen Josefina',
+            apellido: 'Mernasconi',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
             fechaNacimiento: '12/12/12',
@@ -124,6 +124,8 @@ export default function DatosBecaria() {
                       <TableCell><Typography fontWeight='bold' variant='body1'>Apellido</Typography></TableCell>
                       <TableCell><Typography fontWeight='bold' variant='body1'>Nombre</Typography></TableCell>
                       <TableCell><Typography fontWeight='bold' variant='body1'>D.N.I</Typography></TableCell>
+                      <TableCell><Typography fontWeight='bold' variant='body1'>Carrera</Typography></TableCell>
+                      <TableCell><Typography fontWeight='bold' variant='body1'>Correo</Typography></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -131,16 +133,22 @@ export default function DatosBecaria() {
                       <TableCell>{datos.apellido}</TableCell>
                       <TableCell>{datos.nombre}</TableCell>
                       <TableCell>{datos.dni}</TableCell>
+                      <TableCell>{datos.carrera}</TableCell>
+                      <TableCell>{datos.email}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>{datos.apellido}</TableCell>
                       <TableCell>{datos.nombre}</TableCell>
                       <TableCell>{datos.dni}</TableCell>
+                      <TableCell>{datos.carrera}</TableCell>
+                      <TableCell>{datos.email}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>{datos.apellido}</TableCell>
                       <TableCell>{datos.nombre}</TableCell>
                       <TableCell>{datos.dni}</TableCell>
+                      <TableCell>{datos.carrera}</TableCell>
+                      <TableCell>{datos.email}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
