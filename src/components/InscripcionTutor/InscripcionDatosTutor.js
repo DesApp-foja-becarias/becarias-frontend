@@ -1,12 +1,6 @@
-import Container from '@mui/material/Container';
 import {makeStyles} from '@mui/styles';
-import Typography from '@mui/material/Typography';
-import Grid  from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { Input } from '@mui/material';
-import { OutlinedInput } from '@mui/material';
-import Box from '@mui/material/Box';
+import {useState} from 'react';
+import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Input,Button,Grid,Typography,Container,Box  } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -33,6 +27,87 @@ const useStyles = makeStyles((theme) => ({
 
 export default function IngresoDatosBecaria() {
     const classes = useStyles();
+
+    const [becaria, setBecaria] = useState({
+        nombre: '',
+        apellido: '',
+        dni: '',
+        correoElectronico: '',
+        fechaNacimiento: '',
+        telefono: '',
+        direccion: '',
+        localidad: '',
+        provincia: '',
+        carrera: [],
+        fechaConvocatoria: '',
+        fechaInscripcion: '',
+    })
+    
+    const [error, setError] = useState({
+        nombre: false,
+        apellido: false,
+        dni: false,
+        correoElectronico: false,
+        fechaNacimiento: false,
+        telefono: false,
+        direccion: false,
+        localidad: false,
+        provincia: false,
+        carrera: false,
+        fechaConvocatoria: false,
+        fechaInscripcion: false,
+    })
+    
+    const updateError = (e,value) => {
+        setError({
+            ...error,
+            [e.target.name]: value,
+        });
+    }
+    
+    const updateBecaria =  (e) => {
+        setBecaria({
+            ...becaria,
+            [e.target.name]: e.target.value,
+        })
+    }
+    
+    const validateNotEmpty = (e) => {
+        if (becaria[e.target.name].length > 0) {
+            updateError (e,false);
+        }
+        else {
+            updateError (e,true);
+        }
+    }
+    
+    const validateDni = (e) => {
+        if (e.target.value > 0 && e.target.value <100000000){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
+    
+    const validateEmail = (e) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
+    
+    const validatePhone = (e) => {
+        if (e.target.value > 0 && e.target.value <100000000){
+            updateError (e,false);
+        }
+        else{
+            updateError (e,true);
+        }
+    }
+
     return(
         <Container sx={{display:'flex'}} className={classes.container} maxWidth="sm">
             <Typography variant='h3' color="primary" align="center">Inscripción Tutor</Typography>
@@ -40,64 +115,83 @@ export default function IngresoDatosBecaria() {
                 <Grid item 
                     spacing xs={6}
                 >
-                    <TextField className={classes.textField} 
+                    <InputLabel htmlFor="apellido">Apellido</InputLabel>
+                    <TextField 
                         placeholder="Apellido"
-                        focused variant="outlined" 
-                        size="normal" 
+                        variant="outlined" 
+                        name="apellido"
                         margin="normal"
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.apellido}
+                        helperText={error.apellido ? 'Campo obligatorio' : ''}
+                        required
                         />
                 </Grid>
                 <Grid item 
                     spacing xs={6}
                 >
+                    <InputLabel htmlFor="nombre">Nombre</InputLabel>
+                    <TextField
+                        placeholder="Nombre"
+                        variant="outlined"
+                        name="nombre"
+                        margin="normal"
+                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        error={error.nombre}
+                        helperText={error.nombre ? 'Campo obligatorio' : ''}
+                        required
+                    />
+                </Grid>
+                <Grid item 
+                    spacing xs={6}
+                >
+                    <InputLabel htmlFor="dni">DNI</InputLabel>
+                    <TextField  
+                        placeholder="DNI" 
+                        variant="outlined"
+                        name="dni"
+                        type="number"
+                        onBlur={validateDni}
+                        margin="normal"
+                        helperText={error.dni?'Dni Invalido':''}
+                        error={error.dni}
+                        required
+                        />
+                </Grid>
+                <Grid item 
+                    spacing xs={6}
+                >
+                    <InputLabel htmlFor='telefono'>Telefono</InputLabel>
                     <TextField className={classes.textField} 
-                        placeholder="Nombre" 
-                        focused variant="outlined" 
+                        placeholder="Telefono" 
+                        variant="outlined" 
+                        size="normal" 
+                        margin="normal"
+                        name="telefono"
+                        onBlur={validatePhone} 
+                        onChange={updateBecaria}
+                        error={error.telefono}
+                        helperText={error.telefono?'Telefono invalido':''}
+                        required
+                    />
+                </Grid>
+                <Grid item 
+                    spacing xs={12}
+                >
+                    <InputLabel htmlFor="Correo electronico">Correo electrónico</InputLabel>
+                    <TextField
+                        placeholder="Correo electrónico"
+                        variant="outlined"
                         size="normal"
                         margin="normal"
+                        name="correoElectronico"
+                        onBlur={validateEmail}
+                        error={error.correoElectronico}
+                        helperText={error.correoElectronico?'Correo electronico invalido':''}
+                        required
+                        sx={{width:"30em"}}
                     />
                 </Grid>
-                <Grid item 
-                    spacing xs={6}
-                >
-                    <TextField className={classes.textField} 
-                        placeholder="DNI" 
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                        />
-                </Grid>
-                <Grid item 
-                    spacing xs={6}
-                >
-                     <TextField className={classes.textField} 
-                        placeholder="Telefono" 
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                    />
-                </Grid>
-                <Grid item 
-                    spacing xs={6}
-                >
-                    <TextField className={classes.textField} 
-                        placeholder="Correo" 
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                        />
-                </Grid>
-                <Grid item 
-                    spacing xs={6}
-                >
-                    <TextField className={classes.textField} 
-                        placeholder="Alumna asignada" 
-                        focused variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                        />
-                </Grid>
-                
             </Grid>   
             <Box mt={3} mb={3}>
                 <Button  className={classes.boton}
