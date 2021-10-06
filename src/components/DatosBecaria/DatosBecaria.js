@@ -34,7 +34,7 @@ export default function DatosBecaria() {
             apellido: 'Etchegaray',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
-            fechaNacimiento: '12/12/12',
+            fechaNacimiento: '12/12/1994',
             telefono: '123456789',
             direccion: 'Calle falsa 123',
             email: 'jsmandolo@gmail.com',
@@ -50,10 +50,11 @@ export default function DatosBecaria() {
             actividad:[],
         }
     
-    const {isEditable , setIsEditable, datosBecariaEdit, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
+    const {isEditable , setIsEditable, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
     
     useEffect(() => {
       setBecariaInitialState(datos)
+      console.log(new Date(1994,8,8))
     }, [])
 
     const classes = useStyles();
@@ -106,14 +107,16 @@ export default function DatosBecaria() {
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={datos.dni} />
-                    <Dato name='fechaNacimiento'  title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                    <Dato name='fechaNacimiento' date title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
                     <Dato name='direccion' title='Domicilio' value={datos.direccion}/>
-                    <Dato name='ciudad' title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
-                    {/*
+                    {isEditable?
+                    <>
                       <Dato name='ciudad' title='Localidad' value={datos.ciudad}/>
                       <Dato name='provincia' title='Provincia' value={datos.provincia}/>
-                      <Dato name='pais' title='Pais' value={datos.pais}/>
-                    */ }
+                      <Dato name='pais' title='Pais' value={datos.pais}/></>
+                      :
+                      <Dato name='ciudad' title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
+                    }
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   
@@ -126,7 +129,7 @@ export default function DatosBecaria() {
                     </Box>
                     <Typography variant="subtitle1">Datos de carrera</Typography>
                  
-                    <Dato name='estadoActual' title='Estado Actual' value={datos.estadoActual} />
+                    <Dato name='estadoActual' title='Estado Actual' value={datos.estadoActual} becariaState/>
                     <Dato name='carrera' title='Carrera' value={datos.carrera} />
                     <Dato name='tutor' title='Tutor' value={datos.tutor} />
                     <Typography variant='h6'>Historial</Typography>

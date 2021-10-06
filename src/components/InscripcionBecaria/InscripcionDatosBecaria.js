@@ -308,6 +308,7 @@ export default function IngresoDatosBecaria() {
                     <TextField 
                         type="date" 
                         variant='outlined'
+                        pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                         name="fechaInscripcion"
                         onBlur={validateNotEmpty} onChange={updateBecaria}
                         error={error.fechaInscripcion}

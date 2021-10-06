@@ -15,3 +15,23 @@ export const carreras = [
     nombre: 'Ingenieria Metalurgica'
   }
 ];
+
+export const estadoBecarias = [
+  {
+    id: 1,
+    state: 'Lista de espera',
+  },
+  {
+    id: 2,
+    state: 'Aprobada',
+  },
+  {
+    id: 3,
+    state: 'Dada de baja'
+  },
+  {
+    id: 4,
+    state: 'Rechazada'
+  },
+  
+]

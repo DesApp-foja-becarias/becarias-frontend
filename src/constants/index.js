@@ -1,1 +1,1 @@
-export {carreras} from './constants';
+export {carreras, estadoBecarias} from './constants';

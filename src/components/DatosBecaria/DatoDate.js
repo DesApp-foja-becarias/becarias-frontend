@@ -34,45 +34,22 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
     const {isEditable, updateBecariaState} = useContext(BecariaContext);
     const classes = useStyles();
 
-    const showInputOrValue = () =>isEditable?
+    const showInputOrValue = () =>
+     (
+        <div>
+            <Box className={classes.Box}>
+                <Typography sx={{}}  variant="h6" >{title}</Typography>
+            </Box>
+            <Box ml={'2px'}>
+                {isEditable?
                 <Input 
                 size='small' 
                 name={name} 
                 onBlur={updateBecariaState} 
                 defaultValue={value}
                 type={cell?'number':date?'date':'text'}
-                sx={{width:'20em'}}
                 />
-
-                
-                : <Typography variant="body1">{value}</Typography>
-    return (
-        <div>
-            <Box className={classes.Box}>
-                <Typography sx={{}}  variant="h6" >{title}</Typography>
-                <Box className={classes.spacer}/>
-                {mail && <IconButton color='secondary' href={`mailto:${value}`} ><EmailIcon/></IconButton>}
-                {cell && <IconButton color='secondary' href={`https://wa.me/54${value}`} target='_blank'><WhatsAppIcon /></IconButton>}
-            </Box>
-            <Box ml={'2px'}>
-                {
-                becariaState && isEditable?
-                <Select
-                    size='small'
-                    name={name}
-                    onBlur={updateBecariaState}
-                    defaultValue={value}
-                >
-                :
-                {
-                    estadoBecarias.map(estado => 
-                    <MenuItem key={estado.id} value={estado.state}>{estado.state}</MenuItem>
-                    )
-                }
-                </Select>
-                
-                : showInputOrValue()
-                }
+                : <Typography variant="body1">{value}</Typography>}
             </Box>
         </div>
     )
