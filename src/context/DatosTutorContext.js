@@ -14,7 +14,7 @@ const DatosTutorContext = ({children}) => {
         setDatosTutorEdit({...datosTutorEdit, [e.target.name]: e.target.value});
     }
     return (
-        <TutorContext.Provider value={{ isEditable , setIsEditable, datosTutorEdit, updateTutorState, setTutorInitialState }}>
+        <TutorContext.Provider value={{isEditable , setIsEditable,datosTutorEdit,updateTutorState,setTutorInitialState }}>
             {children}
         </TutorContext.Provider>
     )
