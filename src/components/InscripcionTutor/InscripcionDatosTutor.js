@@ -28,19 +28,12 @@ const useStyles = makeStyles((theme) => ({
 export default function IngresoDatosBecaria() {
     const classes = useStyles();
 
-    const [becaria, setBecaria] = useState({
+    const [tutor, setTutor] = useState({
         nombre: '',
         apellido: '',
         dni: '',
         correoElectronico: '',
-        fechaNacimiento: '',
         telefono: '',
-        direccion: '',
-        localidad: '',
-        provincia: '',
-        carrera: [],
-        fechaConvocatoria: '',
-        fechaInscripcion: '',
     })
     
     const [error, setError] = useState({
@@ -48,14 +41,7 @@ export default function IngresoDatosBecaria() {
         apellido: false,
         dni: false,
         correoElectronico: false,
-        fechaNacimiento: false,
         telefono: false,
-        direccion: false,
-        localidad: false,
-        provincia: false,
-        carrera: false,
-        fechaConvocatoria: false,
-        fechaInscripcion: false,
     })
     
     const updateError = (e,value) => {
@@ -65,15 +51,15 @@ export default function IngresoDatosBecaria() {
         });
     }
     
-    const updateBecaria =  (e) => {
-        setBecaria({
-            ...becaria,
+    const updateTutor =  (e) => {
+        setTutor({
+            ...tutor,
             [e.target.name]: e.target.value,
         })
     }
     
     const validateNotEmpty = (e) => {
-        if (becaria[e.target.name].length > 0) {
+        if (tutor[e.target.name].length > 0) {
             updateError (e,false);
         }
         else {
@@ -109,6 +95,9 @@ export default function IngresoDatosBecaria() {
     }
 
     return(
+        <Container>
+        <Paper>
+        <form action="">
         <Container sx={{display:'flex'}} className={classes.container} maxWidth="sm">
             <Typography variant='h3' color="primary" align="center">Inscripción Tutor</Typography>
             <Grid container mt={3} spacing={2} >
@@ -121,7 +110,7 @@ export default function IngresoDatosBecaria() {
                         variant="outlined" 
                         name="apellido"
                         margin="normal"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateTutor}
                         error={error.apellido}
                         helperText={error.apellido ? 'Campo obligatorio' : ''}
                         required
@@ -136,7 +125,7 @@ export default function IngresoDatosBecaria() {
                         variant="outlined"
                         name="nombre"
                         margin="normal"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={validateNotEmpty} onChange={updateTutor}
                         error={error.nombre}
                         helperText={error.nombre ? 'Campo obligatorio' : ''}
                         required
@@ -153,7 +142,7 @@ export default function IngresoDatosBecaria() {
                         type="number"
                         onBlur={validateDni}
                         margin="normal"
-                        helperText={error.dni?'Dni Invalido':''}
+                        helperText={error.dni?'DNI Invalido':''}
                         error={error.dni}
                         required
                         />
@@ -169,7 +158,7 @@ export default function IngresoDatosBecaria() {
                         margin="normal"
                         name="telefono"
                         onBlur={validatePhone} 
-                        onChange={updateBecaria}
+                        onChange={updateTutor}
                         error={error.telefono}
                         helperText={error.telefono?'Telefono invalido':''}
                         required
@@ -196,10 +185,14 @@ export default function IngresoDatosBecaria() {
             <Box mt={3} mb={3}>
                 <Button  className={classes.boton}
                     variant="contained" 
+                    type="submit"
                 >
                     Cargar Tutor
                 </Button>
             </Box>
+        </Container>
+        </form>
+        </Paper>
         </Container>
     );
 }
