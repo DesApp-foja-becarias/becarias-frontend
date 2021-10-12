@@ -39,7 +39,7 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
     return(
         <div>
             <Box className={classes.Box}>
-                <Typography sx={{}}  variant="h6" >{title}</Typography>
+                <Typography  variant="h6" >{title}</Typography>
             </Box>
             <Box ml={'2px'}>
                 {isEditable?

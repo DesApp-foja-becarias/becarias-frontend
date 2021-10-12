@@ -17,7 +17,7 @@ export const validateDni = (e,updateErr) => {
 }
 
 export const validateEmail = (e, updateErr) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)){
+    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)){
         updateErr (e,false);
     }
     else{
