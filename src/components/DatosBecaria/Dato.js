@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { IconButton, Input, Select, TextField, Typography } from '@mui/material';
+import { IconButton, Input, MenuItem, Select, TextField, Typography, } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import {estadoBecarias} from '../../constants'
 
 import { BecariaContext } from '../../context/DatosBecariaContext';
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-export default function Dato({title, value,mail,cell, name}) {
+export default function Dato({title, value,mail,cell, date, name, becariaState}) {
     const {isEditable, updateBecariaState} = useContext(BecariaContext);
     const classes = useStyles();
 
@@ -39,20 +40,37 @@ export default function Dato({title, value,mail,cell, name}) {
                 name={name} 
                 onBlur={updateBecariaState} 
                 defaultValue={value}
-                />: <Typography variant="body1">{value}</Typography>
-    
+                type={cell?'number': date?'date':'text'}
+                sx={{width:'20em'}}
+                />
+                : <Typography variant="body1">{value}</Typography>
     return (
         <div>
-            <Box className={classes.Box}>  
-                <Typography sx={{}}  variant="h6" >{title}</Typography> 
-            
-                <Box className={classes.spacer}/>  
-                {mail && <IconButton color='success'><EmailIcon  /></IconButton>}
-                {cell && <IconButton color='success' href={`https://wa.me/54${value}`}><WhatsAppIcon /></IconButton>}
-
+            <Box className={classes.Box}>
+                <Typography sx={{}}  variant="h6" >{title}</Typography>
+                <Box className={classes.spacer}/>
+                {mail && <IconButton color='secondary' href={`mailto:${value}`} ><EmailIcon/></IconButton>}
+                {cell && <IconButton color='secondary' href={`https://wa.me/54${value}`} target='_blank'><WhatsAppIcon /></IconButton>}
             </Box>
             <Box ml={'2px'}>
-                {showInputOrValue()}
+                {
+                becariaState && isEditable?
+                <Select
+                    size='small'
+                    name={name}
+                    onBlur={updateBecariaState}
+                    defaultValue={value}
+                >
+                :
+                {
+                    estadoBecarias.map(estado => 
+                    <MenuItem key={estado.id} value={estado.state}>{estado.state}</MenuItem>
+                    )
+                }
+                </Select>
+                
+                : showInputOrValue()
+                }
             </Box>
         </div>
     )

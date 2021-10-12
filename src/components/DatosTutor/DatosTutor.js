@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         width: '200px',
         border: 'solid black 3px',
     },
-
     subtitulo:{
       fontSize: '2.5em',
     }
