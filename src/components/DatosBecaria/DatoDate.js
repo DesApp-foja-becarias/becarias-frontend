@@ -48,7 +48,7 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
                 name={name} 
                 onBlur={updateBecariaState} 
                 defaultValue={value}
-                type={date}
+                type='date'
                 />
                 : <Typography variant="body1">{mappedDate(value)}</Typography>}
             </Box>

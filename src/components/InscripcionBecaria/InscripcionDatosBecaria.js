@@ -1,8 +1,9 @@
 import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import ButtonInscripcion from './ButtonInscripcion';
-import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Input,Button,Grid,Typography,Container,Box  } from '@mui/material';
+import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants';
+import { validateDni, validateEmail, validateNotEmpty, validatePhone } from '../../utils/errFunc';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -47,6 +48,8 @@ export default function IngresoDatosBecaria() {
         fechaConvocatoria: '',
         fechaInscripcion: '',
     })
+
+    // FIXME: ESTO PODRIA SER UN HOOK
     const [error, setError] = useState({
         nombre: false,
         apellido: false,
@@ -75,42 +78,6 @@ export default function IngresoDatosBecaria() {
             [e.target.name]: e.target.value,
         })
     }
-    
-    const validateNotEmpty = (e) => {
-        if (becaria[e.target.name].length > 0) {
-            updateError (e,false);
-        }
-        else {
-            updateError (e,true);
-        }
-    }
-
-    const validateDni = (e) => {
-        if (e.target.value > 0 && e.target.value <100000000){
-            updateError (e,false);
-        }
-        else{
-            updateError (e,true);
-        }
-    }
-
-    const validateEmail = (e) => {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)){
-            updateError (e,false);
-        }
-        else{
-            updateError (e,true);
-        }
-    }
-
-    const validatePhone = (e) => {
-        if (e.target.value > 0 && e.target.value <100000000){
-            updateError (e,false);
-        }
-        else{
-            updateError (e,true);
-        }
-    }
 
     return(
         <Container maxWidth="md">
@@ -130,7 +97,7 @@ export default function IngresoDatosBecaria() {
                         variant="outlined" 
                         name="apellido"
                         margin="normal"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e)=>validateNotEmpty(e,updateError)} onChange={updateBecaria}
                         error={error.apellido}
                         helperText={error.apellido ? 'Campo obligatorio' : ''}
                         required
@@ -145,7 +112,7 @@ export default function IngresoDatosBecaria() {
                         variant="outlined"
                         name="nombre"
                         margin="normal"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} 
                         error={error.nombre}
                         helperText={error.nombre ? 'Campo obligatorio' : ''}
                         required
@@ -160,7 +127,7 @@ export default function IngresoDatosBecaria() {
                         variant="outlined"
                         name="dni"
                         type="number"
-                        onBlur={validateDni}
+                        onBlur={(e) => validateDni(e, updateError)}  
                         margin="normal"
                         helperText={error.dni?'Dni Invalido':''}
                         error={error.dni}
@@ -175,7 +142,7 @@ export default function IngresoDatosBecaria() {
                         size="normal"
                         margin="normal"
                         name="correoElectronico"
-                        onBlur={validateEmail}
+                        onBlur={(e)=>validateEmail(e, updateError)} 
                         error={error.correoElectronico}
                         helperText={error.correoElectronico?'Correo electronico invalido':''}
                         required
@@ -189,7 +156,7 @@ export default function IngresoDatosBecaria() {
                         placeholder='Fecha de nacimiento'  
                         margin="normal"
                         name="fechaNacimiento"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
                         error={error.fechaNacimiento}
                         helperText={error.fechaNacimiento?'Fecha de nacimiento invalida':''}
                         required
@@ -205,9 +172,10 @@ export default function IngresoDatosBecaria() {
                         size="normal" 
                         margin="normal"
                         name="telefono"
-                        onBlur={validatePhone} 
+                        onBlur={(e)=>validatePhone(e,updateError)} 
                         onChange={updateBecaria}
                         error={error.telefono}
+                        type="number"
                         helperText={error.telefono?'Telefono invalido':''}
                         required
                     />
@@ -223,7 +191,7 @@ export default function IngresoDatosBecaria() {
                         size="normal"
                         margin="normal"
                         name="direccion"
-                        onBlur={validateNotEmpty} 
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} 
                         onChange={updateBecaria}
                         error={error.direccion}
                         helperText={error.direccion?'Direccion invalida':''}
@@ -240,7 +208,7 @@ export default function IngresoDatosBecaria() {
                         size="normal"
                         margin="normal"
                         name="localidad"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
                         error={error.localidad}
                         helperText={error.localidad?'Localidad invalida':''}
                         required
@@ -256,7 +224,7 @@ export default function IngresoDatosBecaria() {
                         size="normal" 
                         margin="normal"
                         name="provincia"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
                         error={error.provincia}
                         helperText={error.provincia?'Provincia invalida':''}
                         required
@@ -296,7 +264,7 @@ export default function IngresoDatosBecaria() {
                         type="date" 
                         variant='outlined'
                         name="fechaConvocatoria"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
                         error={error.fechaConvocatoria}
                         helperText={error.fechaConvocatoria?'Fecha de convocatoria invalida':''}
                         required
@@ -310,7 +278,7 @@ export default function IngresoDatosBecaria() {
                         variant='outlined'
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                         name="fechaInscripcion"
-                        onBlur={validateNotEmpty} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
                         error={error.fechaInscripcion}
                         helperText={error.fechaInscripcion?'Fecha de inscripción invalida':''}
                         required

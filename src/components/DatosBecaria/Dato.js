@@ -40,7 +40,7 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
                 name={name} 
                 onBlur={updateBecariaState} 
                 defaultValue={value}
-                type={cell?'number':date?'date':'text'}
+                type={cell?'number': date?'date':'text'}
                 sx={{width:'20em'}}
                 />
                 : <Typography variant="body1">{value}</Typography>

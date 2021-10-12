@@ -52,7 +52,29 @@ export default function DatosBecaria() {
         }
     
     const {isEditable , setIsEditable, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
-    
+    const [error, setError] = useState({
+      nombre: false,
+      apellido: false,
+      dni: false,
+      correoElectronico: false,
+      fechaNacimiento: false,
+      telefono: false,
+      direccion: false,
+      localidad: false,
+      provincia: false,
+      carrera: false,
+      fechaConvocatoria: false,
+      fechaInscripcion: false,
+  })
+  
+  const updateError = (e,value) => {
+      setError({
+          ...error,
+          [e.target.name]: value,
+      });
+  }
+
+
     useEffect(() => {
       setBecariaInitialState(datos)
       console.log(new Date(1994,8,8))
