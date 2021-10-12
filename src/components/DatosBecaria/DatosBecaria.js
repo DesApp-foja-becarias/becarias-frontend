@@ -7,6 +7,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { BecariaContext } from '../../context/DatosBecariaContext';
+import DatoDate from './DatoDate';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -34,7 +35,7 @@ export default function DatosBecaria() {
             apellido: 'Etchegaray',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
-            fechaNacimiento: '12/12/1994',
+            fechaNacimiento: '1994-12-12',
             telefono: '123456789',
             direccion: 'Calle falsa 123',
             email: 'jsmandolo@gmail.com',
@@ -107,7 +108,7 @@ export default function DatosBecaria() {
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={datos.dni} />
-                    <Dato name='fechaNacimiento' date title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
                     <Dato name='direccion' title='Domicilio' value={datos.direccion}/>
                     {isEditable?
                     <>

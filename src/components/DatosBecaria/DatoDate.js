@@ -5,6 +5,7 @@ import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {estadoBecarias} from '../../constants'
+import { mappedDate } from '../../utils/func';
 
 import { BecariaContext } from '../../context/DatosBecariaContext';
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,8 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
     const {isEditable, updateBecariaState} = useContext(BecariaContext);
     const classes = useStyles();
 
-    const showInputOrValue = () =>
-     (
+
+    return(
         <div>
             <Box className={classes.Box}>
                 <Typography sx={{}}  variant="h6" >{title}</Typography>
@@ -47,9 +48,9 @@ export default function Dato({title, value,mail,cell, date, name, becariaState})
                 name={name} 
                 onBlur={updateBecariaState} 
                 defaultValue={value}
-                type={cell?'number':date?'date':'text'}
+                type={date}
                 />
-                : <Typography variant="body1">{value}</Typography>}
+                : <Typography variant="body1">{mappedDate(value)}</Typography>}
             </Box>
         </div>
     )
