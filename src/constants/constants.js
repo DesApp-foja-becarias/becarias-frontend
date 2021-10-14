@@ -1,34 +1,37 @@
 export const getDataFromBackend = false;
 
-export const usuariosFijos = [
+export const carreras = [
   {
     id: 1,
-    nombre: 'Juana',
-    apellido: 'Molina',
-    fechaNacimiento: '1971-04-21',
-    edad: 50,
+    nombre: 'Ingeniería en Electrónica',
+
   },
   {
     id: 2,
-    nombre: 'China',
-    apellido: 'Zorrilla',
-    fechaNacimiento: '1929-04-09',
-    edad: 92,
+    nombre: 'Licenciatura en Informatica',
   },
   {
     id: 3,
-    nombre: 'Nelly',
-    apellido: 'Omar',
-    fechaNacimiento: '1921-11-17',
-    edad: 100,
+    nombre: 'Ingenieria Metalurgica'
+  }
+];
+
+export const estadoBecarias = [
+  {
+    id: 1,
+    state: 'Lista de espera',
+  },
+  {
+    id: 2,
+    state: 'Aprobada',
+  },
+  {
+    id: 3,
+    state: 'Dada de baja'
   },
   {
     id: 4,
-    nombre: 'Erica',
-    apellido: 'Rivas',
-    fechaNacimiento: '1979-10-29',
-    avatarUrl:
-      'https://static.wikia.nocookie.net/logopedia/images/c/c9/RIVERNORMAL.png',
-    edad: 42,
+    state: 'Rechazada'
   },
-];
+  
+]

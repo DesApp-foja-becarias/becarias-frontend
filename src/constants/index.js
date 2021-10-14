@@ -1,0 +1,1 @@
+export {carreras, estadoBecarias} from './constants';

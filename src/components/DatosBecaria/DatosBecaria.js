@@ -1,16 +1,13 @@
-import  Container  from '@mui/material/Container'
 import Dato from './Dato'
-import React from 'react'
-import Typography from '@mui/material/Typography';
-import { Table, TableCell,TableBody,TableRow,TableHead } from '@mui/material';
+import React, { useState , useEffect, useContext} from 'react'
+import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
 import { makeStyles } from "@mui/styles";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Divider from '@mui/material/Divider';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { BecariaContext } from '../../context/DatosBecariaContext';
+import DatoDate from './DatoDate';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -38,80 +35,126 @@ export default function DatosBecaria() {
             apellido: 'Etchegaray',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
-            fechaNacimiento: '12/12/12',
+            fechaNacimiento: '1994-12-12',
             telefono: '123456789',
             direccion: 'Calle falsa 123',
             email: 'jsmandolo@gmail.com',
             pais: 'Argentina',
             provincia: 'Buenos Aires',
             ciudad: 'La Plata',
-            
             estadoActual: 'Aprobada',
             carrera: 'Ingenieria en Informatica',
-
             tutor: 'Juan Perez',
 
             //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
             historial:[],
             actividad:[],
-
-
         }
+    
+    const {isEditable , setIsEditable, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
+    const [error, setError] = useState({
+      nombre: false,
+      apellido: false,
+      dni: false,
+      correoElectronico: false,
+      fechaNacimiento: false,
+      telefono: false,
+      direccion: false,
+      localidad: false,
+      provincia: false,
+      carrera: false,
+      fechaConvocatoria: false,
+      fechaInscripcion: false,
+  })
+  
+  const updateError = (e,value) => {
+      setError({
+          ...error,
+          [e.target.name]: value,
+      });
+  }
+
+
+    useEffect(() => {
+      setBecariaInitialState(datos)
+      console.log(new Date(1994,8,8))
+    }, [])
+
     const classes = useStyles();
     return (
         <Container className={classes.rootContainer} maxWidth="md">
-         
             <Container  id='nombreBecaria'>
               <Grid container>
-                <Grid container xs={8}>
+                <Grid container item xs={8}>
                   <Box>
-                    <Typography variant='h4'>{datos.apellido}</Typography>
-                    <Typography variant='h5'>{datos.nombre}</Typography>
+                    {isEditable? <Input name='apellido' onBlur={updateBecariaState}  defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
+                    {isEditable? <Input name='apellido' onBlur={updateBecariaState} defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
                   </Box>
                 </Grid>
-                <Grid container xs={4}>
+                <Grid container item xs={4}>
+                  {isEditable?
+                  <Tooltip title='Terminar de Editar' followCursor >
+                  <IconButton  color='success' onClick={() => setIsEditable(!isEditable)}>
+                    <CheckCircleOutlineIcon fontSize='large'/>
+                  </IconButton>
+                  </Tooltip>
+                  :
                   <Box>
-                    <IconButton  color='warning'>
-                      <EditIcon fontSize='large' />
-                    </IconButton>
-                    <IconButton color='success'>
-                      <PersonAddAlt1Icon  fontSize='large'/>
-                    </IconButton>
-                    <IconButton color='error'>
-                      <CancelIcon fontSize='large'/>
-                    </IconButton>
+                    <Tooltip title='Editar' followCursor>
+                      <IconButton  color='warning' onClick={() => setIsEditable(!isEditable)}>
+                        <EditIcon fontSize='large'  />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Aprobar' followCursor>
+                      <IconButton color='success'>
+                        <PersonAddAlt1Icon  fontSize='large'/>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Dar de baja' followCursor>
+                      <IconButton color='error'>
+                        <CancelIcon fontSize='large'/>
+                      </IconButton>
+                    </Tooltip>
                   </Box>
+                }
                 </Grid>
               </Grid>
             </Container>
             <Box mb={2} mt={2}>
               <Divider />
-            </Box>
+            </Box> 
             <Container id='datosGenerales' >
-
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={6} id='DatosPersonales' disableGutters>
-                      <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
-                      <Box mb={2} mt={2}/>
-                      <Typography variant="subtitle1">Datos de personales</Typography>
-                      <Dato title='DNI' value={datos.dni} />
-                      <Dato title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
-                      <Dato title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais}/>
+                    <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <Box mb={2} mt={2}/>
+                    <Typography variant="subtitle1">Datos de personales</Typography>
+                    <Dato name='dni' title='DNI' value={datos.dni} />
+                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={datos.fechaNacimiento}/>
+                    <Dato name='direccion' title='Domicilio' value={datos.direccion}/>
+                    {isEditable?
+                    <>
+                      <Dato name='ciudad' title='Localidad' value={datos.ciudad}/>
+                      <Dato name='provincia' title='Provincia' value={datos.provincia}/>
+                      <Dato name='pais' title='Pais' value={datos.pais}/></>
+                      :
+                      <Dato name='ciudad' title='Localidad' value={datos.ciudad + ', ' + datos.provincia + ', ' + datos.pais }/>
+                    }
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   
                   <Typography variant="subtitle1">Datos de contacto</Typography>
                   
-                    <Dato title='Correo' value={datos.email} mail/>
-                    <Dato title='Celular' value={datos.telefono} cell/>
+                    <Dato name='email' title='Correo' value={datos.email} mail/>
+                    <Dato name='telefono' title='Celular' value={datos.telefono} cell/>
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
                     <Typography variant="subtitle1">Datos de carrera</Typography>
                  
-                    <Dato title='Estado Actual' value={datos.estadoActual} />
-                    <Dato title='Carrera' value={datos.carrera} />
-                    <Dato title='Tutor' value={datos.tutor} />
+                    <Dato name='estadoActual' title='Estado Actual' value={datos.estadoActual} becariaState/>
+                    <Dato name='carrera' title='Carrera' value={datos.carrera} />
+                    <Dato name='tutor' title='Tutor' value={datos.tutor} />
                     <Typography variant='h6'>Historial</Typography>
                     <Typography variant='h6'>---------</Typography>
                   </Grid>
