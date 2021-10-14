@@ -8,6 +8,7 @@ import {
   ThemeProvider
 } from '@mui/material';
 import DatosBecariaContext from './context/DatosBecariaContext';
+import DatosTutorContext from './context/DatosTutorContext';
 import theme from './theme';
 
 ReactDOM.render(
@@ -15,9 +16,11 @@ ReactDOM.render(
     <React.StrictMode>
       <CssBaseline />
       <Suspense fallback={<CircularProgress />}>
+        <DatosTutorContext>
         <DatosBecariaContext>
           <App />
         </DatosBecariaContext>
+        </DatosTutorContext>
       </Suspense>
     </React.StrictMode>
   </ThemeProvider>,

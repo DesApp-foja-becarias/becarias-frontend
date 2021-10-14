@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { BecariaContext } from '../../context/DatosBecariaContext';
+import { TutorContext } from '../../context/DatosTutorContext';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   })
   );
 
-export default function DatosBecaria() {
+export default function DatosTutor() {
     const datos = 
         {
             nombre: 'Belen Josefina',
@@ -49,21 +49,21 @@ export default function DatosBecaria() {
             actividad:[],
         }
     
-    const {isEditable , setIsEditable, datosBecariaEdit, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
+    const {isEditable , setIsEditable, datosTutorEdit, updateTutorState, setTutorInitialState} = useContext(TutorContext);
     
     useEffect(() => {
-      setBecariaInitialState(datos)
+      setTutorInitialState(datos)
     }, [])
 
     const classes = useStyles();
     return (
         <Container className={classes.rootContainer} maxWidth="md">
-            <Container  id='nombreBecaria'>
+            <Container  id='nombreTutor'>
               <Grid container>
                 <Grid container item xs={11}>
                   <Box>
-                    {isEditable? <Input name='apellido' onBlur={updateBecariaState}  defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
-                    {isEditable? <Input name='apellido' onBlur={updateBecariaState} defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
+                    {isEditable? <Input name='apellido' onBlur={updateTutorState}  defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
+                    {isEditable? <Input name='apellido' onBlur={updateTutorState} defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
                   </Box>
                 </Grid>
                 <Grid container item xs={1}>
