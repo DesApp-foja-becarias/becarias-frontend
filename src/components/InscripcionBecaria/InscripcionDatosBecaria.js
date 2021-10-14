@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import ButtonInscripcion from './ButtonInscripcion';
+import DocumentationFields from './DocumentationFields';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants';
 import { validateDni, validateEmail, validateNotEmpty, validatePhone } from '../../utils/errFunc';
@@ -47,6 +47,7 @@ export default function IngresoDatosBecaria() {
         carrera: [],
         fechaConvocatoria: '',
         fechaInscripcion: '',
+        documentacion: null,
     })
 
     // FIXME: ESTO PODRIA SER UN HOOK
@@ -76,6 +77,13 @@ export default function IngresoDatosBecaria() {
         setBecaria({
             ...becaria,
             [e.target.name]: e.target.value,
+        })
+    }
+
+    const updateDocumentation = (e) => {
+        setBecaria({
+            ...becaria,
+            documentacion: e
         })
     }
 
@@ -288,11 +296,11 @@ export default function IngresoDatosBecaria() {
             </Grid>   
             <Box mt={3} mb={3}/>
             <Typography variant='h4' color="primary" align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
-            <ButtonInscripcion/>
+            <DocumentationFields updateDocumentation={updateDocumentation}/>
             
             <Box mt={6} mb={6}>
             
-                <Button  className={classes.boton}
+                <Button className={classes.boton}
                     variant="contained" 
                     type="submit"
                 >
