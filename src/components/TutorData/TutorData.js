@@ -1,5 +1,5 @@
-import Dato from '../DatosBecaria/Dato';
-import React, { useState , useEffect, useContext} from 'react'
+import Dato from '../Datos/Dato';
+import React, { useEffect, useContext} from 'react'
 import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +7,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { TutorContext } from '../../context/DatosTutorContext';
+import EditTutorData from './EditTutorData';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   })
   );
 
-export default function DatosTutor() {
+export default function TutorData() {
     const datos = 
         {
             nombre: 'Belen Josefina',
@@ -57,13 +58,18 @@ export default function DatosTutor() {
 
     const classes = useStyles();
     return (
+      <>
+      {
+      isEditable ?
+      <EditTutorData datas={datos} setIsEditable={setIsEditable}/>
+      :
         <Container className={classes.rootContainer} maxWidth="md">
             <Container  id='nombreTutor'>
               <Grid container>
                 <Grid container item xs={11}>
                   <Box>
-                    {isEditable? <Input name='apellido' onBlur={updateTutorState}  defaultValue={datos.apellido}/>:<Typography variant='h4'>{datos.apellido}</Typography>}                     
-                    {isEditable? <Input name='apellido' onBlur={updateTutorState} defaultValue={datos.nombre}/>:<Typography variant='h5'>{datos.nombre}</Typography>}
+                    <Typography variant='h4'>{datos.apellido}</Typography>              
+                    <Typography variant='h5'>{datos.nombre}</Typography>
                   </Box>
                 </Grid>
                 <Grid container item xs={1}>
@@ -158,6 +164,8 @@ export default function DatosTutor() {
               </Container>
             </Container>
         </Container>
+    }
+    </>
     )
 }
 

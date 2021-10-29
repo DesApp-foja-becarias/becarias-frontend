@@ -3,16 +3,16 @@ export const getDataFromBackend = false;
 export const carreras = [
   {
     id: 1,
-    nombre: 'Ingeniería en Electrónica',
+    name: 'Ingeniería en Electrónica',
 
   },
   {
     id: 2,
-    nombre: 'Licenciatura en Informatica',
+    name: 'Licenciatura en Informatica',
   },
   {
     id: 3,
-    nombre: 'Ingenieria Metalurgica'
+    name: 'Ingenieria Metalurgica'
   }
 ];
 

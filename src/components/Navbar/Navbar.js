@@ -101,10 +101,15 @@ function Navbar() {
     <div>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Grid container >
+          <Grid 
+            container  
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+          >
             <Grid item xs={4}
             >
-             { user && (
+            { user && (
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -142,9 +147,6 @@ function Navbar() {
               justifyContent="center"
               alignItems="center"
             >
-              {/* ACA ESTA LA IMAGEN */}
-
-
               <img
                 className={classes.logoImg}
                 src={becariaUnahur}

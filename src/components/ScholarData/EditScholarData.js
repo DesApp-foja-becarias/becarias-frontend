@@ -1,9 +1,11 @@
 import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import DocumentationFields from './DocumentationFields';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
-import { carreras } from '../../constants';
-import { validateDni, validateEmail, validateNotEmpty, validatePhone } from '../../utils/errFunc';
+import { carreras } from '../../constants/constants';
+import useFieldValidator from '../../hooks/useValidator';
+import {someEmptyField} from '../../utils/func';
+
+
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -32,46 +34,33 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function IngresoDatosBecaria() {
+export default function EditScholarData({datas}) {
     const classes = useStyles()
-    const [becaria, setBecaria] = useState({
-        nombre: '',
-        apellido: '',
-        dni: '',
-        correoElectronico: '',
-        fechaNacimiento: '',
-        telefono: '',
-        direccion: '',
-        localidad: '',
-        provincia: '',
-        carrera: [],
-        fechaConvocatoria: '',
-        fechaInscripcion: '',
-        documentacion: null,
-    })
+    const [becaria, setBecaria] = useState(datas)
 
-    // FIXME: ESTO PODRIA SER UN HOOK
-    const [error, setError] = useState({
-        nombre: false,
-        apellido: false,
+
+    const {
+        areValidFields,
+        errors,
+        validateNotEmpty,
+        validateDni,
+        validateEmail,
+        validatePhone
+    } = useFieldValidator({
+        name: false,
+        surname: false,
         dni: false,
-        correoElectronico: false,
-        fechaNacimiento: false,
-        telefono: false,
-        direccion: false,
-        localidad: false,
-        provincia: false,
-        carrera: false,
-        fechaConvocatoria: false,
-        fechaInscripcion: false,
+        email: false,
+        birth: false,
+        telephone: false,
+        adress: false,
+        city: false,
+        province: false,
+        country: false,
+        career: false,
+        announcementDate: false,
+        inscriptionDate: false,
     })
-    
-    const updateError = (e,value) => {
-        setError({
-            ...error,
-            [e.target.name]: value,
-        });
-    }
     
     const updateBecaria =  (e) => {
         setBecaria({
@@ -80,6 +69,12 @@ export default function IngresoDatosBecaria() {
         })
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(areValidFields && !someEmptyField(becaria)){
+            console.log(becaria)
+        }
+    }
     const updateDocumentation = (e) => {
         setBecaria({
             ...becaria,
@@ -90,39 +85,42 @@ export default function IngresoDatosBecaria() {
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
-        <form action="">
+        <form onSubmit={e => handleSubmit(e)}>
         <Container sx={{display:'flex'}} className={classes.container} maxWidth='sm'>
             <Box mt={3}/>
-        
-            <Typography variant='h3' color='primary' align="center">Inscripciòn Becaria</Typography>
+            <Typography variant='h3' color='primary' align="center">Actualizar Becaria</Typography>
             <Grid container mt={3} spacing={4} >
                 <Grid item 
                     xs={6}
                 >
-                    <InputLabel htmlFor="apellido">Apellido</InputLabel>
+                    <InputLabel htmlFor="surname">Apellido</InputLabel>
                     <TextField 
                         placeholder="Apellido"
-                        variant="outlined" 
-                        name="apellido"
+                        variant="outlined"
+                        name="surname"
                         margin="normal"
-                        onBlur={(e)=>validateNotEmpty(e,updateError)} onChange={updateBecaria}
-                        error={error.apellido}
-                        helperText={error.apellido ? 'Campo obligatorio' : ''}
+                        value={becaria.surname}
+                        onBlur={(e)=>validateNotEmpty(e)} 
+                        onChange={updateBecaria}
+                        error={errors.surname}
+                        helperText={errors.surname ? 'Campo obligatorio' : ''}
                         required
                         />
                 </Grid>
                 <Grid item
                     xs={6}
                 >
-                    <InputLabel htmlFor="nombre">Nombre</InputLabel>
+                    <InputLabel htmlFor="name">Nombre</InputLabel>
                     <TextField
                         placeholder="Nombre"
                         variant="outlined"
-                        name="nombre"
+                        name="name"
                         margin="normal"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} 
-                        error={error.nombre}
-                        helperText={error.nombre ? 'Campo obligatorio' : ''}
+                        value={becaria.name}
+                        onBlur={(e) =>validateNotEmpty(e)}  
+                        onChange={updateBecaria}
+                        error={errors.name}
+                        helperText={errors.name ? 'Campo obligatorio' : ''}
                         required
                     />
                 </Grid>
@@ -135,10 +133,12 @@ export default function IngresoDatosBecaria() {
                         variant="outlined"
                         name="dni"
                         type="number"
-                        onBlur={(e) => validateDni(e, updateError)}  
+                        value={becaria.dni}
+                        onBlur={(e) => validateDni(e)}   
+                        onChange={updateBecaria}
                         margin="normal"
-                        helperText={error.dni?'Dni Invalido':''}
-                        error={error.dni}
+                        helperText={errors.dni?'Dni Invalido':''}
+                        error={errors.dni}
                         required
                         />
                 </Grid>
@@ -149,10 +149,12 @@ export default function IngresoDatosBecaria() {
                         variant="outlined"
                         size="normal"
                         margin="normal"
-                        name="correoElectronico"
-                        onBlur={(e)=>validateEmail(e, updateError)} 
-                        error={error.correoElectronico}
-                        helperText={error.correoElectronico?'Correo electronico invalido':''}
+                        value={becaria.email}
+                        name="email"
+                        onBlur={(e)=>validateEmail(e)}
+                        onChange={updateBecaria}
+                        error={errors.email}
+                        helperText={errors.email?'Correo electronico invalido':''}
                         required
                     />
                 </Grid>
@@ -162,29 +164,31 @@ export default function IngresoDatosBecaria() {
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
+                        value={becaria.birth}
                         margin="normal"
-                        name="fechaNacimiento"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
-                        error={error.fechaNacimiento}
-                        helperText={error.fechaNacimiento?'Fecha de nacimiento invalida':''}
+                        name="birth"
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        error={errors.birth}
+                        helperText={errors.birth?'Fecha de nacimiento invalida':''}
                         required
                     />
                 </Grid>
                 <Grid item 
                     xs={6}
                 >
-                    <InputLabel htmlFor='telefono'>Telefono</InputLabel>
+                    <InputLabel htmlFor='telephone'>Teléfono</InputLabel>
                     <TextField className={classes.textField} 
-                        placeholder="Telefono" 
+                        placeholder="Teléfono" 
                         variant="outlined" 
                         size="normal" 
+                        value={becaria.telephone}
                         margin="normal"
-                        name="telefono"
-                        onBlur={(e)=>validatePhone(e,updateError)} 
+                        name="telephone"
+                        onBlur={(e)=>validatePhone(e)} 
                         onChange={updateBecaria}
-                        error={error.telefono}
+                        error={errors.telephone}
                         type="number"
-                        helperText={error.telefono?'Telefono invalido':''}
+                        helperText={errors.telephone?'telephone invalido':''}
                         required
                     />
                 </Grid>
@@ -192,60 +196,80 @@ export default function IngresoDatosBecaria() {
                     item 
                     xs={6}
                 >
-                    <InputLabel htmlFor='direccion'>Dirección</InputLabel>
+                    <InputLabel htmlFor='adress'>Dirección</InputLabel>
                     <TextField className={classes.textField} 
                         placeholder="Dirección" 
                         variant="outlined" 
                         size="normal"
                         margin="normal"
-                        name="direccion"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} 
+                        name="adress"
+                        value={becaria.adress}
+                        onBlur={(e) =>validateNotEmpty(e)} 
                         onChange={updateBecaria}
-                        error={error.direccion}
-                        helperText={error.direccion?'Direccion invalida':''}
+                        error={errors.adress}
+                        helperText={errors.adress?'adress invalida':''}
                         required
                         />
                 </Grid>
                 <Grid item 
                     xs={6}
                 >
-                    <InputLabel htmlFor='localidad'>Localidad</InputLabel>
+                    <InputLabel htmlFor='city'>Ciudad</InputLabel>
                     <TextField className={classes.textField} 
-                        placeholder="Localidad" 
+                        placeholder="Ciudad" 
                         variant="outlined" 
                         size="normal"
                         margin="normal"
-                        name="localidad"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
-                        error={error.localidad}
-                        helperText={error.localidad?'Localidad invalida':''}
+                        name="city"
+                        value={becaria.city}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        error={errors.city}
+                        helperText={errors.city?'city invalida':''}
                         required
                     />
                 </Grid>
                 <Grid item 
                     xs={6}
                 >
-                    <InputLabel htmlFor='provincia'>Provincia</InputLabel>
+                    <InputLabel htmlFor='province'>Provincia</InputLabel>
                     <TextField className={classes.textField} 
                         placeholder="Provincia" 
                         variant="outlined" 
                         size="normal" 
                         margin="normal"
-                        name="provincia"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
-                        error={error.provincia}
-                        helperText={error.provincia?'Provincia invalida':''}
+                        name="province"
+                        value={becaria.province}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        error={errors.province}
+                        helperText={errors.province?'province invalida':''}
+                        required
+                        />
+                </Grid>
+                <Grid item 
+                    xs={6}
+                >
+                    <InputLabel htmlFor='province'>País</InputLabel>
+                    <TextField className={classes.textField} 
+                        placeholder="País" 
+                        variant="outlined" 
+                        size="normal" 
+                        margin="normal"
+                        name="country"
+                        value={becaria.country}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        error={errors.country}
+                        helperText={errors.country}
                         required
                         />
                 </Grid>
                 <Grid item 
                     xs={6} 
                 >
-                    <InputLabel htmlFor='Carrera'>Carrera</InputLabel>
+                    <InputLabel htmlFor='career'>Carrera/s</InputLabel>
                     <Select
                         multiple
-                        name="carrera"
-                        value={becaria.carrera}
+                        name="career"
+                        value={becaria.career}
                         renderValue={selected =>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                             {selected.map((value) => (
@@ -253,13 +277,13 @@ export default function IngresoDatosBecaria() {
                             ))}
                             </Box>}
                         onChange={updateBecaria}
-                        placeholder="Carrera"
+                        placeholder="Carrera/s"
                         sx={{width: '13em' , marginTop:'1em'}}
                     >
                         
-                        {carreras.map(carrera => (
-                            <MenuItem key={carrera.id} value={carrera.nombre}>
-                                {carrera.nombre}
+                        {carreras.map(car => (
+                            <MenuItem key={car.id} value={car.name}>
+                                {car.name}
                             </MenuItem>
                         ))}
                     </Select>
@@ -271,10 +295,12 @@ export default function IngresoDatosBecaria() {
                     <TextField 
                         type="date" 
                         variant='outlined'
-                        name="fechaConvocatoria"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
-                        error={error.fechaConvocatoria}
-                        helperText={error.fechaConvocatoria?'Fecha de convocatoria invalida':''}
+                        name="announcementDate"
+                        value={becaria.announcementDate}
+                        onBlur={(e) =>validateNotEmpty(e)} 
+                        onChange={updateBecaria}
+                        error={errors.announcementDate}
+                        helperText={errors.announcementDate?'Fecha de convocatoria invalida':''}
                         required
                     />
                     
@@ -285,26 +311,29 @@ export default function IngresoDatosBecaria() {
                         type="date" 
                         variant='outlined'
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-                        name="fechaInscripcion"
-                        onBlur={(e) =>validateNotEmpty(e, updateError)} onChange={updateBecaria}
-                        error={error.fechaInscripcion}
-                        helperText={error.fechaInscripcion?'Fecha de inscripción invalida':''}
+                        name="inscriptionDate"
+                        value={becaria.inscriptionDate}
+                        onBlur={(e) =>validateNotEmpty(e)} 
+                        onChange={updateBecaria}
+                        error={errors.inscriptionDate}
+                        helperText={errors.inscriptionDate?'Fecha de inscripción invalida':''}
                         required
                         />
                 </Grid>
                 
             </Grid>   
             <Box mt={3} mb={3}/>
+            {/*
             <Typography variant='h4' color="primary" align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
             <DocumentationFields updateDocumentation={updateDocumentation}/>
-            
+            */}
             <Box mt={6} mb={6}>
             
                 <Button className={classes.boton}
                     variant="contained" 
                     type="submit"
                 >
-                    Cargar Becaria
+                    Actualizar Becaria
                 </Button>
             </Box>
 

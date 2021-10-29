@@ -1,14 +1,14 @@
 import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import DatosBecaria from "./components/DatosBecaria/DatosBecaria";
 
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
-import InscripcionBecaria from "./components/InscripcionBecaria/InscripcionDatosBecaria";
-import InscripcionTutor from "./components/InscripcionTutor/InscripcionDatosTutor";
-import DatosTutor from "./components/DatosTutor/DatosTutor";
+import ScholarData from "./components/ScholarData";
+import SignScholarData from "./components/SignScholarData";
+import SignTutorData from "./components/SignTutorData";
+import TutorData from "./components/TutorData";
 
 
 const useStyles = makeStyles(() => ({
@@ -41,16 +41,16 @@ export default function App() {
             <Login />
           </Route>
           <Route path="/tutor">
-            <DatosTutor />
+            <TutorData />
           </Route>
           <Route path="/inscribirtutor">
-            <InscripcionTutor />
+            <SignTutorData />
           </Route>
           <Route path="/inscribirbecaria">
-            <InscripcionBecaria />
+            <SignScholarData />
           </Route>
           <Route path="/becaria">
-            <DatosBecaria />
+            <ScholarData />
           </Route>
           <Route  path="/">
             <Main />

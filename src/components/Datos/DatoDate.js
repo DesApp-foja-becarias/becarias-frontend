@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-export default function Dato({title, value,mail,cell, date, name, becariaState}) {
+export default function Dato({title, value, name, becariaState}) {
     const {isEditable, updateBecariaState} = useContext(BecariaContext);
     const classes = useStyles();
 
