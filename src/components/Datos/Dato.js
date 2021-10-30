@@ -1,11 +1,8 @@
-import React, { useContext } from 'react'
-import { IconButton, Input, MenuItem, Select, Typography, } from '@mui/material';
+import { IconButton,Typography, } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import {estadoBecarias} from '../../constants'
-import { BecariaContext } from '../../context/DatosBecariaContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         
     }));
 
-export default function Dato({title, value,mail,cell, career, date}) {
+export default function Dato({title, value,mail,cell, career}) {
     const classes = useStyles();
 
     return (

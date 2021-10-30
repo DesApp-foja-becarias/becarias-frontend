@@ -1,13 +1,13 @@
 import Dato from '../Datos/Dato';
-import React, { useEffect, useContext} from 'react'
-import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
+import React, { useEffect, useState} from 'react'
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { TutorContext } from '../../context/DatosTutorContext';
-import EditTutorData from './EditTutorData';
+import BackButton from '../BackButton';
+import { getTutor } from '../../services/Tutor/serviceTutor';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -30,64 +30,59 @@ const useStyles = makeStyles((theme) => ({
 export default function TutorData() {
     const datos = 
         {
-            nombre: 'Belen Josefina',
-            apellido: 'Mernasconi',
-            fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
-            dni:'14512412',
-            fechaNacimiento: '12/12/12',
-            telefono: '123456789',
-            direccion: 'Calle falsa 123',
-            email: 'jsmandolo@gmail.com',
-            pais: 'Argentina',
-            provincia: 'Buenos Aires',
-            ciudad: 'La Plata',
-            estadoActual: 'Aprobada',
-            carrera: 'Ingenieria en Informatica',
-            tutor: 'Juan Perez',
-
-            //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
-            historial:[],
-            actividad:[],
+          name: 'Mariana Agustina',
+          surname: 'Etchegaray',
+          fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
+          dni:'14512412',
+          birth: '1994-12-12',
+          telephone: '123456789',
+          adress: 'Calle falsa 123',
+          email: 'jsmandolo@gmail.com',
+          country: 'Argentina',
+          province: 'Buenos Aires',
+          city: 'La Plata',
+          actualState: 'Aprobada',
+          career: ['Licenciatura en Informatica'],
+          
         }
+
     
-    const {isEditable , setIsEditable, datosTutorEdit, updateTutorState, setTutorInitialState} = useContext(TutorContext);
+    const {id} = useParams()
+
+    const [tutor, setTutor] = useState(datos);
     
     useEffect(() => {
-      setTutorInitialState(datos)
-    }, [])
+      getTutor(id).then(response => {
+        setTutor(response.data)
+      }
+      )}, [id])
 
     const classes = useStyles();
     return (
       <>
-      {
-      isEditable ?
-      <EditTutorData datas={datos} setIsEditable={setIsEditable}/>
-      :
+      
         <Container className={classes.rootContainer} maxWidth="md">
             <Container  id='nombreTutor'>
+            <BackButton path='/' />
+            <Box mb={3} mt={3}/>
+            
               <Grid container>
                 <Grid container item xs={11}>
                   <Box>
-                    <Typography variant='h4'>{datos.apellido}</Typography>              
-                    <Typography variant='h5'>{datos.nombre}</Typography>
+                    <Typography variant='h4'>{tutor.surname}</Typography>              
+                    <Typography variant='h5'>{tutor.name}</Typography>
                   </Box>
                 </Grid>
                 <Grid container item xs={1}>
-                  {isEditable?
-                  <Tooltip title='Terminar de Editar' followCursor >
-                  <IconButton  color='success' onClick={() => setIsEditable(!isEditable)}>
-                    <CheckCircleOutlineIcon fontSize='large'/>
-                  </IconButton>
-                  </Tooltip>
-                  :
                   <Box>
-                    <Tooltip title='Editar' followCursor>
-                      <IconButton  color='warning' onClick={() => setIsEditable(!isEditable)}>
-                        <EditIcon fontSize='large'  />
-                      </IconButton>
-                    </Tooltip>
+                    <Link to={`/tutor/edit/${id}`}>
+                      <Tooltip title='Editar' followCursor>
+                        <IconButton  color='warning'>
+                          <EditIcon fontSize='large'  />
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
                   </Box>
-                }
                 </Grid>
               </Grid>
             </Container>
@@ -97,20 +92,20 @@ export default function TutorData() {
             <Container id='datosGenerales' >
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={5} id='DatosPersonales' disableGutters>
-                    <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <img src={tutor.fotoURL} className={classes.image} alt='fotoBecaria'/>
                   </Grid>
                   
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>
                   <Typography variant="subtitle1">Datos de personales</Typography>
-                    <Dato name='dni' title='DNI' value={datos.dni} />
+                    <Dato name='dni' title='DNI' value={tutor.dni} />
                   <Box mb={2} mt={2}>
                     <Divider />
                   </Box>
 
                   <Typography variant="subtitle1">Datos de contacto</Typography>
                   
-                    <Dato name='email' title='Correo' value={datos.email} mail/>
-                    <Dato name='telefono' title='Celular' value={datos.telefono} cell/>
+                    <Dato name='email' title='Correo' value={tutor.email} mail/>
+                    <Dato name='telefono' title='Celular' value={tutor.telephone} cell/>
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
@@ -122,49 +117,11 @@ export default function TutorData() {
               </Box>
               <Container id='datosGeneralesBottom'>
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
-                <Box mb={6} >
-                <Table bgcolor='#f0f0f0'>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><Typography fontWeight='bold' variant='body1'>Apellido</Typography></TableCell>
-                      <TableCell><Typography fontWeight='bold' variant='body1'>Nombre</Typography></TableCell>
-                      <TableCell><Typography fontWeight='bold' variant='body1'>D.N.I</Typography></TableCell>
-                      <TableCell><Typography fontWeight='bold' variant='body1'>Carrera</Typography></TableCell>
-                      <TableCell><Typography fontWeight='bold' variant='body1'>Correo</Typography></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>{datos.apellido}</TableCell>
-                      <TableCell>{datos.nombre}</TableCell>
-                      <TableCell>{datos.dni}</TableCell>
-                      <TableCell>{datos.carrera}</TableCell>
-                      <TableCell>{datos.email}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>{datos.apellido}</TableCell>
-                      <TableCell>{datos.nombre}</TableCell>
-                      <TableCell>{datos.dni}</TableCell>
-                      <TableCell>{datos.carrera}</TableCell>
-                      <TableCell>{datos.email}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>{datos.apellido}</TableCell>
-                      <TableCell>{datos.nombre}</TableCell>
-                      <TableCell>{datos.dni}</TableCell>
-                      <TableCell>{datos.carrera}</TableCell>
-                      <TableCell>{datos.email}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-                </Box>
-                <Box mb={2}>
-                  <Divider />
-                </Box>
+                <Box mb={6} />
               </Container>
             </Container>
         </Container>
-    }
+    
     </>
     )
 }

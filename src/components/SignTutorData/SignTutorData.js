@@ -62,12 +62,8 @@ export default function SignTutorData() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if( !someEmptyField(tutor)){
+        if(areValidFields && !someEmptyField(tutor)){
             console.log(tutor)
-        }
-        else{
-            console.log(someEmptyField(tutor))
-            console.log(errors)
         }
     }
 

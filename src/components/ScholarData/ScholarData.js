@@ -1,16 +1,16 @@
 import Dato from '../Datos/Dato'
-import React, { useState , useEffect, useContext} from 'react'
-import {Divider, IconButton, Box, Grid, Typography, Table, TableCell, TableBody, TableRow, TableHead, Tooltip, Container, Input } from '@mui/material';
+import React, { useState , useEffect} from 'react'
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { BecariaContext } from '../../context/DatosBecariaContext';
 import DatoDate from '../Datos/DatoDate';
-import EditScholarData from './EditScholarData';
+import {Link, useParams} from 'react-router-dom';
+import { getTutor } from '../../services/Tutor/serviceTutor';
+import BackButton from '../BackButton';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     rootContainer:{
       padding: '15px',
       boxShadow: '0px 0px 10px #00000029',
@@ -46,51 +46,47 @@ export default function ScholarData() {
             actualState: 'Aprobada',
             career: ['Licenciatura en Informatica'],
             tutor: 'Juan Perez',
+            inscriptionDate: '2020-01-01',
 
             //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
             historial:[],
             actividad:[],
         }
 
+    const {id} = useParams()
 
-    const {isEditable , setIsEditable, updateBecariaState, setBecariaInitialState} = useContext(BecariaContext);
-
-
+    const [scholar, setTutor] = useState(datos);
 
     useEffect(() => {
-      setBecariaInitialState(datos)
-    }, [])
+      getTutor(id).then(response => {
+        setTutor(response.data)
+      }
+      )}, [id])
 
     const classes = useStyles();
     return (
-    <div>
-    {
-      isEditable ?
-      <EditScholarData datas={datos} setIsEditable={setIsEditable}/>
-      :
-      <Container maxWidth="lg" className={classes.rootContainer}>
           <Container className={classes.rootContainer} maxWidth="md">
+            
+            
             <Container id='nombreBecaria'>
+            <BackButton path='/' />
+            <Box mb={3} mt={3}/>
+            
               <Grid container>
                 <Grid container item xs={8}>
                   <Box>
-                    {isEditable? <Input name='name' onBlur={updateBecariaState}  defaultValue={datos.surname}/>:<Typography variant='h4'>{datos.surname}</Typography>}                     
-                    {isEditable? <Input name='name' onBlur={updateBecariaState} defaultValue={datos.name}/>:<Typography variant='h5'>{datos.name}</Typography>}
+                    <Typography variant='h4'>{scholar.surname}</Typography>                
+                    <Typography variant='h5'>{scholar.name}</Typography>
                   </Box>
                 </Grid>
                 <Grid container item xs={4}>
-                  {isEditable?
-                  <Tooltip title='Terminar de Editar' followCursor >
-                  <IconButton  color='success' onClick={() => setIsEditable(!isEditable)}>
-                    <CheckCircleOutlineIcon fontSize='large'/>
-                  </IconButton>
-                  </Tooltip>
-                  :
                   <Box>
                     <Tooltip title='Editar' followCursor>
-                      <IconButton  color='warning' onClick={() => setIsEditable(!isEditable)}>
-                        <EditIcon fontSize='large'  />
-                      </IconButton>
+                      <Link to={`/becaria/edit/${id}`}>
+                        <IconButton  color='warning'>
+                          <EditIcon fontSize='large'  />
+                        </IconButton>
+                      </Link>
                     </Tooltip>
                     <Tooltip title='Aprobar' followCursor>
                       <IconButton color='success'>
@@ -103,7 +99,6 @@ export default function ScholarData() {
                       </IconButton>
                     </Tooltip>
                   </Box>
-                }
                 </Grid>
               </Grid>
             </Container>
@@ -113,34 +108,27 @@ export default function ScholarData() {
             <Container id='datosGenerales' >
               <Grid container id='datosGeneralesUp' >
                   <Grid item xs={12} sm={6} id='DatosPersonales' >
-                    <img src={datos.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <img src={scholar.fotoURL} className={classes.image} alt='fotoBecaria'/>
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
-                    <Dato name='dni' title='DNI' value={datos.dni} />
-                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={datos.birth}/>
-                    <Dato name='direccion' title='Domicilio' value={datos.adress}/>
-                    {isEditable?
-                    <>
-                      <Dato name='ciudad' title='Localidad' value={datos.city}/>
-                      <Dato name='provincia' title='Provincia' value={datos.province}/>
-                      <Dato name='pais' title='Pais' value={datos.country}/></>
-                      :
-                      <Dato name='ciudad' title='Localidad' value={datos.city + ', ' + datos.province + ', ' + datos.country }/>
-                    }
+                    <Dato name='dni' title='DNI' value={scholar.dni} />
+                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birth}/>
+                    <Dato name='direccion' title='Domicilio' value={scholar.adress}/>
+                      <Dato name='ciudad' title='Localidad' value={scholar.city + ', ' + scholar.province + ', ' + scholar.country }/>
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' >
                   
                   <Typography variant="subtitle1">Datos de contacto</Typography>
                   
-                    <Dato name='email' title='Correo' value={datos.email} mail/>
-                    <Dato name='telefono' title='Celular' value={datos.telephone} cell/>
+                    <Dato name='email' title='Correo' value={scholar.email} mail/>
+                    <Dato name='telefono' title='Celular' value={scholar.telephone} cell/>
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
                     <Typography variant="subtitle1">Datos de carrera</Typography>
-                    <Dato name='estadoActual' title='Estado Actual' value={datos.actualState} />
-                    <Dato name='carrera'  title='Carrera' value={datos.career} career/>
-                    <Dato name='tutor' title='Tutor' value={datos.tutor} />
+                    <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
+                    <Dato name='carrera'  title='Carrera' value={scholar.career} career/>
+                    <Dato name='tutor' title='Tutor' value={scholar.tutor} />
                     <Typography variant='h6'>Historial</Typography>
                     <Typography variant='h6'>---------</Typography>
                   </Grid>
@@ -154,9 +142,6 @@ export default function ScholarData() {
               </Container>
             </Container>
         </Container>
-      </Container>
-      }
-    </div>
     )
 }
 

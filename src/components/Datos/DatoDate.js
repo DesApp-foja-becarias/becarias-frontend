@@ -1,13 +1,9 @@
-import React, { useContext } from 'react'
-import { IconButton, Input, MenuItem, Select, TextField, Typography, } from '@mui/material';
+
+import { Typography, } from '@mui/material';
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
-import EmailIcon from '@mui/icons-material/Email';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import {estadoBecarias} from '../../constants'
 import { mappedDate } from '../../utils/func';
 
-import { BecariaContext } from '../../context/DatosBecariaContext';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -31,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
     
   }));
 
-export default function Dato({title, value, name, becariaState}) {
-    const {isEditable, updateBecariaState} = useContext(BecariaContext);
+export default function Dato({title, value, name, }) {
     const classes = useStyles();
 
 
@@ -42,15 +37,7 @@ export default function Dato({title, value, name, becariaState}) {
                 <Typography  variant="h6" >{title}</Typography>
             </Box>
             <Box ml={'2px'}>
-                {isEditable?
-                <Input 
-                size='small' 
-                name={name} 
-                onBlur={updateBecariaState} 
-                defaultValue={value}
-                type='date'
-                />
-                : <Typography variant="body1">{mappedDate(value)}</Typography>}
+                <Typography variant="body1">{mappedDate(value)}</Typography>}
             </Box>
         </div>
     )

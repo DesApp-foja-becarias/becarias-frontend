@@ -45,7 +45,7 @@ export default function useFieldValidator(initialValue){
         
     useEffect(() => {
         setAreValidFields(allValid());
-    }, [errors])
+    }, [errors, allValid]);
 
 
     return {

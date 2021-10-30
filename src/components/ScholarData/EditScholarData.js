@@ -1,10 +1,12 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants/constants';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
-
+import { useParams } from 'react-router';
+import { getScholar } from '../../services/Scholar/servicesScholar';
+import BackButton from '../../components/BackButton';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,9 +36,29 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function EditScholarData({datas}) {
+export default function EditScholarData() {
+    const datos = 
+    {
+        name: 'Mariana Agustina',
+        surname: 'Etchegaray',
+        fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
+        dni:'14512412',
+        birth: '1994-12-12',
+        telephone: '123456789',
+        adress: 'Calle falsa 123',
+        email: 'jsmandolo@gmail.com',
+        country: 'Argentina',
+        province: 'Buenos Aires',
+        city: 'La Plata',
+        actualState: 'Aprobada',
+        career: ['Licenciatura en Informatica'],
+        announcementDate: '2020-01-01',
+        inscriptionDate: '2020-01-01',
+    }
+
     const classes = useStyles()
-    const [becaria, setBecaria] = useState(datas)
+    const [scholar, setScholar] = useState(datos)
+    const {id} = useParams()
 
 
     const {
@@ -62,29 +84,39 @@ export default function EditScholarData({datas}) {
         inscriptionDate: false,
     })
     
-    const updateBecaria =  (e) => {
-        setBecaria({
-            ...becaria,
+    const updateScholarState =  (e) => {
+        setScholar({
+            ...scholar,
             [e.target.name]: e.target.value,
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(areValidFields && !someEmptyField(becaria)){
-            console.log(becaria)
+        if(areValidFields && !someEmptyField(scholar)){
+            console.log(scholar)
         }
     }
+    /*    
+    // NOTE: CHEQUEAR PARA CUANDO PODAMOS AGREGAR DOCUMENTACION
     const updateDocumentation = (e) => {
-        setBecaria({
-            ...becaria,
+        setScholar({
+            ...scholar,
             documentacion: e
         })
     }
+    */      
+    useEffect(() => {
+        getScholar(id).then(response => {
+          setScholar(response.data)
+        }
+        )}, [id])
+  
 
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
+        <BackButton path={`/becaria/${id}`}/>
         <form onSubmit={e => handleSubmit(e)}>
         <Container sx={{display:'flex'}} className={classes.container} maxWidth='sm'>
             <Box mt={3}/>
@@ -99,9 +131,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="surname"
                         margin="normal"
-                        value={becaria.surname}
+                        value={scholar.surname}
                         onBlur={(e)=>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.surname}
                         helperText={errors.surname ? 'Campo obligatorio' : ''}
                         required
@@ -116,9 +148,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="name"
                         margin="normal"
-                        value={becaria.name}
+                        value={scholar.name}
                         onBlur={(e) =>validateNotEmpty(e)}  
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.name}
                         helperText={errors.name ? 'Campo obligatorio' : ''}
                         required
@@ -133,9 +165,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="dni"
                         type="number"
-                        value={becaria.dni}
+                        value={scholar.dni}
                         onBlur={(e) => validateDni(e)}   
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         margin="normal"
                         helperText={errors.dni?'Dni Invalido':''}
                         error={errors.dni}
@@ -149,10 +181,10 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         size="normal"
                         margin="normal"
-                        value={becaria.email}
+                        value={scholar.email}
                         name="email"
                         onBlur={(e)=>validateEmail(e)}
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.email}
                         helperText={errors.email?'Correo electronico invalido':''}
                         required
@@ -164,10 +196,10 @@ export default function EditScholarData({datas}) {
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
-                        value={becaria.birth}
+                        value={scholar.birth}
                         margin="normal"
                         name="birth"
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
                         error={errors.birth}
                         helperText={errors.birth?'Fecha de nacimiento invalida':''}
                         required
@@ -181,11 +213,11 @@ export default function EditScholarData({datas}) {
                         placeholder="Teléfono" 
                         variant="outlined" 
                         size="normal" 
-                        value={becaria.telephone}
+                        value={scholar.telephone}
                         margin="normal"
                         name="telephone"
                         onBlur={(e)=>validatePhone(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.telephone}
                         type="number"
                         helperText={errors.telephone?'telephone invalido':''}
@@ -203,9 +235,9 @@ export default function EditScholarData({datas}) {
                         size="normal"
                         margin="normal"
                         name="adress"
-                        value={becaria.adress}
+                        value={scholar.adress}
                         onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.adress}
                         helperText={errors.adress?'adress invalida':''}
                         required
@@ -221,8 +253,8 @@ export default function EditScholarData({datas}) {
                         size="normal"
                         margin="normal"
                         name="city"
-                        value={becaria.city}
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        value={scholar.city}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
                         error={errors.city}
                         helperText={errors.city?'city invalida':''}
                         required
@@ -238,8 +270,8 @@ export default function EditScholarData({datas}) {
                         size="normal" 
                         margin="normal"
                         name="province"
-                        value={becaria.province}
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        value={scholar.province}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
                         error={errors.province}
                         helperText={errors.province?'province invalida':''}
                         required
@@ -255,8 +287,8 @@ export default function EditScholarData({datas}) {
                         size="normal" 
                         margin="normal"
                         name="country"
-                        value={becaria.country}
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        value={scholar.country}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
                         error={errors.country}
                         helperText={errors.country}
                         required
@@ -269,14 +301,14 @@ export default function EditScholarData({datas}) {
                     <Select
                         multiple
                         name="career"
-                        value={becaria.career}
+                        value={scholar.career}
                         renderValue={selected =>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                             {selected.map((value) => (
                                 <Chip key={value} label={value} />
                             ))}
                             </Box>}
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         placeholder="Carrera/s"
                         sx={{width: '13em' , marginTop:'1em'}}
                     >
@@ -296,9 +328,9 @@ export default function EditScholarData({datas}) {
                         type="date" 
                         variant='outlined'
                         name="announcementDate"
-                        value={becaria.announcementDate}
+                        value={scholar.announcementDate}
                         onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.announcementDate}
                         helperText={errors.announcementDate?'Fecha de convocatoria invalida':''}
                         required
@@ -312,9 +344,9 @@ export default function EditScholarData({datas}) {
                         variant='outlined'
                         pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                         name="inscriptionDate"
-                        value={becaria.inscriptionDate}
+                        value={scholar.inscriptionDate}
                         onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateScholarState}
                         error={errors.inscriptionDate}
                         helperText={errors.inscriptionDate?'Fecha de inscripción invalida':''}
                         required

@@ -1,10 +1,11 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
 import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
-
+import BackButton from '../BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
-
+import { getTutor } from '../../services/Tutor/serviceTutor';
+import { useParams } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +35,35 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function EditScholarData({datas}) {
+export default function EditTutorData({datas}) {
+    const datos = 
+    {
+      name: 'Mariana Agustina',
+      surname: 'Etchegaray',
+      fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
+      dni:'14512412',
+      birth: '1994-12-12',
+      telephone: '123456789',
+      adress: 'Calle falsa 123',
+      email: 'jsmandolo@gmail.com',
+      country: 'Argentina',
+      province: 'Buenos Aires',
+      city: 'La Plata',
+      actualState: 'Aprobada',
+      career: ['Licenciatura en Informatica'],
+      
+      
+    }
     const classes = useStyles()
-    const [becaria, setBecaria] = useState(datas)
+    const {id} = useParams()
 
+    const [tutor, setTutor] = useState(datos);
+    
+    useEffect(() => {
+      getTutor(id).then(response => {
+        setTutor(response.data)
+      }
+      )}, [id])
 
     const {
         areValidFields,
@@ -62,23 +88,24 @@ export default function EditScholarData({datas}) {
         inscriptionDate: false,
     })
     
-    const updateBecaria =  (e) => {
-        setBecaria({
-            ...becaria,
+    const updateTutorState =  (e) => {
+        setTutor({
+            ...tutor,
             [e.target.name]: e.target.value,
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(areValidFields && !someEmptyField(becaria)){
-            console.log(becaria)
+        if(areValidFields && !someEmptyField(tutor)){
+            console.log(tutor)
         }
     }
 
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
+        <BackButton path={`/tutor/${id}`}/>
         <form onSubmit={e => handleSubmit(e)}>
         <Container sx={{display:'flex'}} className={classes.container} maxWidth='sm'>
             <Box mt={3}/>
@@ -93,9 +120,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="surname"
                         margin="normal"
-                        value={becaria.surname}
+                        value={tutor.surname}
                         onBlur={(e)=>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         error={errors.surname}
                         helperText={errors.surname ? 'Campo obligatorio' : ''}
                         required
@@ -110,9 +137,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="name"
                         margin="normal"
-                        value={becaria.name}
+                        value={tutor.name}
                         onBlur={(e) =>validateNotEmpty(e)}  
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         error={errors.name}
                         helperText={errors.name ? 'Campo obligatorio' : ''}
                         required
@@ -127,9 +154,9 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         name="dni"
                         type="number"
-                        value={becaria.dni}
+                        value={tutor.dni}
                         onBlur={(e) => validateDni(e)}   
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         margin="normal"
                         helperText={errors.dni?'Dni Invalido':''}
                         error={errors.dni}
@@ -143,10 +170,10 @@ export default function EditScholarData({datas}) {
                         variant="outlined"
                         size="normal"
                         margin="normal"
-                        value={becaria.email}
+                        value={tutor.email}
                         name="email"
                         onBlur={(e)=>validateEmail(e)}
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         error={errors.email}
                         helperText={errors.email?'Correo electronico invalido':''}
                         required
@@ -158,10 +185,10 @@ export default function EditScholarData({datas}) {
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
-                        value={becaria.birth}
+                        value={tutor.birth}
                         margin="normal"
                         name="birth"
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
+                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateTutorState}
                         error={errors.birth}
                         helperText={errors.birth?'Fecha de nacimiento invalida':''}
                         required
@@ -175,11 +202,11 @@ export default function EditScholarData({datas}) {
                         placeholder="Teléfono" 
                         variant="outlined" 
                         size="normal" 
-                        value={becaria.telephone}
+                        value={tutor.telephone}
                         margin="normal"
                         name="telephone"
                         onBlur={(e)=>validatePhone(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         error={errors.telephone}
                         type="number"
                         helperText={errors.telephone?'telephone invalido':''}
@@ -197,20 +224,15 @@ export default function EditScholarData({datas}) {
                         size="normal"
                         margin="normal"
                         name="adress"
-                        value={becaria.adress}
+                        value={tutor.adress}
                         onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateBecaria}
+                        onChange={updateTutorState}
                         error={errors.adress}
                         helperText={errors.adress?'adress invalida':''}
                         required
                         />
                 </Grid>
             </Grid>   
-            <Box mt={3} mb={3}/>
-            {/*
-            <Typography variant='h4' color="primary" align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
-            <DocumentationFields updateDocumentation={updateDocumentation}/>
-            */}
             <Box mt={6} mb={6}>
             
                 <Button className={classes.boton}

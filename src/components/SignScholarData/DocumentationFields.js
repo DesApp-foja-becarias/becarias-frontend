@@ -39,7 +39,7 @@ export default function DocumentationFields({updateDocumentation}) {
 
     useEffect(() => {
         updateDocumentation(filesState);
-    }, [filesState]);
+    }, [filesState, updateDocumentation]);
 
     const onDelete = ({id}, placeToDelete) => {
         updateFilesState(placeToDelete, filesState[placeToDelete].filter(file => file.id !== id))  

@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import DocumentationFields from './DocumentationFields';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants';
 import useFieldValidator from '../../hooks/useValidator';
@@ -89,12 +88,15 @@ export default function SignScholarData() {
             console.log(becaria)
         }
     }
+    /*
+    // NOTE: CHEQUEAR PARA CUANDO PODAMOS AGREGAR DOCUMENTACION
     const updateDocumentation = (e) => {
         setBecaria({
             ...becaria,
             documentacion: e
         })
     }
+    */
 
     return(
         <Container maxWidth="md">

@@ -9,6 +9,8 @@ import ScholarData from "./components/ScholarData";
 import SignScholarData from "./components/SignScholarData";
 import SignTutorData from "./components/SignTutorData";
 import TutorData from "./components/TutorData";
+import EditTutorData from "./components/TutorData/EditTutorData";
+import EditScholarData from "./components/ScholarData/EditScholarData";
 
 
 const useStyles = makeStyles(() => ({
@@ -40,16 +42,22 @@ export default function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/tutor">
+          <Route exact path="/tutor/edit/:id">
+            <EditTutorData />
+          </Route>
+          <Route path="/tutor/:id">
             <TutorData />
           </Route>
-          <Route path="/inscribirtutor">
+          <Route exact path="/inscribirtutor">
             <SignTutorData />
           </Route>
           <Route path="/inscribirbecaria">
             <SignScholarData />
           </Route>
-          <Route path="/becaria">
+          <Route exact path="/becaria/edit/:id">
+            <EditScholarData />
+          </Route>
+          <Route path="/becaria/:id">
             <ScholarData />
           </Route>
           <Route  path="/">

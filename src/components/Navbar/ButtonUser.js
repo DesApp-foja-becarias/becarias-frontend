@@ -2,18 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { makeStyles } from "@mui/styles";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-
-
-const useStyles = makeStyles((theme) => ({
-    mainButton: {
-        backgroundColor: '#000000',
-        margin: '500px',
-    },
-})
-);
 
 export default function ButtonUser() {
   const [anchorEl, setAnchorEl] = React.useState(null);

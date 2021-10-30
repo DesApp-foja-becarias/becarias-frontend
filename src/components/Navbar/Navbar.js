@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import {AppBar,Grid,Toolbar,Container,IconButton,Drawer,List,ListItem,ListItemIcon,ListItemText,Divider} from "@mui/material";
 import { Link } from "react-router-dom";
-
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
@@ -91,10 +90,9 @@ const listItems = [
 
 function Navbar() {
   const [openDrawer, toggleDrawer] = useState(false);
-  const [openUserMenu, toggleUserMenu] = useState(false);
   
   //NOTE: AUTH QUE LE TIENE QUE CAER DE CONTEXTO PERO MIENTRAS TANTO ESTA ACA ESTE USER.
-  const [user, setUser] = useState({});
+  const [user] = useState({});
 
   const classes = useStyles();
   return (
