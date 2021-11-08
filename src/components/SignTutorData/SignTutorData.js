@@ -1,8 +1,10 @@
 import {makeStyles} from '@mui/styles';
 import { useState , useEffect } from 'react';
+import BackButton from '../BackButton';
 import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box  } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
+import { createTutor } from '../../services/Tutor/serviceTutor';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -31,11 +33,11 @@ export default function SignTutorData() {
     const classes = useStyles();
 
     const [tutor, setTutor] = useState({
-        nombre: '',
-        apellido: '',
+        name: '',
+        surname: '',
         dni: '',
-        correoElectronico: '',
-        telefono: '',
+        email: '',
+        telephone: '',
     })
     
     const {
@@ -46,11 +48,11 @@ export default function SignTutorData() {
         validateEmail,
         validatePhone
     } = useFieldValidator({
-        nombre: false,
-        apellido: false,
+        name: false,
+        surname: false,
         dni: false,
-        correoElectronico: false,
-        telefono: false,
+        email: false,
+        telephone: false,
     });
 
     const updateTutor =  (e) => {
@@ -63,7 +65,7 @@ export default function SignTutorData() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(areValidFields && !someEmptyField(tutor)){
-            console.log(tutor)
+            createTutor(tutor)
         }
     }
 
@@ -74,6 +76,7 @@ export default function SignTutorData() {
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} >
+        <BackButton path={`/`}/>
         <form  onSubmit={handleSubmit}>
             <Container sx={{display:'flex'}} className={classes.container} maxWidth="sm">
             <Box mt={3}/>
@@ -82,32 +85,32 @@ export default function SignTutorData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="apellido">Apellido</InputLabel>
+                        <InputLabel htmlFor="surname">Apellido</InputLabel>
                         <TextField 
                             placeholder="Apellido"
                             variant="outlined" 
-                            name="apellido"
+                            name="surname"
                             margin="normal"
                             onBlur={validateNotEmpty} 
                             onChange={updateTutor}
-                            error={errors.apellido}
-                            helperText={errors.apellido ? 'Campo obligatorio' : ''}
+                            error={errors.surname}
+                            helperText={errors.surname ? 'Campo obligatorio' : ''}
                             required
                             />
                     </Grid>
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="nombre">Nombre</InputLabel>
+                        <InputLabel htmlFor="name">Nombre</InputLabel>
                         <TextField
                             placeholder="Nombre"
                             variant="outlined"
-                            name="nombre"
+                            name="name"
                             margin="normal"
                             onBlur={validateNotEmpty} 
                             onChange={updateTutor}
-                            error={errors.nombre}
-                            helperText={errors.nombre ? 'Campo obligatorio' : ''}
+                            error={errors.name}
+                            helperText={errors.name ? 'Campo obligatorio' : ''}
                             required
                         />
                     </Grid>
@@ -131,34 +134,34 @@ export default function SignTutorData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor='telefono'>Telefono</InputLabel>
+                        <InputLabel htmlFor='telephone'>Telefono</InputLabel>
                         <TextField className={classes.textField} 
                             placeholder="Telefono" 
                             variant="outlined" 
                             size="normal" 
                             margin="normal"
-                            name="telefono"
+                            name="telephone"
                             onBlur={validatePhone} 
                             onChange={updateTutor}
-                            error={errors.telefono}
-                            helperText={errors.telefono?'Telefono invalido':''}
+                            error={errors.telephone}
+                            helperText={errors.telephone?'Telefono invalido':''}
                             required
                         />
                     </Grid>
                     <Grid item 
                         xs={12}
                     >
-                        <InputLabel htmlFor="Correo electronico">Correo electrónico</InputLabel>
+                        <InputLabel htmlFor="email">Correo electrónico</InputLabel>
                         <TextField
                             placeholder="Correo electrónico"
                             variant="outlined"
                             size="normal"
                             margin="normal"
-                            name="correoElectronico"
+                            name="email"
                             onBlur={validateEmail}
                             onChange={updateTutor}
-                            error={errors.correoElectronico}
-                            helperText={errors.correoElectronico?'Correo electronico invalido':''}
+                            error={errors.email}
+                            helperText={errors.email?'Correo electronico invalido':''}
                             required
                             sx={{width:"30em"}}
                         />

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export const  getScholar = (scholarId) => {
-    return axios.get(`/api/scholar/${scholarId}`);
+export const getScholar =async (scholarId) => 
+{
+    console.log(scholarId)
+    return await axios.get(`http://localhost:3001/api/becarias/${scholarId}`);
 };
 
 export const  getScholars = () => {
@@ -9,7 +11,13 @@ export const  getScholars = () => {
 }
 
 export const updateScholar = (scholarId, scholar) => {
-    return axios.put(`/api/scholar/${scholarId}`, scholar);
+    return axios.put(`/api/scholar/${scholarId}`, scholar).then(
+        res => {
+            console.log(res.data)
+        }
+    ).catch(err => {
+        console.log(err);
+    });
 };
 
 export const createScholar = (scholar) => {

@@ -6,6 +6,7 @@ import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams } from 'react-router';
+import { updateTutor } from '../../services/Tutor/serviceTutor';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,33 +36,16 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function EditTutorData({datas}) {
-    const datos = 
-    {
-      name: 'Mariana Agustina',
-      surname: 'Etchegaray',
-      fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
-      dni:'14512412',
-      birth: '1994-12-12',
-      telephone: '123456789',
-      adress: 'Calle falsa 123',
-      email: 'jsmandolo@gmail.com',
-      country: 'Argentina',
-      province: 'Buenos Aires',
-      city: 'La Plata',
-      actualState: 'Aprobada',
-      career: ['Licenciatura en Informatica'],
-      
-      
-    }
+export default function EditTutorData() {
+   
     const classes = useStyles()
     const {id} = useParams()
 
-    const [tutor, setTutor] = useState(datos);
+    const [tutor, setTutor] = useState({});
     
     useEffect(() => {
       getTutor(id).then(response => {
-        setTutor(response.data)
+        setTutor(response.data.data)
       }
       )}, [id])
 
@@ -77,15 +61,8 @@ export default function EditTutorData({datas}) {
         surname: false,
         dni: false,
         email: false,
-        birth: false,
         telephone: false,
         adress: false,
-        city: false,
-        province: false,
-        country: false,
-        career: false,
-        announcementDate: false,
-        inscriptionDate: false,
     })
     
     const updateTutorState =  (e) => {
@@ -97,8 +74,9 @@ export default function EditTutorData({datas}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(areValidFields && !someEmptyField(tutor)){
+        if(areValidFields){
             console.log(tutor)
+            updateTutor(tutor)
         }
     }
 
@@ -179,21 +157,7 @@ export default function EditTutorData({datas}) {
                         required
                     />
                 </Grid>
-                <Grid item xs={6} >
-                    <InputLabel htmlFor="fechaDeNacimiento">Fecha de Nacimiento</InputLabel>
-                    <TextField 
-                        type="date" 
-                        variant='outlined'  
-                        placeholder='Fecha de nacimiento'  
-                        value={tutor.birth}
-                        margin="normal"
-                        name="birth"
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateTutorState}
-                        error={errors.birth}
-                        helperText={errors.birth?'Fecha de nacimiento invalida':''}
-                        required
-                    />
-                </Grid>
+              
                 <Grid item 
                     xs={6}
                 >
@@ -213,25 +177,7 @@ export default function EditTutorData({datas}) {
                         required
                     />
                 </Grid>
-                <Grid 
-                    item 
-                    xs={6}
-                >
-                    <InputLabel htmlFor='adress'>Dirección</InputLabel>
-                    <TextField className={classes.textField} 
-                        placeholder="Dirección" 
-                        variant="outlined" 
-                        size="normal"
-                        margin="normal"
-                        name="adress"
-                        value={tutor.adress}
-                        onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateTutorState}
-                        error={errors.adress}
-                        helperText={errors.adress?'adress invalida':''}
-                        required
-                        />
-                </Grid>
+            
             </Grid>   
             <Box mt={6} mb={6}>
             

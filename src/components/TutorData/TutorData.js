@@ -7,6 +7,7 @@ import BackButton from '../BackButton';
 import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import tutorPhoto from '../../assets/tutor.svg'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,7 @@ export default function TutorData() {
     
     useEffect(() => {
       getTutor(id).then(response => {
-        setTutor(response.data)
+        setTutor(response.data.data)
       }
       )}, [id])
 
@@ -92,7 +93,7 @@ export default function TutorData() {
             <Container id='datosGenerales' >
               <Grid container id='datosGeneralesUp' disableGutters>
                   <Grid item xs={12} sm={5} id='DatosPersonales' disableGutters>
-                    <img src={tutor.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <img src={tutorPhoto} className={classes.image} alt='fotoBecaria'/>
                   </Grid>
                   
                   <Grid item xs={12} sm={6}  id='datosContCar' disableGutters>

@@ -1,5 +1,5 @@
-import Dato from '../Datos/Dato'
 import React, { useState , useEffect} from 'react'
+import Dato from '../Datos/Dato'
 import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,7 +7,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DatoDate from '../Datos/DatoDate';
 import {Link, useParams} from 'react-router-dom';
-import { getTutor } from '../../services/Tutor/serviceTutor';
+import { getScholar } from '../../services/Scholar/servicesScholar';
 import BackButton from '../BackButton';
 
 const useStyles = makeStyles(() => ({
@@ -36,7 +36,7 @@ export default function ScholarData() {
             surname: 'Etchegaray',
             fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
             dni:'14512412',
-            birth: '1994-12-12',
+            birthday: '1994-12-12',
             telephone: '123456789',
             adress: 'Calle falsa 123',
             email: 'jsmandolo@gmail.com',
@@ -55,23 +55,26 @@ export default function ScholarData() {
 
     const {id} = useParams()
 
-    const [scholar, setTutor] = useState(datos);
-
+    //NOTE: setCholar
+    const [scholar, setScholar] = useState(datos);
+/*
     useEffect(() => {
-      getTutor(id).then(response => {
-        setTutor(response.data)
-      }
-      )}, [id])
-
+      const fetchData = async () => 
+      await getScholar(id).then(response => 
+        // FIXME: falta fecha de inscripcion, historial, actividad ,tutor, fecha de nacimiento, documentacion.
+        // NOTE: Fecha de inscripcion sera autocompletado con create-at
+        // setScholar(response.data.data)
+      )
+      
+      fetchData();
+      }, [id])
+*/
     const classes = useStyles();
     return (
           <Container className={classes.rootContainer} maxWidth="md">
-            
-            
             <Container id='nombreBecaria'>
             <BackButton path='/' />
             <Box mb={3} mt={3}/>
-            
               <Grid container>
                 <Grid container item xs={8}>
                   <Box>
@@ -112,7 +115,7 @@ export default function ScholarData() {
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={scholar.dni} />
-                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birth}/>
+                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/>
                     <Dato name='direccion' title='Domicilio' value={scholar.adress}/>
                       <Dato name='ciudad' title='Localidad' value={scholar.city + ', ' + scholar.province + ', ' + scholar.country }/>
                   </Grid>

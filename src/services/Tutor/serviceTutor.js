@@ -1,22 +1,25 @@
-import axios from 'axios';
+import axios from '../axios';
 
-export const getTutor = (id) => {
-    return axios.get(`/api/tutor/${id}`);
+const tutorServiceURL = '/api/tutores'
+
+export const getTutor = async (id) => {
+    return await axios.get( tutorServiceURL +`/${id}`);
 }
 
-export const getTutors = () => {
-    return axios.get('/api/tutor');
+export const getTutors = async () => {
+    return await axios.get(tutorServiceURL);
 }
 
-export const createTutor = (tutor) => {
-    return axios.post('/api/tutor', tutor);
+export const createTutor =  async (tutor) => {
+    return await axios.post(tutorServiceURL, tutor);
 }
 
-export const updateTutor = (tutor) => {
-    return axios.put(`/api/tutor/${tutor.id}`, tutor);
+export const updateTutor = async (tutor) => {
+    return await axios.put(tutorServiceURL + `/${tutor.id}`,
+        tutor);
 }
 
-export const deleteTutor = (id) => {
-    return axios.delete(`/api/tutor/${id}`);
+export const deleteTutor = async (id) => {
+    return await axios.delete(tutorServiceURL + `/${id}`);
 }
 

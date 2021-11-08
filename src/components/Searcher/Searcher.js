@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { getTutors } from '../../services/Tutor/serviceTutor'
+import { Link } from 'react-router-dom';
 
-const columns = [
+const columnsScholar = [
   { field: 'id', headerName: 'ID', width: 50 },
   {
     field: 'firstName',
@@ -44,7 +46,19 @@ const columns = [
   {field: 'weighing',headerName: 'Ponderación',type: 'number',width: 180,editable: true,},
   {field: 'tutor',headerName: 'Tutor',width: 150,editable: true,}
 
-];
+]
+
+
+
+const columnsTutor = [
+  { field: 'id', headerName: 'ID', width: 50, },
+  { field: 'name', headerName: 'Nombre/s', width: 150 ,},
+  { field: 'surname', headerName: 'Apellido', width: 150,},
+  { field: 'dni', headerName: 'DNI', width:160 ,},
+  { field: 'email',headerName: 'Correo Electronico', type: 'email', width: 250, },
+  { field: 'telephone', headerName: 'Telefono', type: 'number', width: 150, },
+  { field: 'link', headerName: 'Link', width: 150,},
+]
 
 const rows = [
   { id: 1, lastName: 'Fabiola', firstName: 'Suarez', dni: "42.312.342" ,age: 35 , state: 'Aceptada',career: " Tec. en Electrónica",announcement: 2019,weighing: 2020,tutor: "Sabrina Schiaretti"},
@@ -69,11 +83,41 @@ const rows = [
 ];
 
 export default function Searcher() {
+  const [tutors, setTutors] = useState()
+
+  const mapTutors = (tutores) => {
+    tutores.map(tutor => {
+      return (
+        {
+        id: tutor.id,
+        name: tutor.name,
+        surname: tutor.surname,
+        dni: tutor.dni,
+        email: tutor.email,
+        telephone: tutor.telephone,
+        address: tutor.address,
+        link: <Link to={`/tutor/${tutor.id}`}>Ver</Link>,
+        })
+    })
+  }
+    
+/*
+  useEffect(() => {
+    const fetchData = async () => {
+      await getTutors().then(res => {
+      console.log(mapTutors(res.data)) 
+      setTutors(res.data)
+      })
+    }
+    fetchData();
+  
+  }, [tutors])
+  */
   return (
     <div style={{ height: 650, width: '100%' }}>
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={columnsTutor}
         pageSize={10}
         rowsPerPageOptions={[10]}
         checkboxSelection

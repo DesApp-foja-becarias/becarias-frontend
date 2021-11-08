@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants';
+import BackButton from '../BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 
@@ -101,6 +102,7 @@ export default function SignScholarData() {
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
+        <BackButton path={`/`}/>
         <form onSubmit={e => handleSubmit(e)}>
         <Container sx={{display:'flex'}} className={classes.container} maxWidth='sm'>
             <Box mt={3}/>
