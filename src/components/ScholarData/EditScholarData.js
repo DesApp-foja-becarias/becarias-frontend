@@ -108,7 +108,7 @@ export default function EditScholarData() {
     */      
     useEffect(() => {
         getScholar(id).then(response => {
-          setScholar(response.data)
+            setScholar(response.data)
         }
         )}, [id])
   

@@ -1,7 +1,7 @@
-import { Container } from "@mui/material";
+import { Alert, Container, Snackbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import useSnackbar from "./hooks/useSnackbar";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 
 export default function App() {
   const classes = useStyles();
-
+  const {snackbar,  handleClose } = useSnackbar();
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
@@ -66,6 +66,22 @@ export default function App() {
         </Switch>
         </Container>
       </Router>
+      
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={snackbar.open}
+        autoHideDuration={5000}
+        message="Note archived"
+        onClose={() => handleClose()}
+      >
+        <Alert severity={snackbar.severity} variant="filled">
+          {snackbar.message}
+        </Alert>
+
+      </Snackbar>
     </Container>
   );
 }

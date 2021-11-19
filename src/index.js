@@ -7,17 +7,21 @@ import {
   ThemeProvider
 } from '@mui/material';
 import theme from './theme';
+import SnackbarProvider from './context/SnackbarContext';
 
 
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <React.StrictMode>
-      <CssBaseline />
-      <Suspense fallback={<CircularProgress />}>
-          <App />
-      </Suspense>
-    </React.StrictMode>
+    <SnackbarProvider>
+      <React.StrictMode>
+        <CssBaseline />
+        <Suspense fallback={<CircularProgress />}>
+            <App />
+        </Suspense>
+      </React.StrictMode>
+    </SnackbarProvider>
   </ThemeProvider>,
+
   document.getElementById('root')
 );

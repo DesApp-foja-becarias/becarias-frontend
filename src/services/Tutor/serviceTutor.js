@@ -11,8 +11,8 @@ export const getTutors = async () => {
 }
 
 export const createTutor =  async (tutor) => {
-    return await axios.post(tutorServiceURL, tutor);
-}
+        return await axios.post(tutorServiceURL, tutor);
+    }
 
 export const updateTutor = async (tutor) => {
     return await axios.put(tutorServiceURL + `/${tutor.id}`,

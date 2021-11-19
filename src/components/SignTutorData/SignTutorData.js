@@ -1,10 +1,12 @@
 import {makeStyles} from '@mui/styles';
 import { useState , useEffect } from 'react';
 import BackButton from '../BackButton';
-import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box  } from '@mui/material';
+import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box, Snackbar, Alert  } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import { createTutor } from '../../services/Tutor/serviceTutor';
+import { useHistory } from 'react-router';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -31,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignTutorData() {
     const classes = useStyles();
-
+    const { openSnackbar } = useSnackbar();
+    const history = useHistory();
     const [tutor, setTutor] = useState({
         name: '',
         surname: '',
@@ -66,6 +69,16 @@ export default function SignTutorData() {
         e.preventDefault();
         if(areValidFields && !someEmptyField(tutor)){
             createTutor(tutor)
+            .then(response => {
+                    openSnackbar('Tutor creado correctamente', 'success');
+                    setTimeout(() => {
+                        history.push('/');
+                    }, 2000);
+            }
+            ).catch(error => {
+                openSnackbar('Error al crear el tutor', 'error');
+            }
+            )
         }
     }
 

@@ -56,7 +56,7 @@ export default function ScholarData() {
     const {id} = useParams()
 
     //NOTE: setCholar
-    const [scholar, setScholar] = useState(datos);
+    const [scholar] = useState(datos);
 /*
     useEffect(() => {
       const fetchData = async () => 
