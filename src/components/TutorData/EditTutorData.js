@@ -1,12 +1,14 @@
 import {useState, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
 import { Alert, Snackbar, TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
+import useAxios from '../../hooks/useAxios';
 import BackButton from '../BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams,useHistory } from 'react-router';
 import { updateTutor } from '../../services/Tutor/serviceTutor';
 import useSnackbar from '../../hooks/useSnackbar';
+import useLoadingScreen from '../../hooks/useLoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -42,12 +44,16 @@ export default function EditTutorData() {
     const history = useHistory()
     const { openSnackbar } = useSnackbar()
     const [tutor, setTutor] = useState({});
+    const {loadingScreen, unloadingScreen} = useLoadingScreen()
     
     useEffect(() => {
-      getTutor(id).then(response => {
-        setTutor(response.data.data)
-      }
-      )}, [id])
+        
+        getTutor(id).then(response => {
+            setTutor(response.data.data)
+        }
+        )
+    }, [id])
+        
 
     const {
         areValidFields,
@@ -65,6 +71,7 @@ export default function EditTutorData() {
         adress: false,
     })
     
+
     const updateTutorState =  (e) => {
         setTutor({
             ...tutor,
@@ -74,13 +81,12 @@ export default function EditTutorData() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
+        
             if(areValidFields ){
-                await updateTutor(tutor).then(response => {
-                
-                    openSnackbar('Tutor actualizado correctamente')
+               await updateTutor(tutor).then(response => {
+                    openSnackbar('Tutor actualizado correctamente') 
                     setTimeout(() => {
-                        history.push('/tutores')
+                        history.push(`/tutor/${id}`)
                     }, 2000);
                 }).catch(error => {
                     console.log(error)

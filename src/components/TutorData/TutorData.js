@@ -1,5 +1,5 @@
 import Dato from '../Datos/Dato';
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,6 +8,10 @@ import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import tutorPhoto from '../../assets/tutor.svg'
+import useAxios from '../../hooks/useAxios';
+import { LoadingScreenContext } from '../../context/LoadingScreenContext';
+import axios from 'axios';
+import LoadingScreen from '../LoadingScreen';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,22 +48,29 @@ export default function TutorData() {
           city: 'La Plata',
           actualState: 'Aprobada',
           career: ['Licenciatura en Informatica'],
-          
         }
 
-    
+    const [loading] = useContext(LoadingScreenContext);
+
     const {id} = useParams()
 
     const [tutor, setTutor] = useState(datos);
-    
+    const tutorAxios = useAxios({
+        call:  
+        () => axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
+        , successMessage: 'Tutor encontrado'
+        , errorMessage: 'No se encontro el tutor'
+    });
+
     useEffect(() => {
-      getTutor(id).then(response => {
-        setTutor(response.data.data)
-      }
-      )}, [id])
+      console.log(tutorAxios)
+      }, [tutorAxios])
 
     const classes = useStyles();
-    return (
+    if(loading) return <LoadingScreen/>
+    else 
+  
+   return  (
       <>
       
         <Container className={classes.rootContainer} maxWidth="md">

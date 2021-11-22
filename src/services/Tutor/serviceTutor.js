@@ -2,8 +2,8 @@ import axios from '../axios';
 
 const tutorServiceURL = '/api/tutores'
 
-export const getTutor = async (id) => {
-    return await axios.get( tutorServiceURL +`/${id}`);
+export const getTutor =  (id) => {
+    return  axios.get( tutorServiceURL +`/${id}`);
 }
 
 export const getTutors = async () => {

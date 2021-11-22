@@ -4,7 +4,7 @@ import { SnackbarContext } from '../context/SnackbarContext';
 const useSnackbar = () => {
     const [snackbar, setSnackbar] = useContext(SnackbarContext);
 
-    const openSnackbar = (message, severity) => {
+    const showSnackbar = (message, severity) => {
         setSnackbar({
             open: true,
             message: message,
@@ -12,18 +12,18 @@ const useSnackbar = () => {
         });
     };
 
-    const handleClose = () => {
+    const closeSnackbar = () => {
         setSnackbar({
             open: false,
             message: '',
-            severity: '',
+            severity: 'success',
         });
     };
 
     return {
         snackbar,
-        openSnackbar,
-        handleClose,
+        showSnackbar,
+        closeSnackbar,
     };
 }
 

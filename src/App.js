@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Alert, Container, Snackbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -11,7 +12,8 @@ import SignTutorData from "./components/SignTutorData";
 import TutorData from "./components/TutorData";
 import EditTutorData from "./components/TutorData/EditTutorData";
 import EditScholarData from "./components/ScholarData/EditScholarData";
-
+import LoadingScreen from './components/LoadingScreen';
+import { LoadingScreenContext } from "./context/LoadingScreenContext";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -32,13 +34,15 @@ const useStyles = makeStyles(() => ({
 
 export default function App() {
   const classes = useStyles();
-  const {snackbar,  handleClose } = useSnackbar();
+  const {snackbar,  closeSnackbar } = useSnackbar();
+  const [ loading ] = useContext(LoadingScreenContext);
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
         <Navbar/>
+  
         <Container maxWidth="xl" className={classes.root}>
-        <Switch>
+          <Switch>
           <Route path="/login">
             <Login />
           </Route>
@@ -65,6 +69,7 @@ export default function App() {
           </Route>
         </Switch>
         </Container>
+      
       </Router>
       
       <Snackbar
@@ -75,7 +80,7 @@ export default function App() {
         open={snackbar.open}
         autoHideDuration={5000}
         message="Note archived"
-        onClose={() => handleClose()}
+        onClose={() => closeSnackbar()}
       >
         <Alert severity={snackbar.severity} variant="filled">
           {snackbar.message}
