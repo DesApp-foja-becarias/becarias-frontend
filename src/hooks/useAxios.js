@@ -2,7 +2,6 @@ import {useEffect, useState, useContext} from 'react';
 import { LoadingScreenContext } from '../context/LoadingScreenContext';
 import useSnackbar from './useSnackbar';
 import useLoadingScreen from './useLoadingScreen';
-import { Router } from 'react-router';
 import { useHistory } from 'react-router';
 
 const useAxios = ({call, successMessage, errorMessage, loadingMessage, redirectSucc, redirectErr} ) => {
@@ -14,6 +13,8 @@ const useAxios = ({call, successMessage, errorMessage, loadingMessage, redirectS
     const { setLoading, setLoadingText} = useContext(LoadingScreenContext)
 
     const useAxiosCall =  () => {
+        showLoadingScreen();
+        setLoadingText(loadingMessage);
         return call()
             .then( res => {
                 handleSuccess(res.data);
@@ -24,18 +25,6 @@ const useAxios = ({call, successMessage, errorMessage, loadingMessage, redirectS
                 return err;
             })
         }
-    
-    // useEffect( () => {
-    //     if(call){
-    //         call()
-    //         .then( res => {
-    //             handleSuccess(res.data.data);
-    //         })
-    //         .catch(err => {
-    //             handleError(err);
-    //         })
-    //     }
-    // }, []);
     
     const handleError = (err) => {
         setError(err);
@@ -54,13 +43,7 @@ const useAxios = ({call, successMessage, errorMessage, loadingMessage, redirectS
             history.push(redirectSucc, 'success');
         }
     }
-
-
-
     return {
-        response,
-        error,
-        loading,
         useAxiosCall
     }
     

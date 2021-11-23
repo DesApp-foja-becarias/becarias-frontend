@@ -98,18 +98,7 @@ export default function EditTutorData() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
             if(areValidFields ){
-                // await updateTutor(tutor).then(response => {
-                //     openSnackbar('Tutor actualizado correctamente') 
-                //     setTimeout(() => {
-                //         history.push(`/tutor/${id}`)
-                //     }, 2000);
-                // }).catch(error => {
-                //     console.log(error)
-                //     openSnackbar('Error al actualizar el tutor', 'error')
-                // }
-                // )
                 updateTutorCall.useAxiosCall()
             }
         }

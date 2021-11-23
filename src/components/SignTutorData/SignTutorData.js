@@ -1,12 +1,13 @@
 import {makeStyles} from '@mui/styles';
-import { useState , useEffect } from 'react';
+import { useState , useEffect, useContext } from 'react';
 import BackButton from '../BackButton';
-import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box, Snackbar, Alert  } from '@mui/material';
+import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import { createTutor } from '../../services/Tutor/serviceTutor';
-import { useHistory } from 'react-router';
-import useSnackbar from '../../hooks/useSnackbar';
+import useAxios from '../../hooks/useAxios';
+import LoadingScreen from '../LoadingScreen';
+import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -33,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignTutorData() {
     const classes = useStyles();
-    const { openSnackbar } = useSnackbar();
-    const history = useHistory();
+    const { loading, setLoading } = useContext( LoadingScreenContext );
     const [tutor, setTutor] = useState({
         name: '',
         surname: '',
@@ -42,7 +42,7 @@ export default function SignTutorData() {
         email: '',
         telephone: '',
         actualState: 1 , // aca deberia de ir un Estado
-    })
+    });
     
     const {
         areValidFields,
@@ -59,6 +59,16 @@ export default function SignTutorData() {
         telephone: false,
     });
 
+    const createTutorCall = useAxios({
+        call: () => createTutor(tutor)
+        , successMessage: 'Tutor Creado'
+        , errorMessage: 'No se pudo crear el tutor'
+        , loadingMessage: 'Creando Tutor...'
+        , redirectErr: '/'
+        , redirectSuccess: '/'
+    }
+    )
+
     const updateTutor =  (e) => {
         setTutor({
             ...tutor,
@@ -69,29 +79,18 @@ export default function SignTutorData() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(areValidFields && !someEmptyField(tutor)){
-            createTutor(tutor)
-            .then(response => {
-                    openSnackbar('Tutor creado correctamente', 'success');
-                    setTimeout(() => {
-                        history.push('/');
-                    }, 2000);
-            }
-            ).catch(error => {
-                openSnackbar('Error al crear el tutor', 'error');
-            }
-            )
+            createTutorCall.useAxiosCall()
         }
     }
 
-    useEffect(() => {
-    }, [errors])
-
-    
+    if (loading) {
+        return <LoadingScreen/>
+    }    
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} >
         <BackButton path={`/`}/>
-        <form  onSubmit={handleSubmit}>
+        <form  onSubmit={(e) =>handleSubmit(e)}>
             <Container sx={{display:'flex'}} className={classes.container} maxWidth="sm">
             <Box mt={3}/>
                 <Typography variant='h3' color="primary" align="center">Inscripción Tutor</Typography>

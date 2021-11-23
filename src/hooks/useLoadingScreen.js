@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { LoadingScreenContext } from "../context/LoadingScreenContext"
 
 const useLoadingScreen = () => {
@@ -14,9 +14,9 @@ const useLoadingScreen = () => {
         setLoading(false)
     }
 
-    useEffect(() => {
-        showLoadingScreen()
-    }, [])
+    // useEffect(() => {
+    //     showLoadingScreen()
+    // }, [])
     
 
     

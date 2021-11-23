@@ -46,6 +46,7 @@ export default function TutorData() {
         , redirectErr: '/'
     })
 
+
     useEffect(() => {
       tutorAxios.useAxiosCall().then(response => {
         console.log(response)
