@@ -1,8 +1,11 @@
-import { Container, CircularProgress } from '@mui/material'
+import { useContext } from 'react'
+import { Typography, Container, CircularProgress } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
+import { LoadingScreenContext } from '../../context/LoadingScreenContext'
 
 export const LoadingScreen = () => {
+    const {loadingText} = useContext(LoadingScreenContext)
     return (
         <Box  sx={
             {
@@ -14,7 +17,24 @@ export const LoadingScreen = () => {
                 backgroundColor: '#fff',
             }
         }>
+            <Box sx={
+                { 
+                    display:'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
             <CircularProgress/>
+            <Typography mt={2} sx={{
+                fontSize: '1.25rem',
+                fontWeight: 'normal',
+                color: '#666',
+            }}
+            >
+            {loadingText ? loadingText: 'Por Favor Espere...'}
+            </Typography>
+            </Box>
         </Box>
     )
 }

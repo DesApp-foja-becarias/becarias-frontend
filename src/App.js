@@ -35,12 +35,12 @@ const useStyles = makeStyles(() => ({
 export default function App() {
   const classes = useStyles();
   const {snackbar,  closeSnackbar } = useSnackbar();
-  const [ loading ] = useContext(LoadingScreenContext);
+  const { loading } = useContext(LoadingScreenContext);
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
         <Navbar/>
-  
+      
         <Container maxWidth="xl" className={classes.root}>
           <Switch>
           <Route path="/login">
@@ -69,7 +69,7 @@ export default function App() {
           </Route>
         </Switch>
         </Container>
-      
+
       </Router>
       
       <Snackbar

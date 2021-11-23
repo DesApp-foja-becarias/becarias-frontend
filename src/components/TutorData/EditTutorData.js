@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
 import { Alert, Snackbar, TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import useAxios from '../../hooks/useAxios';
@@ -9,6 +9,9 @@ import { useParams,useHistory } from 'react-router';
 import { updateTutor } from '../../services/Tutor/serviceTutor';
 import useSnackbar from '../../hooks/useSnackbar';
 import useLoadingScreen from '../../hooks/useLoadingScreen';
+import { LoadingScreenContext } from "../../context/LoadingScreenContext";
+import LoadingScreen from '../LoadingScreen';
+
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -38,22 +41,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EditTutorData() {
-   
+    const { loading } = useContext(LoadingScreenContext);
     const classes = useStyles()
     const {id} = useParams()
     const history = useHistory()
     const { openSnackbar } = useSnackbar()
     const [tutor, setTutor] = useState({});
-    const {loadingScreen, unloadingScreen} = useLoadingScreen()
     
+    
+    const getTutorAxios = useAxios({
+        call:  
+        () => getTutor(id)
+        , successMessage: 'Tutor encontrado'
+        , errorMessage: 'No se encontro el tutor'
+        , loadingMessage: 'Buscando tutor...'
+        , redirectErr: '/'
+    })
+    const updateTutorCall = useAxios({
+        call:  
+        () => updateTutor(tutor)
+        , successMessage: 'Tutor actualizado correctamente'
+        , errorMessage: 'Error al actualizar el tutor'
+        , loadingMessage: 'Actualizando Tutor...'
+        ,redirectSuccess: `/tutor/${id}`
+        , redirectErr: '/'
+    })
+
     useEffect(() => {
-        
-        getTutor(id).then(response => {
-            setTutor(response.data.data)
-        }
-        )
-    }, [id])
-        
+        const tutorAxios = async () => await getTutorAxios.useAxiosCall().then(res => setTutor(res.data))
+        tutorAxios()
+        }, [])
 
     const {
         areValidFields,
@@ -83,20 +100,25 @@ export default function EditTutorData() {
         e.preventDefault();
         
             if(areValidFields ){
-               await updateTutor(tutor).then(response => {
-                    openSnackbar('Tutor actualizado correctamente') 
-                    setTimeout(() => {
-                        history.push(`/tutor/${id}`)
-                    }, 2000);
-                }).catch(error => {
-                    console.log(error)
-                    openSnackbar('Error al actualizar el tutor', 'error')
-                }
-                )
+                // await updateTutor(tutor).then(response => {
+                //     openSnackbar('Tutor actualizado correctamente') 
+                //     setTimeout(() => {
+                //         history.push(`/tutor/${id}`)
+                //     }, 2000);
+                // }).catch(error => {
+                //     console.log(error)
+                //     openSnackbar('Error al actualizar el tutor', 'error')
+                // }
+                // )
+                updateTutorCall.useAxiosCall()
             }
         }
     
-
+    if(loading){
+        return (
+            <LoadingScreen/>
+        )
+    }
     return(
     <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
@@ -109,17 +131,17 @@ export default function EditTutorData() {
                         <Grid item 
                             xs={6}
                         >
-                            <InputLabel htmlFor="surname">Apellido</InputLabel>
+                            <InputLabel htmlFor="lastname">Apellido</InputLabel>
                             <TextField 
                                 placeholder="Apellido"
                                 variant="outlined"
-                                name="surname"
+                                name="lastname"
                                 margin="normal"
-                                value={tutor.surname}
+                                value={tutor.lastname}
                                 onBlur={(e)=>validateNotEmpty(e)} 
                                 onChange={updateTutorState}
-                                error={errors.surname}
-                                helperText={errors.surname ? 'Campo obligatorio' : ''}
+                                error={errors.lastname}
+                                helperText={errors.lastname ? 'Campo obligatorio' : ''}
                                 required
                                 />
                         </Grid>

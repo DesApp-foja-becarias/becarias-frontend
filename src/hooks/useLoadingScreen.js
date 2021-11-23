@@ -1,22 +1,26 @@
 import { useContext, useEffect } from "react"
 import { LoadingScreenContext } from "../context/LoadingScreenContext"
 
-const useLoadingScreen = (loadingScreen) => {
-    const [loading, setLoading] = useContext(LoadingScreenContext)
-    const showLoadingScreen = () => 
+const useLoadingScreen = () => {
+    const { setLoading, setLoadingText} = useContext(LoadingScreenContext)
+
+    const showLoadingScreen = (loadingText='') => {
+        setLoadingText(loadingText)
         setLoading(true)
-    const hideLoadingScreen = () => 
+    }
+
+    const hideLoadingScreen = () => {
+        setLoadingText('Por Favor Espere...')        
         setLoading(false)
-    
+    }
+
     useEffect(() => {
-        if(loadingScreen) {
-            showLoadingScreen()
-        } else {
-            hideLoadingScreen()
-        }
+        showLoadingScreen()
     }, [])
     
-    return { loading, hideLoadingScreen, showLoadingScreen }
+
+    
+    return {  hideLoadingScreen, showLoadingScreen }
     }
 
 export default useLoadingScreen

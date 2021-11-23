@@ -9,10 +9,8 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
-import { LoadingScreenContext } from '../../context/LoadingScreenContext';
-import axios from 'axios';
+import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../LoadingScreen';
-
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -33,46 +31,38 @@ const useStyles = makeStyles((theme) => ({
   );
 
 export default function TutorData() {
-    const datos = 
-        {
-          name: 'Mariana Agustina',
-          surname: 'Etchegaray',
-          fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
-          dni:'14512412',
-          birth: '1994-12-12',
-          telephone: '123456789',
-          adress: 'Calle falsa 123',
-          email: 'jsmandolo@gmail.com',
-          country: 'Argentina',
-          province: 'Buenos Aires',
-          city: 'La Plata',
-          actualState: 'Aprobada',
-          career: ['Licenciatura en Informatica'],
-        }
 
-    const [loading] = useContext(LoadingScreenContext);
-
+    
+    const { loading } = useContext(LoadingScreenContext);
     const {id} = useParams()
 
-    const [tutor, setTutor] = useState(datos);
+    const [tutor, setTutor] = useState({});
     const tutorAxios = useAxios({
         call:  
-        () => axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
+        () => getTutor(id)
         , successMessage: 'Tutor encontrado'
         , errorMessage: 'No se encontro el tutor'
-    });
+        , loadingMessage: 'Buscando tutor...'
+        , redirectErr: '/'
+    })
 
     useEffect(() => {
-      console.log(tutorAxios)
-      }, [tutorAxios])
+      tutorAxios.useAxiosCall().then(response => {
+        console.log(response)
+        setTutor(response.data)
+      }  
+        )
+      }, [])
 
     const classes = useStyles();
-    if(loading) return <LoadingScreen/>
-    else 
-  
-   return  (
+
+    if(loading){
+        return (
+            <LoadingScreen/>
+        )
+    }
+    return  (
       <>
-      
         <Container className={classes.rootContainer} maxWidth="md">
             <Container  id='nombreTutor'>
             <BackButton path='/' />
@@ -81,7 +71,7 @@ export default function TutorData() {
               <Grid container>
                 <Grid container item xs={11}>
                   <Box>
-                    <Typography variant='h4'>{tutor.surname}</Typography>              
+                    <Typography variant='h4'>{tutor.lastname}</Typography>              
                     <Typography variant='h5'>{tutor.name}</Typography>
                   </Box>
                 </Grid>

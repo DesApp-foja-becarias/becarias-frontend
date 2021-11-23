@@ -1,32 +1,69 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
+import { LoadingScreenContext } from '../context/LoadingScreenContext';
 import useSnackbar from './useSnackbar';
 import useLoadingScreen from './useLoadingScreen';
+import { Router } from 'react-router';
+import { useHistory } from 'react-router';
 
-const useAxios = ({call, successMessage, errorMessage} ) => {
+const useAxios = ({call, successMessage, errorMessage, loadingMessage, redirectSucc, redirectErr} ) => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const {showSnackbar} = useSnackbar();
-    const { showLoadingScreen, hideLoadingScreen, loading} = useLoadingScreen(false);
+    const { showLoadingScreen, hideLoadingScreen,  loading} = useLoadingScreen(true);
+    const history = useHistory();
+    const { setLoading, setLoadingText} = useContext(LoadingScreenContext)
 
-    useEffect(() => {
-        showLoadingScreen();
-        const fetchData = async () => {
-            await call()
-                .then(response => {
-                    showSnackbar(successMessage,'success');
-                    setResponse(response);
-                    hideLoadingScreen();
-                    
-                })
-                .catch(error => {
-                    showSnackbar(errorMessage)
-                    setError(error);
-                });
+    const useAxiosCall =  () => {
+        return call()
+            .then( res => {
+                handleSuccess(res.data);
+                return res.data;
+            })
+            .catch(err => {
+                handleError(err);
+                return err;
+            })
         }
-        fetchData();
-    }, []);
+    
+    // useEffect( () => {
+    //     if(call){
+    //         call()
+    //         .then( res => {
+    //             handleSuccess(res.data.data);
+    //         })
+    //         .catch(err => {
+    //             handleError(err);
+    //         })
+    //     }
+    // }, []);
+    
+    const handleError = (err) => {
+        setError(err);
+        showSnackbar(errorMessage, 'error');
+        hideLoadingScreen();
+        if(redirectErr){
+            history.push(redirectErr);
+        }
+    }
 
-    return {response, error, loading};
+    const handleSuccess = async (res) => {
+        setResponse(res);
+        showSnackbar(successMessage);
+        setLoading(false);
+        if(redirectSucc){
+            history.push(redirectSucc, 'success');
+        }
+    }
+
+
+
+    return {
+        response,
+        error,
+        loading,
+        useAxiosCall
+    }
+    
 };
 
 export default useAxios;
