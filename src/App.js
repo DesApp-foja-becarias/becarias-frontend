@@ -14,6 +14,7 @@ import EditTutorData from "./components/TutorData/EditTutorData";
 import EditScholarData from "./components/ScholarData/EditScholarData";
 import LoadingScreen from './components/LoadingScreen';
 import { LoadingScreenContext } from "./context/LoadingScreenContext";
+import MainTutor from "./components/MainTutor/MainTutor";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,12 +36,10 @@ const useStyles = makeStyles(() => ({
 export default function App() {
   const classes = useStyles();
   const {snackbar,  closeSnackbar } = useSnackbar();
-  const { loading } = useContext(LoadingScreenContext);
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
         <Navbar/>
-      
         <Container maxWidth="xl" className={classes.root}>
           <Switch>
           <Route path="/login">
@@ -52,6 +51,10 @@ export default function App() {
           <Route path="/tutor/:id">
             <TutorData />
           </Route>
+          <Route exact path="/tutor">
+            <MainTutor />
+          </Route>
+          
           <Route exact path="/inscribirtutor">
             <SignTutorData />
           </Route>

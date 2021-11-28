@@ -37,7 +37,7 @@ export default function SignTutorData() {
     const { loading, setLoading } = useContext( LoadingScreenContext );
     const [tutor, setTutor] = useState({
         name: '',
-        surname: '',
+        lastname: '',
         dni: '',
         email: '',
         telephone: '',
@@ -53,7 +53,7 @@ export default function SignTutorData() {
         validatePhone
     } = useFieldValidator({
         name: false,
-        surname: false,
+        lastname: false,
         dni: false,
         email: false,
         telephone: false,
@@ -98,16 +98,16 @@ export default function SignTutorData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="surname">Apellido</InputLabel>
+                        <InputLabel htmlFor="lastname">Apellido</InputLabel>
                         <TextField 
                             placeholder="Apellido"
                             variant="outlined" 
-                            name="surname"
+                            name="lastname"
                             margin="normal"
                             onBlur={validateNotEmpty} 
                             onChange={updateTutor}
-                            error={errors.surname}
-                            helperText={errors.surname ? 'Campo obligatorio' : ''}
+                            error={errors.lastname}
+                            helperText={errors.lastname ? 'Campo obligatorio' : ''}
                             required
                             />
                     </Grid>
