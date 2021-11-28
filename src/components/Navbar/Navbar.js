@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import {AppBar,Grid,Toolbar,Container,IconButton,Drawer,List,ListItem,ListItemIcon,ListItemText,Divider} from "@mui/material";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import becariaUnahur from '../../assets/becarias-logo.svg'
 import ButtonUser from "./ButtonUser";
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import { AuthContext } from "../../context/AuthContext";
 
 //import UserMenuButton from './UserMenuButton';
 
@@ -92,7 +93,7 @@ function Navbar() {
   const [openDrawer, toggleDrawer] = useState(false);
   
   //NOTE: AUTH QUE LE TIENE QUE CAER DE CONTEXTO PERO MIENTRAS TANTO ESTA ACA ESTE USER.
-  const [user] = useState({});
+  const [user] = useContext(AuthContext);
 
   const classes = useStyles();
   return (
@@ -107,7 +108,7 @@ function Navbar() {
           >
             <Grid item xs={4}
             >
-            { user && (
+            { user.isAuthenticated && (
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -158,11 +159,12 @@ function Navbar() {
               justifyContent="flex-end"
               alignItems="center"
             >
-              {/* ACA ESTA EL USUARIO */
-              user && (
+              {
+                user.isAuthenticated && (
               <ButtonUser/>
               )
-            }
+              }
+            
 
             </Grid>
           </Grid>

@@ -1,17 +1,20 @@
-import axios from 'axios';
+import axios from '../axios';
+
+const scholarUrl = '/api/becarias'
 
 export const getScholar =async (scholarId) => 
 {
     console.log(scholarId)
-    return await axios.get(`http://localhost:3001/api/becarias/${scholarId}`);
+    return await axios.get(`${scholarUrl}/${scholarId}`);
 };
 
-export const  getScholars = () => {
-    return axios.get(`/api/scholar`);
+export const getScholars = () => {
+    console.log('getScholars')
+    return axios.get(scholarUrl);
 }
 
 export const updateScholar = (scholarId, scholar) => {
-    return axios.put(`/api/scholar/${scholarId}`, scholar).then(
+    return axios.put(`${scholarUrl}/${scholarId}`, scholar).then(
         res => {
             console.log(res.data)
         }
@@ -21,9 +24,12 @@ export const updateScholar = (scholarId, scholar) => {
 };
 
 export const createScholar = (scholar) => {
-    return axios.post(`/api/scholar`, scholar);
+    return axios.post(scholarUrl, scholar);
 };
 
 export const downScholar = (scholar) => {
-    return axios.put(`/api/scholar/${scholar.id}`, {...scholar, scholar: {actualState: 3}});
+    return axios.put(`${scholarUrl}${scholar.id}`, {...scholar, scholar: {actualState: 3}});
+}
+
+export const assignCarrers = (scholarId, carrerId) => {
 }

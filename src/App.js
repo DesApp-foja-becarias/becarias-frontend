@@ -15,6 +15,10 @@ import EditScholarData from "./components/ScholarData/EditScholarData";
 import LoadingScreen from './components/LoadingScreen';
 import { LoadingScreenContext } from "./context/LoadingScreenContext";
 import MainTutor from "./components/MainTutor/MainTutor";
+import NoMatch from "./components/NoMatch";
+import { AuthContext } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+import MainScholars from "./components/MainScholars";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -39,40 +43,43 @@ export default function App() {
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
-        <Navbar/>
-        <Container maxWidth="xl" className={classes.root}>
+          <Navbar/>
           <Switch>
+          <Container maxWidth="xl" className={classes.root}>
+          <PrivateRoute>
           <Route path="/login">
             <Login />
           </Route>
-          <Route exact path="/tutor/edit/:id">
-            <EditTutorData />
-          </Route>
-          <Route path="/tutor/:id">
-            <TutorData />
-          </Route>
-          <Route exact path="/tutor">
-            <MainTutor />
-          </Route>
-          
-          <Route exact path="/inscribirtutor">
-            <SignTutorData />
-          </Route>
-          <Route path="/inscribirbecaria">
-            <SignScholarData />
-          </Route>
-          <Route exact path="/becaria/edit/:id">
-            <EditScholarData />
-          </Route>
-          <Route path="/becaria/:id">
-            <ScholarData />
-          </Route>
-          <Route  path="/">
-            <Main />
-          </Route>
-        </Switch>
+            <Route exact path="/tutor/edit/:id">
+              <EditTutorData />
+            </Route>
+            <Route exact path="/tutor/:id">
+              <TutorData />
+            </Route>
+            <Route exact path="/tutor">
+              <MainTutor />
+            </Route>
+            <Route exact path="/inscribirtutor">
+              <SignTutorData />
+            </Route>
+            <Route exact path="/inscribirbecaria">
+              <SignScholarData />
+            </Route>
+            <Route exact path="/becaria/edit/:id">
+              <EditScholarData />
+            </Route>
+            <Route exact path="/becaria/:id">
+              <ScholarData />
+            </Route>
+            <Route exact path="/becaria">
+              <MainScholars />
+            </Route>
+            <Route exact path="/">
+              <Main />
+            </Route>
+          </PrivateRoute>
         </Container>
-
+        </Switch>
       </Router>
       
       <Snackbar

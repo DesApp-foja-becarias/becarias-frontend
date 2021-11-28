@@ -1,6 +1,8 @@
+import React,{useState} from 'react';
 import { Container,  TextField, Button, Box } from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import LogoUnahur from "../../assets/unahur-imagotipo.svg";
+import useAuth from '../../hooks/useAuth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+    const [user, setUser] = useState({});
+    const { login } = useAuth();
     const classes = useStyles();
     return (
         <Container maxWidth='sm'>
@@ -38,19 +42,23 @@ export default function Login() {
                 <Container color="black">
                     <img className={classes.logo} alt='logo' src={LogoUnahur} />
                 </Container>
+                <form onSubmit={(e)=> login(e, user)}>
+                    
                     <Box mt={6}>
-                        <TextField className={classes.textField} label="Usuario" variant="outlined"  />
+                        <TextField className={classes.textField}
+                        onChange={(e)=> setUser({...user, username: e.target.value})}
+                        label="Usuario" variant="outlined"  />
                     </Box>
                     <Box mt={2} >
-                        <TextField className={classes.textField} label="Contraseña" variant="outlined"  />
+                        <TextField className={classes.textField}
+                        onChange={(e)=> setUser({...user, password: e.target.value})}
+                        label="Contraseña" variant="outlined"  />
                     </Box>
                     <Box mt={3} mb={2}>
-                        <Button variant='outlined' className={classes.button} href="">INGRESAR</Button>
+                        <Button type='submit' variant='outlined' className={classes.button} >INGRESAR</Button>
                     </Box>
+                </form>
             </Container>
         </Container>
     );
 }
-
-//Algunas anotaciones
-//focused en textField se usa para que no se modifique la casilla cuando se cliquea sobre ella

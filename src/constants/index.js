@@ -1,1 +1,1 @@
-export {carreras, estadoBecarias} from './constants';
+export {carreras, estadoBecarias, weighingList} from './constants';

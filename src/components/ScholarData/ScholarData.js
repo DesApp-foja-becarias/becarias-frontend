@@ -1,15 +1,19 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState , useEffect, useContext} from 'react'
 import Dato from '../Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container,Table } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
-import DatoDate from '../Datos/DatoDate';
 import {Link, useParams} from 'react-router-dom';
 import { getScholar } from '../../services/Scholar/servicesScholar';
 import BackButton from '../BackButton';
-
+import TableMock from '../../constants/mock/TablaMock';
+import useAxios from '../../hooks/useAxios';
+import LoadingScreen from '../LoadingScreen';
+import {LoadingScreenContext} from '../../context/LoadingScreenContext';
+import ScholarPhoto from '../../assets/scholarPhoto.svg'
+import DatoTutor from '../../DatoTutor/DatoTutor';
 const useStyles = makeStyles(() => ({
     rootContainer:{
       padding: '15px',
@@ -30,46 +34,46 @@ const useStyles = makeStyles(() => ({
   );
 
 export default function ScholarData() {
-    const datos = 
-        {
-            name: 'Mariana Agustina',
-            surname: 'Etchegaray',
-            fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
-            dni:'14512412',
-            birthday: '1994-12-12',
-            telephone: '123456789',
-            adress: 'Calle falsa 123',
-            email: 'jsmandolo@gmail.com',
-            country: 'Argentina',
-            province: 'Buenos Aires',
-            city: 'La Plata',
-            actualState: 'Aprobada',
-            career: ['Licenciatura en Informatica'],
-            tutor: 'Juan Perez',
-            inscriptionDate: '2020-01-01',
-
-            //NOTE: EL TUTOR PODRIA LINKEARME AL DATOSTUTOR DEL MISMO
-            historial:[],
-            actividad:[],
-        }
-
+   
+    const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
 
-    //NOTE: setCholar
-    const [scholar] = useState(datos);
-/*
+    const scholarAxios = useAxios({
+      call:  
+      () => getScholar(id)
+      , successMessage: 'Becaria encontrada'
+      , errorMessage: 'No se encontro la becaria'
+      , loadingMessage: 'Buscando becaria...'
+      , redirectErr: '/'
+  })
+
+    const [scholar, setScholar] = useState({});
+    const [scholarRelations, setScholarRelations] = useState({});
+
     useEffect(() => {
-      const fetchData = async () => 
-      await getScholar(id).then(response => 
-        // FIXME: falta fecha de inscripcion, historial, actividad ,tutor, fecha de nacimiento, documentacion.
-        // NOTE: Fecha de inscripcion sera autocompletado con create-at
-        // setScholar(response.data.data)
-      )
-      
-      fetchData();
-      }, [id])
-*/
+      scholarAxios.useAxiosCall().then( response => {
+        
+        setScholar({...response.data,
+        })
+        console.log(response.data)
+        const {Tutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
+        setScholarRelations({
+          tutor: Tutor,
+          assignments: MateriasDeBecaria,
+          documents: Documentos,
+          carreers: CarrerasDeBecaria,
+          activities: ActividadesDeBecaria
+        })
+      })
+      }, [])
+
     const classes = useStyles();
+
+    if(loading){
+      return (
+          <LoadingScreen/>
+      )
+    }
     return (
           <Container className={classes.rootContainer} maxWidth="md">
             <Container id='nombreBecaria'>
@@ -78,7 +82,7 @@ export default function ScholarData() {
               <Grid container>
                 <Grid container item xs={8}>
                   <Box>
-                    <Typography variant='h4'>{scholar.surname}</Typography>                
+                    <Typography variant='h4'>{scholar.lastname}</Typography>                
                     <Typography variant='h5'>{scholar.name}</Typography>
                   </Box>
                 </Grid>
@@ -111,13 +115,13 @@ export default function ScholarData() {
             <Container id='datosGenerales' >
               <Grid container id='datosGeneralesUp' >
                   <Grid item xs={12} sm={6} id='DatosPersonales' >
-                    <img src={scholar.fotoURL} className={classes.image} alt='fotoBecaria'/>
+                    <img src={ScholarPhoto} className={classes.image} alt='fotoBecaria'/>
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={scholar.dni} />
-                    <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/>
-                    <Dato name='direccion' title='Domicilio' value={scholar.adress}/>
-                      <Dato name='ciudad' title='Localidad' value={scholar.city + ', ' + scholar.province + ', ' + scholar.country }/>
+                    {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
+                    <Dato name='direccion' title='Domicilio' value={scholar.address}/>
+                      <Dato name='ciudad' title='Localidad' value={scholar.city }/>
                   </Grid>
                   <Grid item xs={12} sm={6}  id='datosContCar' >
                   
@@ -130,8 +134,12 @@ export default function ScholarData() {
                     </Box>
                     <Typography variant="subtitle1">Datos de carrera</Typography>
                     <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
-                    <Dato name='carrera'  title='Carrera' value={scholar.career} career/>
-                    <Dato name='tutor' title='Tutor' value={scholar.tutor} />
+                    {/* <Dato name='carrera'  title='Carrera' value={scholar.career} career/> */}
+                    {scholarRelations.tutor?
+                    <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor} />
+                    :
+                    <Dato name='tutor' title='Tutor' value='No tiene tutor' />
+                  }
                     <Typography variant='h6'>Historial</Typography>
                     <Typography variant='h6'>---------</Typography>
                   </Grid>
@@ -141,6 +149,9 @@ export default function ScholarData() {
               </Box>
               <Container id='datosGeneralesBottom'>
                 <Typography variant='subtitle1'>Actividad</Typography>
+
+              {/* NOTE: Aqui va la actividad, debemos consumirlo desde otro lado despues*/}
+                <TableMock/>
                 <Box mb={6} />
               </Container>
             </Container>

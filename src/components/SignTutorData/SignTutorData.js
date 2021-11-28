@@ -8,6 +8,7 @@ import { createTutor } from '../../services/Tutor/serviceTutor';
 import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../LoadingScreen';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -58,7 +59,7 @@ export default function SignTutorData() {
         email: false,
         telephone: false,
     });
-
+    const history = useHistory();
     const createTutorCall = useAxios({
         call: () => createTutor(tutor)
         , successMessage: 'Tutor Creado'
@@ -79,8 +80,12 @@ export default function SignTutorData() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(areValidFields && !someEmptyField(tutor)){
-            createTutorCall.useAxiosCall()
-        }
+            createTutorCall.useAxiosCall().then(tutor => { 
+                console.log(tutor);       
+                    history.push(`/tutor/${tutor.id}`);
+                
+            })
+    }
     }
 
     if (loading) {

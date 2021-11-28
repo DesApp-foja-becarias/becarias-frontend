@@ -37,7 +37,7 @@ export default function Dato({title, value, name, }) {
                 <Typography  variant="h6" >{title}</Typography>
             </Box>
             <Box ml={'2px'}>
-                <Typography variant="body1">{mappedDate(value)}</Typography>}
+                <Typography variant="body1">{mappedDate(value)}</Typography>
             </Box>
         </div>
     )
