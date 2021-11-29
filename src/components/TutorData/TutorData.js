@@ -11,6 +11,8 @@ import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../LoadingScreen';
+import TableCareers from '../TableCareers';
+import TableScholars from '../TableScholars';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -39,6 +41,7 @@ export default function TutorData() {
     const {id} = useParams()
 
     const [tutor, setTutor] = useState({});
+    const [tutorRelations, setTutorRelations] = useState({});
     const tutorAxios = useAxios({
         call:  
         () => getTutor(id)
@@ -51,12 +54,17 @@ export default function TutorData() {
 
     useEffect(() => {
       tutorAxios.useAxiosCall().then(response => {
-        console.log(response)
         setTutor(response.data)
-      }  
-        )
+      
+      const {Tutor,  MateriasDeTutor, CarrerasDeTutor, Becarias} = response.data;
+      setTutorRelations({
+          assignments: MateriasDeTutor,
+          careers: CarrerasDeTutor,
+          scholars: Becarias
+        })
+      })
       }, [])
-
+    
     const classes = useStyles();
 
     if(loading){
@@ -121,7 +129,11 @@ export default function TutorData() {
                 <Divider />
               </Box>
               <Container id='datosGeneralesBottom'>
+              <Typography variant='subtitle1'>Carrera/s</Typography>
+              <TableCareers careers={tutorRelations.careers}/>
+              <Box mb={6} />
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
+                <TableScholars scholars={tutorRelations.scholars}/>
                 <Box mb={6} />
               </Container>
             </Container>

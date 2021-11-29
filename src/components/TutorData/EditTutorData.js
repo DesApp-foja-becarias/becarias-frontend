@@ -63,7 +63,7 @@ export default function EditTutorData() {
         , successMessage: 'Tutor actualizado correctamente'
         , errorMessage: 'Error al actualizar el tutor'
         , loadingMessage: 'Actualizando Tutor...'
-        ,redirectSuccess: `/tutor/${id}`
+        ,redirectSucc: `/tutor/${id}`
         , redirectErr: '/'
     })
 

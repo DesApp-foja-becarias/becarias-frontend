@@ -6,14 +6,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
-import { getScholar } from '../../services/Scholar/servicesScholar';
+import { getScholar, downScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
 import BackButton from '../BackButton';
 import TableMock from '../../constants/mock/TablaMock';
+import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
 import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import ScholarPhoto from '../../assets/scholarPhoto.svg'
-import DatoTutor from '../../DatoTutor/DatoTutor';
+import DatoTutor from '../../components/DatoTutor';
+import TableCareers from '../../components/TableCareers';
+import { mappedDate } from '../../utils/func';
+import { showComponentWhen_ } from '../../utils/scholarUtils';
+
+
 const useStyles = makeStyles(() => ({
     rootContainer:{
       padding: '15px',
@@ -34,11 +40,20 @@ const useStyles = makeStyles(() => ({
   );
 
 export default function ScholarData() {
-   
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
 
-    const scholarAxios = useAxios({
+    const acceptScholarAxios = useAxios({
+      call:  
+      () => acceptScholar(scholar)
+    })
+
+    const downScholarAxios = useAxios({
+      call:  
+      () => downScholar(scholar)
+    })
+
+    const getScholarAxios = useAxios({
       call:  
       () => getScholar(id)
       , successMessage: 'Becaria encontrada'
@@ -51,21 +66,19 @@ export default function ScholarData() {
     const [scholarRelations, setScholarRelations] = useState({});
 
     useEffect(() => {
-      scholarAxios.useAxiosCall().then( response => {
-        
+      getScholarAxios.useAxiosCall().then( response => {
         setScholar({...response.data,
         })
-        console.log(response.data)
         const {Tutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
         setScholarRelations({
           tutor: Tutor,
           assignments: MateriasDeBecaria,
           documents: Documentos,
-          carreers: CarrerasDeBecaria,
+          careers: CarrerasDeBecaria,
           activities: ActividadesDeBecaria
         })
       })
-      }, [])
+    }, [])
 
     const classes = useStyles();
 
@@ -91,20 +104,40 @@ export default function ScholarData() {
                     <Tooltip title='Editar' followCursor>
                       <Link to={`/becaria/edit/${id}`}>
                         <IconButton  color='warning'>
-                          <EditIcon fontSize='large'  />
+                          <EditIcon fontSize='large'/>
                         </IconButton>
                       </Link>
                     </Tooltip>
-                    <Tooltip title='Aprobar' followCursor>
-                      <IconButton color='success'>
-                        <PersonAddAlt1Icon  fontSize='large'/>
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title='Dar de baja' followCursor>
+                    {
+                    showComponentWhen_(
+                      scholar.actualState !== "Aceptada",
+                        <Tooltip title='Aprobar' followCursor>
+                          <IconButton onClick={()=>{
+                            acceptScholarAxios.useAxiosCall()
+                            setScholar({...scholar, actualState: 'Aceptada'})
+                          }} 
+                          color='success'>
+                            <PersonAddAlt1Icon  fontSize='large'/>
+                          </IconButton>
+                        </Tooltip>
+                    )
+                    }
+                    {
+                    showComponentWhen_(
+                      scholar.actualState === "Aceptada",
+                    <Tooltip title='Dar de baja' onClick={
+                      ()=>
+                      {
+                        downScholarAxios.useAxiosCall()
+                        setScholar({...scholar, actualState: 'Baja'})
+                      }
+                      } followCursor>
                       <IconButton color='error'>
                         <CancelIcon fontSize='large'/>
                       </IconButton>
                     </Tooltip>
+                    )
+                    }
                   </Box>
                 </Grid>
               </Grid>
@@ -119,6 +152,10 @@ export default function ScholarData() {
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={scholar.dni} />
+                    <Dato name='birthdate' title='Fecha de nacimiento' value=
+                    {
+                    '15/05/1998'  
+                    } />
                     {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
                     <Dato name='direccion' title='Domicilio' value={scholar.address}/>
                       <Dato name='ciudad' title='Localidad' value={scholar.city }/>
@@ -135,38 +172,40 @@ export default function ScholarData() {
                     <Typography variant="subtitle1">Datos de carrera</Typography>
                     <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
                     {/* <Dato name='carrera'  title='Carrera' value={scholar.career} career/> */}
-                    {scholarRelations.tutor?
-                    <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor} />
-                    :
-                    <Dato name='tutor' title='Tutor' value='No tiene tutor' />
-                  }
-                    <Typography variant='h6'>Historial</Typography>
-                    <Typography variant='h6'>---------</Typography>
+                    {
+                    showComponentWhen_(
+                      scholar.actualState === "Aceptada",
+                      
+                        scholarRelations.tutor?
+                        <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor} />
+                        :
+                        <Dato name='tutor' title='Tutor' value='No tiene tutor' />
+                      
+                    )
+                    }
                   </Grid>
               </Grid>
               <Box mb={2} mt={2}>
                 <Divider />
               </Box>
               <Container id='datosGeneralesBottom'>
-                <Typography variant='subtitle1'>Actividad</Typography>
-
-              {/* NOTE: Aqui va la actividad, debemos consumirlo desde otro lado despues*/}
+                <Typography variant='subtitle1'>Carreras</Typography>
+                <TableCareers careers={scholarRelations.careers}/>
+                <Box mb={3} />
+                {
+                    showComponentWhen_(
+                      scholar.actualState === "Aceptada",
+                      <>
+                <Typography variant='subtitle1'>Actividad</Typography>             
                 <TableMock/>
+                <Box mb={3} />
+                <Typography variant='subtitle1'>Cuenta</Typography>
+                <TablaCuentaMock/>
+                    </>)
+                }
                 <Box mb={6} />
               </Container>
             </Container>
         </Container>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-

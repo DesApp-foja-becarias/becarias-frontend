@@ -80,10 +80,10 @@ export default function SignTutorData() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(areValidFields && !someEmptyField(tutor)){
-            createTutorCall.useAxiosCall().then(tutor => { 
-                console.log(tutor);       
-                    history.push(`/tutor/${tutor.id}`);
-                
+            createTutorCall.useAxiosCall().then(res => {
+                setTimeout(() => {
+                    history.push('/')
+                }, 2000);
             })
     }
     }

@@ -5,10 +5,12 @@ export const columnsTutor = [
     { field: 'dni', headerName: 'DNI', width:160 ,},
     { field: 'email',headerName: 'Correo Electronico', type: 'email', width: 250, },
     { field: 'telephone', headerName: 'Telefono', type: 'number', width: 150, },
-    { field: 'link', headerName: 'Link', width: 150, renderCell: (params) => {
-        return <div>{params.value}</div>
-    }
+    { field: 'link', headerName: 'Link', width: 150, 
+        renderCell: (params) => {
+            return <div>{params.value}</div>
+        },
     },
+    {field: 'type', headerName: 'Tipo', width: 150, }
 ]
 
 

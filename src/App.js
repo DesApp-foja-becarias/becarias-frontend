@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Alert, Container, Snackbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,13 +11,10 @@ import SignTutorData from "./components/SignTutorData";
 import TutorData from "./components/TutorData";
 import EditTutorData from "./components/TutorData/EditTutorData";
 import EditScholarData from "./components/ScholarData/EditScholarData";
-import LoadingScreen from './components/LoadingScreen';
-import { LoadingScreenContext } from "./context/LoadingScreenContext";
 import MainTutor from "./components/MainTutor/MainTutor";
-import NoMatch from "./components/NoMatch";
-import { AuthContext } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import MainScholars from "./components/MainScholars";
+import ConfigurationPage from "./components/ConfigurationPage";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -74,6 +70,9 @@ export default function App() {
             <Route exact path="/becaria">
               <MainScholars />
             </Route>
+            <Route exact path="/configuracion">
+              <ConfigurationPage/>
+            </Route>
             <Route exact path="/">
               <Main />
             </Route>
@@ -81,7 +80,6 @@ export default function App() {
         </Container>
         </Switch>
       </Router>
-      
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',

@@ -83,7 +83,7 @@ const listItems = [
   },
   {
     name: "Configuracion",
-    path: "/",
+    path: "/configuracion",
     icon: <SettingsIcon />,
   },
 ];

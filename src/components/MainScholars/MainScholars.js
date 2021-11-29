@@ -33,21 +33,22 @@ const MainScholars = () => {
     
     const getScholarsAxios = useAxios({
         call: () => getScholars()
-        , errorMessage: 'No se pudo encontrar los tutores'
-        , loadingMessage: 'Buscando Tutores...'
+        , errorMessage: 'No se pudo encontrar las becarias'
+        , successMessage: 'Becarias encontradas'
+        , loadingMessage: 'Buscando Becarias...'
         , redirectErr: '/'
     })
 
     useEffect(() => {
         const fetchData = async () => await getScholarsAxios.useAxiosCall().then(
-            res => setScholars(( res.data))
+            res => setScholars(( res.data ))
             );
         fetchData();
     }, []);
 
     if (loading) {
         return <LoadingScreen/>
-    }  
+    } 
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>

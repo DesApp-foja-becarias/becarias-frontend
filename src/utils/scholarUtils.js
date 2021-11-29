@@ -10,6 +10,11 @@ export const mapScholarsForSearcher = (scholars) => {
             Ver Perfil
         </Button>
     </Link>
-    
+    ,
+    type:"Becaria"
     }));
+}
+
+export const showComponentWhen_ = (condition, component) => {
+    return condition ? component : null;
 }

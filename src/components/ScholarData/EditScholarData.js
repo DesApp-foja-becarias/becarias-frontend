@@ -1,13 +1,15 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import { carreras } from '../../constants/constants';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import { useParams } from 'react-router';
-import { getScholar } from '../../services/Scholar/servicesScholar';
+import { getScholar, updateScholar } from '../../services/Scholar/servicesScholar';
 import BackButton from '../../components/BackButton';
-
+import useAxios from '../../hooks/useAxios';
+import { LoadingScreenContext } from '../../context/LoadingScreenContext';
+import LoadingScreen from '../LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -37,29 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EditScholarData() {
-    const datos = 
-    {
-        name: 'Mariana Agustina',
-        surname: 'Etchegaray',
-        fotoURL: 'https://st3.depositphotos.com/1007566/13175/v/600/depositphotos_131750410-stock-illustration-woman-female-avatar-character.jpg',
-        dni:'14512412',
-        birth: '1994-12-12',
-        telephone: '123456789',
-        adress: 'Calle falsa 123',
-        email: 'jsmandolo@gmail.com',
-        country: 'Argentina',
-        province: 'Buenos Aires',
-        city: 'La Plata',
-        actualState: 'Aprobada',
-        career: ['Licenciatura en Informatica'],
-        announcementDate: '2020-01-01',
-        inscriptionDate: '2020-01-01',
-    }
-
     const classes = useStyles()
-    const [scholar, setScholar] = useState(datos)
+    const [scholar, setScholar] = useState({})
     const {id} = useParams()
-
+    const {loading} = useContext(LoadingScreenContext)
 
     const {
         areValidFields,
@@ -70,20 +53,35 @@ export default function EditScholarData() {
         validatePhone
     } = useFieldValidator({
         name: false,
-        surname: false,
+        lastname: false,
         dni: false,
+        cuit: false,
         email: false,
-        birth: false,
+        birthday: false,
         telephone: false,
-        adress: false,
+        address: false,
         city: false,
-        province: false,
-        country: false,
-        career: false,
-        announcementDate: false,
-        inscriptionDate: false,
+        announcement: false,   
     })
-    
+    const getScholarAxios = useAxios({
+        call:  
+        () => getScholar(id)
+        , successMessage: 'Becaria encontrada'
+        , errorMessage: 'No se encontro la becaria'
+        , loadingMessage: 'Buscando becaria...'
+        , redirectErr: '/'
+    })
+
+    const updateScholarAxios = useAxios({
+        call:  
+        () => updateScholar(id, scholar)
+        , successMessage: 'Becaria Actualizada'
+        , errorMessage: 'No se pudo actualizar la becaria'
+        , loadingMessage: 'Actualizando becaria...'
+        , redirectErr: '/'
+        , redirectSucc: `/becaria/${id}`
+    })
+
     const updateScholarState =  (e) => {
         setScholar({
             ...scholar,
@@ -93,9 +91,8 @@ export default function EditScholarData() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(areValidFields && !someEmptyField(scholar)){
-            console.log(scholar)
-        }
+        updateScholarAxios.useAxiosCall()
+        
     }
     /*    
     // NOTE: CHEQUEAR PARA CUANDO PODAMOS AGREGAR DOCUMENTACION
@@ -107,12 +104,14 @@ export default function EditScholarData() {
     }
     */      
     useEffect(() => {
-        getScholar(id).then(response => {
-            setScholar(response.data)
-        }
-        )}, [id])
-  
+        getScholarAxios.useAxiosCall().then(res => {
+            setScholar(res.data)
+        })
+    }, [])
 
+    if (loading) {
+        return <LoadingScreen/>
+    }      
     return(
         <Container maxWidth="md">
         <Paper variant="elevation" elevation={2} > 
@@ -125,17 +124,17 @@ export default function EditScholarData() {
                 <Grid item 
                     xs={6}
                 >
-                    <InputLabel htmlFor="surname">Apellido</InputLabel>
+                    <InputLabel htmlFor="lastname">Apellido</InputLabel>
                     <TextField 
                         placeholder="Apellido"
                         variant="outlined"
-                        name="surname"
+                        name="lastname"
                         margin="normal"
-                        value={scholar.surname}
+                        value={scholar.lastname}
                         onBlur={(e)=>validateNotEmpty(e)} 
                         onChange={updateScholarState}
-                        error={errors.surname}
-                        helperText={errors.surname ? 'Campo obligatorio' : ''}
+                        error={errors.lastname}
+                        helperText={errors.lastname ? 'Campo obligatorio' : ''}
                         required
                         />
                 </Grid>
@@ -175,6 +174,20 @@ export default function EditScholarData() {
                         />
                 </Grid>
                 <Grid item xs={6} >
+                    <InputLabel htmlFor='Ponderación'>CUIT</InputLabel>                                        
+                    <TextField 
+                        type="string" 
+                        variant='outlined'
+                        name="cuit"
+                        value={scholar.cuit}
+                        onBlur={(e) =>validateNotEmpty(e)} 
+                        onChange={updateScholarState}
+                        error={errors.cuit}
+                        helperText={errors.cuit?'cuit invalido':''}
+                        required
+                        />
+                </Grid>
+                <Grid item xs={6} >
                     <InputLabel htmlFor="Correo electronico">Correo electrónico</InputLabel>
                     <TextField className={classes.textField}
                         placeholder="Correo electrónico"
@@ -196,12 +209,12 @@ export default function EditScholarData() {
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
-                        value={scholar.birth}
+                        value={scholar.birthday}
                         margin="normal"
-                        name="birth"
+                        name="birthday"
                         onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
-                        error={errors.birth}
-                        helperText={errors.birth?'Fecha de nacimiento invalida':''}
+                        error={errors.birthday}
+                        helperText={errors.birthday?'Fecha de nacimiento invalida':''}
                         required
                     />
                 </Grid>
@@ -228,18 +241,18 @@ export default function EditScholarData() {
                     item 
                     xs={6}
                 >
-                    <InputLabel htmlFor='adress'>Dirección</InputLabel>
+                    <InputLabel htmlFor='address'>Dirección</InputLabel>
                     <TextField className={classes.textField} 
                         placeholder="Dirección" 
                         variant="outlined" 
                         size="normal"
                         margin="normal"
-                        name="adress"
-                        value={scholar.adress}
+                        name="address"
+                        value={scholar.address}
                         onBlur={(e) =>validateNotEmpty(e)} 
                         onChange={updateScholarState}
-                        error={errors.adress}
-                        helperText={errors.adress?'adress invalida':''}
+                        error={errors.address}
+                        helperText={errors.address?'Domicilio invalido':''}
                         required
                         />
                 </Grid>
@@ -261,44 +274,10 @@ export default function EditScholarData() {
                     />
                 </Grid>
                 <Grid item 
-                    xs={6}
-                >
-                    <InputLabel htmlFor='province'>Provincia</InputLabel>
-                    <TextField className={classes.textField} 
-                        placeholder="Provincia" 
-                        variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                        name="province"
-                        value={scholar.province}
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
-                        error={errors.province}
-                        helperText={errors.province?'province invalida':''}
-                        required
-                        />
-                </Grid>
-                <Grid item 
-                    xs={6}
-                >
-                    <InputLabel htmlFor='province'>País</InputLabel>
-                    <TextField className={classes.textField} 
-                        placeholder="País" 
-                        variant="outlined" 
-                        size="normal" 
-                        margin="normal"
-                        name="country"
-                        value={scholar.country}
-                        onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}
-                        error={errors.country}
-                        helperText={errors.country}
-                        required
-                        />
-                </Grid>
-                <Grid item 
                     xs={6} 
                 >
                     <InputLabel htmlFor='career'>Carrera/s</InputLabel>
-                    <Select
+                    {/* <Select
                         multiple
                         name="career"
                         value={scholar.career}
@@ -318,47 +297,27 @@ export default function EditScholarData() {
                                 {car.name}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </Select> */}
                 </Grid>
                 
                 <Grid item xs={6} >
                     
                     <InputLabel htmlFor='fechaDeConvocatoria'>Fecha de convocatoria</InputLabel>
                     <TextField 
-                        type="date" 
+                        type="string" 
                         variant='outlined'
-                        name="announcementDate"
-                        value={scholar.announcementDate}
+                        name="announcement"
+                        value={scholar.announcement}
                         onBlur={(e) =>validateNotEmpty(e)} 
                         onChange={updateScholarState}
-                        error={errors.announcementDate}
-                        helperText={errors.announcementDate?'Fecha de convocatoria invalida':''}
+                        error={errors.announcement}
+                        helperText={errors.announcement?'Fecha de convocatoria invalida':''}
                         required
                     />
                     
                 </Grid>
-                <Grid item xs={6} >
-                    <InputLabel htmlFor='fechaDeInscripción'>Fecha de Inscripciòn</InputLabel>                                        
-                    <TextField 
-                        type="date" 
-                        variant='outlined'
-                        pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-                        name="inscriptionDate"
-                        value={scholar.inscriptionDate}
-                        onBlur={(e) =>validateNotEmpty(e)} 
-                        onChange={updateScholarState}
-                        error={errors.inscriptionDate}
-                        helperText={errors.inscriptionDate?'Fecha de inscripción invalida':''}
-                        required
-                        />
-                </Grid>
-                
             </Grid>   
             <Box mt={3} mb={3}/>
-            {/*
-            <Typography variant='h4' color="primary" align="center" mt={2} m={3}>Carga de Documentaciòn</Typography>
-            <DocumentationFields updateDocumentation={updateDocumentation}/>
-            */}
             <Box mt={6} mb={6}>
             
                 <Button className={classes.boton}

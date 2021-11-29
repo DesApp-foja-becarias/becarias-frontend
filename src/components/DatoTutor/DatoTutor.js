@@ -30,10 +30,7 @@ const useStyles = makeStyles((theme) => ({
     }));
 
 const DatoTutor = ({title, value}) => {
-    const classes = useStyles();
-
-    console.log(value)
-    
+    const classes = useStyles();    
     if(value === null){
         return (
             <Box className={classes.Box}/>

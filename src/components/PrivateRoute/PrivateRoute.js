@@ -8,7 +8,6 @@ import useAuth from "../../hooks/useAuth";
 
 const PrivateRoute = ({children}) => {
     const {user} = useAuth()
-    console.log(user,'userPrivate')
     return user ? children : <Redirect to="/login" />
     
     

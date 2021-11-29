@@ -1,4 +1,4 @@
-import {useState,useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box, Input  } from '@mui/material';
 import { carreras } from '../../constants';
@@ -36,22 +36,23 @@ const useStyles = makeStyles((theme) => ({
         
         color:"#fff",
         backgroundColor:"#000",}
-}));
-
-export default function SignScholarData() {
+    }));
+    
+    export default function SignScholarData() {
     const history = useHistory()
     const classes = useStyles()
+    const [carreers, setCarreers] = useState([])
     const [scholar, setScholar] = useState({
         name: '',
         lastname: '',
         dni: '',
         email: '',
-        birth: '',
+        birthday: '',
         telephone: '',
-        adress: '',
+        address: '',
         cuit: '',
         city: '',
-        carreer: [],
+        carreer: carreers.map(carreer => carreer.id),
         announcement: '',
         actualState: 'pendiente'
     })
@@ -69,9 +70,9 @@ export default function SignScholarData() {
         lastname: false,
         dni: false,
         email: false,
-        birth: false,
+        birthday: false,
         telephone: false,
-        adress: false,
+        address: false,
         cuit: false,
         city: false,
         announcement: false,
@@ -84,19 +85,26 @@ export default function SignScholarData() {
             [e.target.name]: e.target.value,
         })
     }
+    const updateCarreer = (e) => {
+        setCarreers(e.target.value)
+    }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        if(areValidFields && !someEmptyField(scholar)){
-            createScholarCall.useAxiosCall(scholar).then(res => {
-                /* repensar esta parte */
-                //res.id
-                setTimeout(() => {
-                    history.push('/')
-                }, 2000);
-            })
-        }
+    e.preventDefault();
+        createScholarCall.useAxiosCall(scholar).then(res => {
+            setTimeout(() => {
+                history.push('/')
+            }, 2000);
+        })
     }
+    
+
+    useEffect(() => {
+        setScholar({
+            ...scholar,
+            carreer: carreers.map(carreer => carreer.id),
+        })
+    }, [carreers])
 
     const { loading, setLoading } = useContext( LoadingScreenContext )
     const createScholarCall = useAxios({
@@ -118,7 +126,7 @@ export default function SignScholarData() {
         <form onSubmit={e => handleSubmit(e)}>
         <Container sx={{display:'flex'}} className={classes.container} maxWidth='sm'>
             <Box mt={3}/>
-                <Typography variant='h3' color='primary' align="center">Inscripciòn Becaria</Typography>
+                <Typography variant='h3' color='primary' align="center">Inscripción Becaria</Typography>
                 <Grid container mt={3} spacing={4} >
                     <Grid item 
                         xs={6}
@@ -207,10 +215,10 @@ export default function SignScholarData() {
                             variant='outlined'  
                             placeholder='Fecha de nacimiento'  
                             margin="normal"
-                            name="birth"
+                            name="birthday"
                             onBlur={(e) =>validateNotEmpty(e)} onChange={updateBecaria}
-                            error={errors.birth}
-                            helperText={errors.birth?'Fecha de nacimiento invalida':''}
+                            error={errors.birthday}
+                            helperText={errors.birthday?'Fecha de nacimiento invalida':''}
                             required
                         />
                     </Grid>
@@ -236,17 +244,17 @@ export default function SignScholarData() {
                         item 
                         xs={6}
                     >
-                        <InputLabel htmlFor='adress'>Dirección</InputLabel>
+                        <InputLabel htmlFor='address'>Dirección</InputLabel>
                         <TextField className={classes.textField} 
                             placeholder="Dirección" 
                             variant="outlined" 
                             size="normal"
                             margin="normal"
-                            name="adress"
+                            name="address"
                             onBlur={(e) =>validateNotEmpty(e)} 
                             onChange={updateBecaria}
-                            error={errors.adress}
-                            helperText={errors.adress?'adress invalida':''}
+                            error={errors.address}
+                            helperText={errors.address?'Dirección invalida':''}
                             required
                             />
                     </Grid>
@@ -273,20 +281,20 @@ export default function SignScholarData() {
                         <Select
                             multiple
                             name="carreer"
-                            value={scholar.carreer}
+                            value={carreers}
                             renderValue={selected =>
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
-                                    <Chip key={value} label={value} />
+                                    <Chip key={value} label={value.name} />
                                 ))}
                                 </Box>}
-                            onChange={updateBecaria}
+                            onChange={updateCarreer}
                             placeholder="Carrera/s"
                             sx={{width: '13em' , marginTop:'1em'}}
                         >
                             
                             {carreras.map(car => (
-                                <MenuItem key={car.id} value={car.name}>
+                                <MenuItem key={car.id} value={car}>
                                     {car.name}
                                 </MenuItem>
                             ))}

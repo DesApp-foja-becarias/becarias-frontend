@@ -11,5 +11,7 @@ export const mapTutorsForSearcher = (tutors) => {
         </Button>
     </Link>
     
-    }));
+    ,
+    type: "Tutor"
+}));
 }
