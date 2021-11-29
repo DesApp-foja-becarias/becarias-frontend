@@ -1,8 +1,14 @@
+import { useEffect,useState, useContext } from 'react';
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Searcher from '../Searcher/Searcher';
 import { Link } from 'react-router-dom';
-
+import { columnsTutor } from '../../constants/searcherConstant';
+import useAxios from '../../hooks/useAxios';
+import { getTutors } from '../../services/Tutor/serviceTutor';
+import { getScholars } from '../../services/Scholar/servicesScholar';
+import { mapScholarsForSearcher } from '../../utils/scholarUtils';
+import { mapTutorsForSearcher } from '../../utils/tutorUtils';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -21,6 +27,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main() {
     const classes = useStyles();
+    const [items, setItems] = useState([]);
+    const getScholarsAxios = useAxios({
+        call: () => getScholars()
+    })
+    const getTutorsAxios = useAxios({
+        call: () => getTutors()
+    })
+
+    useEffect(() => {
+        const fetchData = async () => 
+        { 
+            await getScholarsAxios.useAxiosCall().then(
+                async res => await setItems(prevState=> prevState.concat(mapScholarsForSearcher(res.data)) )
+            )
+            await getTutorsAxios.useAxiosCall().then(
+                async res => await setItems(prevState => prevState.concat(mapTutorsForSearcher(res.data)))
+            )
+        }
+        fetchData();
+    }, []);
+
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
@@ -33,7 +60,7 @@ export default function Main() {
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher />
+                    <Searcher items={items} columns={columnsTutor}/>
                 </Container>
             </Container>
         </Container>

@@ -3,16 +3,42 @@ export const getDataFromBackend = false;
 export const carreras = [
   {
     id: 1,
-    nombre: 'Ingeniería en Electrónica',
-
+    name: 'Ingeniería Eléctrica',
   },
   {
     id: 2,
-    nombre: 'Licenciatura en Informatica',
+    name: "Tecnicatura Univ. en Energia Electrica"
   },
   {
     id: 3,
-    nombre: 'Ingenieria Metalurgica'
+    name: 'Licenciatura en Informática',
+  },
+  {
+    id: 4,
+    name: "Tecnicatura Univ. en Informática"
+  },
+  {
+    id: 5,
+    name: 'Ingeniería Metalúrgica'
+  },
+  {
+    id: 6,
+    name: "Tecnicatura Univ. en Metalurgica"
+  },
+];
+
+export const weighingList = [
+  {
+    id: 1,
+    name: '1er'
+  },
+  {
+    id: 2,
+    name: '2do'
+  },
+  {
+    id: 3,
+    name: '3er'
   }
 ];
 

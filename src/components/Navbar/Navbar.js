@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import {AppBar,Grid,Toolbar,Container,IconButton,Drawer,List,ListItem,ListItemIcon,ListItemText,Divider} from "@mui/material";
 import { Link } from "react-router-dom";
-
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import becariaUnahur from '../../assets/becarias-logo.svg'
 import ButtonUser from "./ButtonUser";
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import { AuthContext } from "../../context/AuthContext";
 
 //import UserMenuButton from './UserMenuButton';
 
@@ -83,7 +83,7 @@ const listItems = [
   },
   {
     name: "Configuracion",
-    path: "/",
+    path: "/configuracion",
     icon: <SettingsIcon />,
   },
 ];
@@ -91,20 +91,24 @@ const listItems = [
 
 function Navbar() {
   const [openDrawer, toggleDrawer] = useState(false);
-  const [openUserMenu, toggleUserMenu] = useState(false);
   
   //NOTE: AUTH QUE LE TIENE QUE CAER DE CONTEXTO PERO MIENTRAS TANTO ESTA ACA ESTE USER.
-  const [user, setUser] = useState({});
+  const [user] = useContext(AuthContext);
 
   const classes = useStyles();
   return (
     <div>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Grid container >
+          <Grid 
+            container  
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+          >
             <Grid item xs={4}
             >
-             { user && (
+            { user.isAuthenticated && (
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -142,9 +146,6 @@ function Navbar() {
               justifyContent="center"
               alignItems="center"
             >
-              {/* ACA ESTA LA IMAGEN */}
-
-
               <img
                 className={classes.logoImg}
                 src={becariaUnahur}
@@ -158,11 +159,12 @@ function Navbar() {
               justifyContent="flex-end"
               alignItems="center"
             >
-              {/* ACA ESTA EL USUARIO */
-              user && (
+              {
+                user.isAuthenticated && (
               <ButtonUser/>
               )
-            }
+              }
+            
 
             </Grid>
           </Grid>
