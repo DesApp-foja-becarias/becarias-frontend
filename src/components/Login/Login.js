@@ -52,7 +52,7 @@ export default function Login() {
                     <Box mt={2} >
                         <TextField className={classes.textField}
                         onChange={(e)=> setUser({...user, password: e.target.value})}
-                        label="Contraseña" variant="outlined"  />
+                        label="Contraseña" type="password" variant="outlined"  />
                     </Box>
                     <Box mt={3} mb={2}>
                         <Button type='submit' variant='outlined' className={classes.button} >INGRESAR</Button>

@@ -42,10 +42,10 @@ export default function App() {
           <Navbar/>
           <Switch>
           <Container maxWidth="xl" className={classes.root}>
+            <Route path="/login">
+              <Login />
+            </Route>
           <PrivateRoute>
-          <Route path="/login">
-            <Login />
-          </Route>
             <Route exact path="/tutor/edit/:id">
               <EditTutorData />
             </Route>
