@@ -7,10 +7,10 @@ const useAuth = () => {
     const [user, setUser] = useContext(AuthContext)
 
     useEffect(() => {
-        const user = localStorage.getItem('user')
-        if(user){
-            setUser(JSON.parse(user))
-        }
+    const user = localStorage.getItem('user')
+    if(user){
+        setUser(JSON.parse(user))
+    }
     }
     ,[])
     const {showSnackbar} = useSnackbar()
