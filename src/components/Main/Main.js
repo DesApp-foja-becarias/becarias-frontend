@@ -1,4 +1,4 @@
-import { useEffect,useState, useContext } from 'react';
+import { useEffect,useState } from 'react';
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Searcher from '../Searcher/Searcher';
@@ -46,6 +46,7 @@ export default function Main() {
             )
         }
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MainScholars = () => {
     const classes = useStyles();
-    const [search, setSearch] = useState('');
     const [scholars, setScholars] = useState([]);
     const { loading } = useContext(LoadingScreenContext);
     
@@ -44,11 +43,12 @@ const MainScholars = () => {
             res => setScholars(( res.data ))
             );
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (loading) {
         return <LoadingScreen/>
-    } 
+    }
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
