@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MainTutor = () => {
     const classes = useStyles();
-    const [search, setSearch] = useState('');
     const [tutors, setTutors] = useState([]);
     const { loading } = useContext(LoadingScreenContext);
     
@@ -43,6 +42,7 @@ const MainTutor = () => {
             res => setTutors(( res.data))
             );
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (loading) {

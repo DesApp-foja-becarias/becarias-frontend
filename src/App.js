@@ -1,7 +1,6 @@
-import { Alert, Container, Snackbar } from "@mui/material";
+import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import useSnackbar from "./hooks/useSnackbar";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
@@ -12,7 +11,6 @@ import TutorData from "./components/TutorData";
 import EditTutorData from "./components/TutorData/EditTutorData";
 import EditScholarData from "./components/ScholarData/EditScholarData";
 import MainTutor from "./components/MainTutor/MainTutor";
-import PrivateRoute from "./components/PrivateRoute";
 import MainScholars from "./components/MainScholars";
 import ConfigurationPage from "./components/ConfigurationPage";
 
@@ -35,7 +33,6 @@ const useStyles = makeStyles(() => ({
 
 export default function App() {
   const classes = useStyles();
-  const {snackbar,  closeSnackbar } = useSnackbar();
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
@@ -45,7 +42,6 @@ export default function App() {
             <Route path="/login">
               <Login />
             </Route>
-          <PrivateRoute>
             <Route exact path="/tutor/edit/:id">
               <EditTutorData />
             </Route>
@@ -76,25 +72,9 @@ export default function App() {
             <Route exact path="/">
               <Main />
             </Route>
-          </PrivateRoute>
         </Container>
         </Switch>
       </Router>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        open={snackbar.open}
-        autoHideDuration={5000}
-        message="Note archived"
-        onClose={() => closeSnackbar()}
-      >
-        <Alert severity={snackbar.severity} variant="filled">
-          {snackbar.message}
-        </Alert>
-
-      </Snackbar>
     </Container>
   );
 }
