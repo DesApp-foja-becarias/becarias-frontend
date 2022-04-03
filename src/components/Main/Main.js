@@ -9,6 +9,7 @@ import { getTutors } from '../../services/Tutor/serviceTutor';
 import { getScholars } from '../../services/Scholar/servicesScholar';
 import { mapScholarsForSearcher } from '../../utils/scholarUtils';
 import { mapTutorsForSearcher } from '../../utils/tutorUtils';
+import MailSender from '../MailSender/MailSender';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -28,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Main() {
     const classes = useStyles();
     const [items, setItems] = useState([]);
+    const [users, setUsers] = useState([]);
+
     const getScholarsAxios = useAxios({
         call: () => getScholars()
     })
@@ -40,7 +43,8 @@ export default function Main() {
         { 
             await getScholarsAxios.useAxiosCall().then(
                 async res => await setItems(prevState=> prevState.concat(mapScholarsForSearcher(res.data)) )
-            )
+                
+                )
             await getTutorsAxios.useAxiosCall().then(
                 async res => await setItems(prevState => prevState.concat(mapTutorsForSearcher(res.data)))
             )
@@ -61,7 +65,8 @@ export default function Main() {
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher items={items} columns={columnsTutor}/>
+                    <MailSender users={users} />
+                    <Searcher setStateCallback={setUsers} items={items} columns={columnsTutor}/>
                 </Container>
             </Container>
         </Container>

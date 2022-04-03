@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
   root: {
     marginTop: "50px",
     height: "100%",
+		
   },
   fixedHeader: {
     marginBottom: "40px",
@@ -28,6 +29,7 @@ const useStyles = makeStyles(() => ({
   },
   mainContainer: {
     minHeight: "100vh",
+		
   },
 }));
 

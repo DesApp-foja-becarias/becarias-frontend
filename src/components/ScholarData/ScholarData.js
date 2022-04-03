@@ -18,6 +18,7 @@ import DatoTutor from '../../components/DatoTutor';
 import TableCareers from '../../components/TableCareers';
 import { mappedDate } from '../../utils/func';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
+import MailSender from '../MailSender/MailSender';
 
 
 const useStyles = makeStyles(() => ({
@@ -188,6 +189,7 @@ export default function ScholarData() {
               <Box mb={2} mt={2}>
                 <Divider />
               </Box>
+							<MailSender users={[scholar]}/>
               <Container id='datosGeneralesBottom'>
                 <Typography variant='subtitle1'>Carreras</Typography>
                 <TableCareers careers={scholarRelations.careers}/>
