@@ -1,24 +1,23 @@
 import React, { useState , useEffect, useContext} from 'react'
-import Dato from '../Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container,Table } from '@mui/material';
+import Dato from '../../components/Datos/Dato'
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
-import BackButton from '../BackButton';
+import BackButton from '../../components/BackButton';
 import TableMock from '../../constants/mock/TablaMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
 import useAxios from '../../hooks/useAxios';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import ScholarPhoto from '../../assets/scholarPhoto.svg'
 import DatoTutor from '../../components/DatoTutor';
 import TableCareers from '../../components/TableCareers';
-import { mappedDate } from '../../utils/func';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
-import MailSender from '../MailSender/MailSender';
+import MailSender from '../../components/MailSender';
 
 
 const useStyles = makeStyles(() => ({

@@ -1,18 +1,18 @@
 import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./components/Login/Login";
-import Main from "./components/Main/Main";
+import Login from "./pages/Login/Login";
+import Main from "./pages/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
-import ScholarData from "./components/ScholarData";
-import SignScholarData from "./components/SignScholarData";
-import SignTutorData from "./components/SignTutorData";
-import TutorData from "./components/TutorData";
-import EditTutorData from "./components/TutorData/EditTutorData";
-import EditScholarData from "./components/ScholarData/EditScholarData";
-import MainTutor from "./components/MainTutor/MainTutor";
-import MainScholars from "./components/MainScholars";
-import ConfigurationPage from "./components/ConfigurationPage";
+import ScholarData from "./pages/ScholarData";
+import SignScholarData from "./pages/SignScholarData";
+import SignTutorData from "./pages/SignTutorData";
+import TutorData from "./pages/TutorData";
+import EditTutorData from "./pages/TutorData/EditTutorData";
+import EditScholarData from "./pages/ScholarData/EditScholarData";
+import MainTutor from "./pages/MainTutor";
+import MainScholars from "./pages/MainScholars";
+import ConfigurationPage from "./pages/ConfigurationPage";
 
 const useStyles = makeStyles(() => ({
   root: {

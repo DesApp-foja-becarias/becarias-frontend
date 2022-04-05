@@ -2,12 +2,12 @@ import {useState, useContext, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box, Input  } from '@mui/material';
 import { carreras } from '../../constants';
-import BackButton from '../BackButton';
+import BackButton from '../../components/BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 import { createScholar } from '../../services/Scholar/servicesScholar';
 import { useHistory } from 'react-router';
 

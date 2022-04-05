@@ -1,14 +1,14 @@
 import React, { useState, useEffect,useContext } from 'react'
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Searcher from '../Searcher/Searcher';
+import Searcher from '../../components/Searcher/Searcher';
 import { Link } from 'react-router-dom';
-import { getScholars } from '../../services/Scholar/servicesScholar';
+import { getTutors } from '../../services/Tutor/serviceTutor';
 import useAxios from '../../hooks/useAxios';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import { columnsTutor } from '../../constants/searcherConstant';
-import { mapScholarsForSearcher } from '../../utils/scholarUtils';
+import { mapTutorsForSearcher } from '../../utils/tutorUtils';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -25,22 +25,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const MainScholars = () => {
+const MainTutor = () => {
     const classes = useStyles();
-    const [scholars, setScholars] = useState([]);
+    const [tutors, setTutors] = useState([]);
     const { loading } = useContext(LoadingScreenContext);
     
-    const getScholarsAxios = useAxios({
-        call: () => getScholars()
-        , errorMessage: 'No se pudo encontrar las becarias'
-        , successMessage: 'Becarias encontradas'
-        , loadingMessage: 'Buscando Becarias...'
+    const getTutorsAxios = useAxios({
+        call: () => getTutors()
+        , errorMessage: 'No se pudo encontrar los tutores'
+        , loadingMessage: 'Buscando Tutores...'
         , redirectErr: '/'
     })
 
     useEffect(() => {
-        const fetchData = async () => await getScholarsAxios.useAxiosCall().then(
-            res => setScholars(( res.data ))
+        const fetchData = async () => await getTutorsAxios.useAxiosCall().then(
+            res => setTutors(( res.data))
             );
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,21 +47,21 @@ const MainScholars = () => {
 
     if (loading) {
         return <LoadingScreen/>
-    }
+    }  
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
                 <Container maxWidth="xl" disableGutters>
-                    <Link  className={classes.link} to="/inscribirbecaria">
-                        <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Becaria</Button>
+                    <Link  className={classes.link} to="/inscribirtutor">
+                        <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher items={scholars? mapScholarsForSearcher(scholars):[]} columns={columnsTutor}/>
+                    <Searcher items={tutors? mapTutorsForSearcher(tutors):[]} columns={columnsTutor}/>
                 </Container>
             </Container>
         </Container>
     );
 }
 
-export default MainScholars
+export default MainTutor

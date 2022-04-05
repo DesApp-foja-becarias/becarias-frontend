@@ -1,7 +1,7 @@
 import { useEffect,useState } from 'react';
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Searcher from '../Searcher/Searcher';
+import Searcher from '../../components/Searcher/Searcher';
 import { Link } from 'react-router-dom';
 import { columnsTutor } from '../../constants/searcherConstant';
 import useAxios from '../../hooks/useAxios';
@@ -9,7 +9,7 @@ import { getTutors } from '../../services/Tutor/serviceTutor';
 import { getScholars } from '../../services/Scholar/servicesScholar';
 import { mapScholarsForSearcher } from '../../utils/scholarUtils';
 import { mapTutorsForSearcher } from '../../utils/tutorUtils';
-import MailSender from '../MailSender/MailSender';
+import MailSender from '../../components/MailSender/MailSender';
 
 const useStyles = makeStyles((theme) => ({
     logo: {

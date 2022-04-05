@@ -1,16 +1,15 @@
 import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
-import { Alert, Snackbar, TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
+import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import useAxios from '../../hooks/useAxios';
-import BackButton from '../BackButton';
+import BackButton from '../../components/BackButton/BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams,useHistory } from 'react-router';
 import { updateTutor } from '../../services/Tutor/serviceTutor';
 import useSnackbar from '../../hooks/useSnackbar';
-import useLoadingScreen from '../../hooks/useLoadingScreen';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 
 const useStyles = makeStyles((theme) => ({
