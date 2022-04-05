@@ -187,9 +187,7 @@ const classes = useStyles();
 									Mandar Mail
 						</Button>
 					}
-
 					{showMailSender &&
-					
 					<Paper elevation={8} className={classes.paperContainer}>
 						<Container>
 							<Box display="flex" justifyContent="flex-end">
@@ -241,22 +239,12 @@ const classes = useStyles();
 										}
 									}
 									/>
-								{/* <TextField
-									id="outlined-multiline-static"
-									multiline
-									rows={4}
-									defaultValue=""
-									variant="outlined"
-									fullWidth
-									onChange={(e) => setText(e.target.value)}
-								/> */}
 								<Typography variant="h6">
 									Adjuntos
 								</Typography>
-									<Input sx={{marginBottom:'1rem'}} type="file" id="contained-button-file" fullWidth  />
-								
-								<Button variant="contained" color="primary" onClick={e => {
-									sendMail(selectedUsers, subject, text)
+									<Input sx={{marginBottom:'1rem'}} type="file" id="contained-button-file" fullWidth />
+								<Button variant="contained" color="primary" onClick={() => {
+									sendMail({selectedUsers, subject, text})
 								}}>
 									Enviar
 								</Button>

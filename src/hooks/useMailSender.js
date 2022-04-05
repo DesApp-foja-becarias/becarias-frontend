@@ -6,7 +6,7 @@ function useMailSender() {
 		const [showMailSender,setShowMailSender] = useState(false);
 		const { showSnackbar } = useSnackbar()
 
-		const sendMail = async (selectedUsers, subject, text) => {
+		const sendMail = async ({selectedUsers, subject, text}) => {
 				const response = await sendEmail({
 						emails : selectedUsers,
 						subject: subject,
