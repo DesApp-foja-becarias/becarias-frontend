@@ -13,6 +13,7 @@ import EditScholarData from "./pages/ScholarData/EditScholarData";
 import MainTutor from "./pages/MainTutor";
 import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
+import ActivitiesPage from "./pages/Activities/Activities";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -70,6 +71,9 @@ export default function App() {
             </Route>
             <Route exact path="/configuracion">
               <ConfigurationPage/>
+            </Route>
+            <Route exact path="/activities">
+              <ActivitiesPage />
             </Route>
             <Route exact path="/">
               <Main />
