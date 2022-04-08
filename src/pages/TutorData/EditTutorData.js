@@ -11,7 +11,6 @@ import useSnackbar from '../../hooks/useSnackbar';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
 
-
 const useStyles = makeStyles((theme) => ({
     container:{
         display: 'flex',
