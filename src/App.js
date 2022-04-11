@@ -72,7 +72,7 @@ export default function App() {
             <Route exact path="/configuracion">
               <ConfigurationPage/>
             </Route>
-            <Route exact path="/activities">
+            <Route exact path="/actividades">
               <ActivitiesPage />
             </Route>
             <Route exact path="/">
