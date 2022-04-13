@@ -1,12 +1,12 @@
 import {makeStyles} from '@mui/styles';
 import { useState , useEffect, useContext } from 'react';
-import BackButton from '../BackButton';
+import BackButton from '../../components/BackButton';
 import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import {someEmptyField} from '../../utils/func';
 import { createTutor } from '../../services/Tutor/serviceTutor';
 import useAxios from '../../hooks/useAxios';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import { useHistory } from 'react-router';
 

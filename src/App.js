@@ -1,25 +1,24 @@
-import { Alert, Container, Snackbar } from "@mui/material";
+import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import useSnackbar from "./hooks/useSnackbar";
-import Login from "./components/Login/Login";
-import Main from "./components/Main/Main";
+import Login from "./pages/Login/Login";
+import Main from "./pages/Main/Main";
 import Navbar from "./components/Navbar/Navbar";
-import ScholarData from "./components/ScholarData";
-import SignScholarData from "./components/SignScholarData";
-import SignTutorData from "./components/SignTutorData";
-import TutorData from "./components/TutorData";
-import EditTutorData from "./components/TutorData/EditTutorData";
-import EditScholarData from "./components/ScholarData/EditScholarData";
-import MainTutor from "./components/MainTutor/MainTutor";
-import PrivateRoute from "./components/PrivateRoute";
-import MainScholars from "./components/MainScholars";
-import ConfigurationPage from "./components/ConfigurationPage";
+import ScholarData from "./pages/ScholarData";
+import SignScholarData from "./pages/SignScholarData";
+import SignTutorData from "./pages/SignTutorData";
+import TutorData from "./pages/TutorData";
+import EditTutorData from "./pages/TutorData/EditTutorData";
+import EditScholarData from "./pages/ScholarData/EditScholarData";
+import MainTutor from "./pages/MainTutor";
+import MainScholars from "./pages/MainScholars";
+import ConfigurationPage from "./pages/ConfigurationPage";
 
 const useStyles = makeStyles(() => ({
   root: {
     marginTop: "50px",
     height: "100%",
+		
   },
   fixedHeader: {
     marginBottom: "40px",
@@ -30,12 +29,12 @@ const useStyles = makeStyles(() => ({
   },
   mainContainer: {
     minHeight: "100vh",
+		
   },
 }));
 
 export default function App() {
   const classes = useStyles();
-  const {snackbar,  closeSnackbar } = useSnackbar();
   return (
     <Container maxWidth="false" disableGutters className={classes.mainContainer}>
       <Router>
@@ -45,7 +44,6 @@ export default function App() {
             <Route path="/login">
               <Login />
             </Route>
-          <PrivateRoute>
             <Route exact path="/tutor/edit/:id">
               <EditTutorData />
             </Route>
@@ -76,25 +74,9 @@ export default function App() {
             <Route exact path="/">
               <Main />
             </Route>
-          </PrivateRoute>
         </Container>
         </Switch>
       </Router>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        open={snackbar.open}
-        autoHideDuration={5000}
-        message="Note archived"
-        onClose={() => closeSnackbar()}
-      >
-        <Alert severity={snackbar.severity} variant="filled">
-          {snackbar.message}
-        </Alert>
-
-      </Snackbar>
     </Container>
   );
 }

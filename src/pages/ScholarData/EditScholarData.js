@@ -1,15 +1,13 @@
 import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
-import { carreras } from '../../constants/constants';
+import { TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
-import {someEmptyField} from '../../utils/func';
 import { useParams } from 'react-router';
 import { getScholar, updateScholar } from '../../services/Scholar/servicesScholar';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
-import LoadingScreen from '../LoadingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
     container:{

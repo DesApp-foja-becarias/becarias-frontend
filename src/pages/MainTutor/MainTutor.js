@@ -1,13 +1,13 @@
-import { useEffect,useState, useContext } from 'react';
+import React, { useState, useEffect,useContext } from 'react'
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Searcher from '../Searcher/Searcher';
+import Searcher from '../../components/Searcher/Searcher';
 import { Link } from 'react-router-dom';
-import { columnsTutor } from '../../constants/searcherConstant';
-import useAxios from '../../hooks/useAxios';
 import { getTutors } from '../../services/Tutor/serviceTutor';
-import { getScholars } from '../../services/Scholar/servicesScholar';
-import { mapScholarsForSearcher } from '../../utils/scholarUtils';
+import useAxios from '../../hooks/useAxios';
+import LoadingScreen from '../../components/LoadingScreen';
+import {LoadingScreenContext} from '../../context/LoadingScreenContext';
+import { columnsTutor } from '../../constants/searcherConstant';
 import { mapTutorsForSearcher } from '../../utils/tutorUtils';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,44 +25,43 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Main() {
+const MainTutor = () => {
     const classes = useStyles();
-    const [items, setItems] = useState([]);
-    const getScholarsAxios = useAxios({
-        call: () => getScholars()
-    })
+    const [tutors, setTutors] = useState([]);
+    const { loading } = useContext(LoadingScreenContext);
+    
     const getTutorsAxios = useAxios({
         call: () => getTutors()
+        , errorMessage: 'No se pudo encontrar los tutores'
+        , loadingMessage: 'Buscando Tutores...'
+        , redirectErr: '/'
     })
 
     useEffect(() => {
-        const fetchData = async () => 
-        { 
-            await getScholarsAxios.useAxiosCall().then(
-                async res => await setItems(prevState=> prevState.concat(mapScholarsForSearcher(res.data)) )
-            )
-            await getTutorsAxios.useAxiosCall().then(
-                async res => await setItems(prevState => prevState.concat(mapTutorsForSearcher(res.data)))
-            )
-        }
+        const fetchData = async () => await getTutorsAxios.useAxiosCall().then(
+            res => setTutors(( res.data))
+            );
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    if (loading) {
+        return <LoadingScreen/>
+    }  
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
                 <Container maxWidth="xl" disableGutters>
-                    <Link className={classes.link} to="/inscribirbecaria">
-                        <Button variant="contained" sx={{ m: "2rem", py: "2rem" }} >Inscripción Becaria</Button>
-                    </Link>
                     <Link  className={classes.link} to="/inscribirtutor">
                         <Button variant="contained" sx={{ m: "2rem", py: "2rem" }}>Inscripción Tutor</Button>
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher items={items} columns={columnsTutor}/>
+                    <Searcher items={tutors? mapTutorsForSearcher(tutors):[]} columns={columnsTutor}/>
                 </Container>
             </Container>
         </Container>
     );
 }
+
+export default MainTutor

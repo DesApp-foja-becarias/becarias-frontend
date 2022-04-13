@@ -1,7 +1,14 @@
 import { createTheme } from '@mui/material/styles';
 
 export const themeOptions = {
-
+	root: {
+		'&::-webkit-scrollbar': {
+			width: '0.5rem',
+		height: '0.5rem',
+		background: '#cccccc',
+		borderRadius: '0.5rem',
+		}
+	},
   palette: {
     type: 'light',
     primary: {

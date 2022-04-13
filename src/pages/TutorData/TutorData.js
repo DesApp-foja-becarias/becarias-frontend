@@ -1,18 +1,18 @@
-import Dato from '../Datos/Dato';
+import Dato from '../../components/Datos/Dato';
 import React, { useEffect, useState, useContext} from 'react'
 import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
-import BackButton from '../BackButton';
+import BackButton from '../../components/BackButton';
 import { getTutor } from '../../services/Tutor/serviceTutor';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
-import LoadingScreen from '../LoadingScreen';
-import TableCareers from '../TableCareers';
-import TableScholars from '../TableScholars';
+import LoadingScreen from '../../components/LoadingScreen';
+import TableCareers from '../../components/TableCareers';
+import TableScholars from '../../components/TableScholars';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
