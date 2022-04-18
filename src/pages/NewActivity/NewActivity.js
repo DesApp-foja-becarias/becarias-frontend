@@ -5,35 +5,38 @@ import React, { useState } from 'react'
 import { createActivity } from '../../services/Activities/serviceActivities'
 import useAxios from '../../hooks/useAxios'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => 
+
+({
 	container:{
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'center',
 			alignItems: 'center',
-			marginTop:'50px',
+			margin:'50px',
+			padding:'20px'
 	},
-	textField:{
-			alignItems:"center",
-			marginTop: "5px",
-			margin:"normal",
-	},
-	icon:{
-			color: "black",
-			fontSize: "30",
-	},
+
 	boton:{
 			width: "350px",
 			height: "60px",
 	},
 	input:{
 			color:"#fff",
-			backgroundColor:"#000",}
-	}));
+			backgroundColor:"#000",
+	},
+	dateContainer:{
+			display: 'flex',
+	},
+	date:{
+		width: '100%',
+	}
+}));
 
 function NewActivity() {
 	const [activityForm, setActivityForm] = useState({
 		name: '',
+		description: '',
 		startDate: '',
 		endDate: '',
 		validity: true
@@ -62,20 +65,26 @@ function NewActivity() {
 					}
 				}
 					>
-						<Container >
+						<Container>
 							<Typography>Nombre</Typography>
-							<TextField type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}/>
+							<TextField fullWidth type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}/>
 						</Container>
-						<Container>
-							<Typography>Fecha de inicio</Typography>
-							<TextField type="date" value={activityForm.startDate} onChange={(e) => setActivityForm({...activityForm, startDate: e.target.value})}/>
+						<Container mt={3}>
+							<Typography>Descripción</Typography>
+							<TextField fullWidth type="text" value={activityForm.description} onChange={(e) => setActivityForm({...activityForm, description: e.target.value})}/>
 						</Container>
-						<Container>
-						<Typography>Fecha de fin estimada</Typography>
-							<TextField type="date" value={activityForm.endDate} onChange={(e) => setActivityForm({...activityForm, endDate: e.target.value})}/>
+						<Container sx={{display:'flex', justifyContent:'space-evenly'}}>
+							<Box className={classes.date}>
+								<Typography>Fecha de inicio</Typography>
+								<TextField fullWidth type="date" value={activityForm.startDate} onChange={(e) => setActivityForm({...activityForm, startDate: e.target.value})}/>
+							</Box>
+							<Box className={classes.date}>
+								<Typography>Fecha de fin estimada</Typography>
+								<TextField fullWidth type="date" value={activityForm.endDate} onChange={(e) => setActivityForm({...activityForm, endDate: e.target.value})}/>
+							</Box>
 						</Container>
 						<Box mt={3}/>
-						<Button className={classes.boton} type="submit" variant="contained">Crear</Button>
+						<Button fullWidth className={classes.boton} type="submit" variant="contained">Crear</Button>
 						<Box mt={3}/>
 					</form>
 				</Container>
