@@ -35,3 +35,12 @@ const rowss = [
 { id: 20, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada',career: " Tec. en Electrónica",announcement: 2019,weighing: 2020,tutor: "Alicia Ramos"}
 
 ];
+
+export const actividadesRows = [
+	{ field: 'id', headerName: 'ID', width: 50, },
+	{ field: 'name', headerName: 'Nombre/s', width: 150 ,},
+	{ field: 'lastName', headerName: 'Apellido', width: 150,},
+	{ field: 'carreer', headerName: 'Carrera', width: 150, },
+	{ field: 'profile', headerName: 'Perfil', width: 150, },
+	{ field: 'erase', headerName: 'Eliminar', width: 150, }
+]
