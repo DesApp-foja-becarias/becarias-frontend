@@ -14,6 +14,7 @@ import MainTutor from "./pages/MainTutor";
 import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
 import ActivitiesPage from "./pages/Activities/Activities";
+import NewActivity from "./pages/NewActivity";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -75,6 +76,9 @@ export default function App() {
             <Route exact path="/actividades">
               <ActivitiesPage />
             </Route>
+						<Route exact path="/nuevaActividad">
+							<NewActivity />
+						</Route>
             <Route exact path="/">
               <Main />
             </Route>

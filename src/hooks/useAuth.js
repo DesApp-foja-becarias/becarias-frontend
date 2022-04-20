@@ -18,12 +18,12 @@ const useAuth = () => {
     const history = useHistory()
     const login = (e,user) => {
         e.preventDefault()
-        if(user.username === 'y.carro@gmail.com' && user.password === '123456'){
+        if(user.username === 'j.carro@gmail.com' && user.password === '123456'){
             const userMock = {
                 username: user.username,
                 password: user.password,
                 isAuthenticated: true,
-                firstName: 'Yessica',
+                firstName: 'Jessica',
                 lastName: 'Carro',
             }
             localStorage.setItem('user', JSON.stringify(userMock))
