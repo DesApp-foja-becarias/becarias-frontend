@@ -3,6 +3,7 @@ import { Button, Container, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Searcher from '../../components/Searcher/Searcher'
 import { actividadesRows } from '../../constants/searcherConstant'
+import { margin } from '@mui/system'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -31,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		margin: '10px 0'
 	},
+	advancedButton: {
+		marginLeft: '20px',
+		marginRight: '20px',
+		marginTop: '10px',
+		marginBottom: '10px'
+	}
 }))
 
 function ActivitiesData() {
@@ -78,11 +85,11 @@ function ActivitiesData() {
 			:
 			<>
 				<Container disableGutters>
-					<Button variant='outlined' color='warning' onClick={()=> setAdvancedOptions(false)}> ⚠ Cerrar Opciones Avanzadas</Button>
+					<Button variant='outlined' color='warning' onClick={()=> setAdvancedOptions(false) } sx={{margin:'5px 0'}}> ⚠ Cerrar Opciones Avanzadas</Button>
 				</Container>
 				<Container disableGutters>
-					<Button variant='contained' color='warning'> ❕ Vaciar Tabla</Button>
-					<Button variant='contained' color='error'> ☠ Borrar Actividad</Button>
+					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}> ❕ Vaciar Tabla</Button>
+					<Button variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
 				</Container>
 			</>
 			}
