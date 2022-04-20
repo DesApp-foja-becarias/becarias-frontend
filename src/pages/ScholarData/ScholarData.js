@@ -18,6 +18,7 @@ import DatoTutor from '../../components/DatoTutor';
 import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
+import { DateTime } from 'luxon';
 
 
 const useStyles = makeStyles(() => ({
@@ -152,10 +153,11 @@ export default function ScholarData() {
                     <Box mb={2} mt={2}/>
                     <Typography variant="subtitle1">Datos de personales</Typography>
                     <Dato name='dni' title='DNI' value={scholar.dni} />
-                    <Dato name='birthdate' title='Fecha de nacimiento' value=
+                    <Dato name='birthday' title='Fecha de nacimiento' value=
                     {
-                    '15/05/1998'  
-                    } />
+											DateTime.fromISO(scholar.birthday).toLocaleString()
+                    } 
+										/>
                     {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
                     <Dato name='direccion' title='Domicilio' value={scholar.address}/>
                       <Dato name='ciudad' title='Localidad' value={scholar.city }/>
