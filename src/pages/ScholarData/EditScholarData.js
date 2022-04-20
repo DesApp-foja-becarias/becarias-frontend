@@ -8,6 +8,7 @@ import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import LoadingScreen from '../../components/LoadingScreen';
+import { DateTime } from 'luxon';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -207,7 +208,7 @@ export default function EditScholarData() {
                         type="date" 
                         variant='outlined'  
                         placeholder='Fecha de nacimiento'  
-                        value={scholar.birthday}
+                        value={DateTime.fromISO(scholar.birthday).toFormat('yyyy-MM-dd')}
                         margin="normal"
                         name="birthday"
                         onBlur={(e) =>validateNotEmpty(e)} onChange={updateScholarState}

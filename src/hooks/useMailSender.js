@@ -7,10 +7,15 @@ function useMailSender() {
 		const { showSnackbar } = useSnackbar()
 
 		const sendMail = async ({selectedUsers, subject, htmlText}) => {
+				const selectedUsersMapped = selectedUsers.map(user => ({
+					Email: user.email,
+						Name: user.name,
+				})
+				)
 				const response = await sendEmail({
-						emails : selectedUsers,
+						emails : selectedUsersMapped,
 						subject: subject,
-						htmlText: htmlText
+						HTMLPart: htmlText
 				}).then(() => {
 						showSnackbar('El envio de correos ha sido exitoso', 'success')
 				}).catch(() => {

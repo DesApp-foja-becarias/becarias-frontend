@@ -1,5 +1,5 @@
 import axios from '../axios';
-export const sendEmail = (emails, subject, htmlText,attachments) => {
+export const sendEmail = (emails, subject, HTMLPart,attachments) => {
 	/**
 	 * @param {Array} emails
 	 * @param {String} subject
@@ -12,7 +12,7 @@ export const sendEmail = (emails, subject, htmlText,attachments) => {
 	return axios.post('api/sendemail', {
 		emails,
 		subject,
-		htmlText,
+		HTMLPart,
 		attachments
 	});
 }
