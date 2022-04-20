@@ -6,11 +6,11 @@ function useMailSender() {
 		const [showMailSender,setShowMailSender] = useState(false);
 		const { showSnackbar } = useSnackbar()
 
-		const sendMail = async ({selectedUsers, subject, text}) => {
+		const sendMail = async ({selectedUsers, subject, htmlText}) => {
 				const response = await sendEmail({
 						emails : selectedUsers,
 						subject: subject,
-						text: text
+						htmlText: htmlText
 				}).then(() => {
 						showSnackbar('El envio de correos ha sido exitoso', 'success')
 				}).catch(() => {

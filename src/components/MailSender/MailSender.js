@@ -244,7 +244,7 @@ const classes = useStyles();
 								</Typography>
 									<Input sx={{marginBottom:'1rem'}} type="file" id="contained-button-file" fullWidth />
 								<Button variant="contained" color="primary" onClick={() => {
-									sendMail({selectedUsers, subject, text})
+									sendMail({selectedUsers, subject, htmlText: text})
 								}}>
 									Enviar
 								</Button>
