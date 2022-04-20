@@ -15,6 +15,7 @@ import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
 import ActivitiesPage from "./pages/Activities/Activities";
 import NewActivity from "./pages/NewActivity";
+import ActivitiesData from "./pages/ActivitiesData";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -78,6 +79,9 @@ export default function App() {
             </Route>
 						<Route exact path="/nuevaActividad">
 							<NewActivity />
+						</Route>
+						<Route exact path="/actividades/detalles/:id">
+							<ActivitiesData/>
 						</Route>
             <Route exact path="/">
               <Main />

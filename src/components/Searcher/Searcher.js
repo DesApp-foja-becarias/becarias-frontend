@@ -10,7 +10,6 @@ export default function Searcher({setStateCallback,items,columns}) {
      *     *  */    
       setSelectedRows(selectedRowsFromDG);
       setStateCallback(items.filter(item => selectedRowsFromDG.includes(item.id)));
-    
   };
 
   return (
