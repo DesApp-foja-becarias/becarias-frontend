@@ -1,6 +1,6 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Dato from '../../components/Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container, Modal, Button } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -19,6 +19,8 @@ import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
+
+
 
 
 const useStyles = makeStyles(() => ({

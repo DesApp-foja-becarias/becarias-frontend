@@ -10,6 +10,7 @@ import SignTutorData from "./pages/SignTutorData";
 import TutorData from "./pages/TutorData";
 import EditTutorData from "./pages/TutorData/EditTutorData";
 import EditScholarData from "./pages/ScholarData/EditScholarData";
+import ScholarAditionalData from "./pages/SignScholarData/ScholarAditionalData";
 import MainTutor from "./pages/MainTutor";
 import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
@@ -64,6 +65,9 @@ export default function App() {
             </Route>
             <Route exact path="/becaria/edit/:id">
               <EditScholarData />
+            </Route>
+            <Route exact path="/becaria/aditional/:id">
+              <ScholarAditionalData />
             </Route>
             <Route exact path="/becaria/:id">
               <ScholarData />
