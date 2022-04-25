@@ -13,6 +13,13 @@ export const columnsTutor = [
     {field: 'type', headerName: 'Tipo', width: 150, }
 ]
 
+export const columnsTutorShort = [
+    { field: 'id', headerName: 'ID', width: 50, },
+    { field: 'name', headerName: 'Nombre/s', width: 160 ,},
+    { field: 'lastname', headerName: 'Apellido', width: 160,},
+    { field: 'dni', headerName: 'DNI', width:160 ,},
+]
+
 
 const rowss = [
 { id: 1, lastName: 'Fabiola', firstName: 'Suarez', dni: "42.312.342" ,age: 35 , state: 'Aceptada',career: " Tec. en Electrónica",announcement: 2019,weighing: 2020,tutor: "Sabrina Schiaretti"},

@@ -115,13 +115,20 @@ export default function ScholarData() {
                     showComponentWhen_(
                       scholar.actualState !== "Aceptada",
                         <Tooltip title='Aprobar' followCursor>
-                          <IconButton onClick={()=>{
-                            acceptScholarAxios.useAxiosCall()
-                            setScholar({...scholar, actualState: 'Aceptada'})
-                          }} 
-                          color='success'>
-                            <PersonAddAlt1Icon  fontSize='large'/>
-                          </IconButton>
+                          <Link to={`aditional/${id}`}>
+                            <IconButton color='success'>
+                              {
+                                /*
+                                onClick={()=>{
+                                acceptScholarAxios.useAxiosCall()
+                                setScholar({...scholar, actualState: 'Aceptada'})
+                                }} 
+                              */
+                              }
+                              
+                              <PersonAddAlt1Icon  fontSize='large'/>
+                            </IconButton>
+                          </Link>
                         </Tooltip>
                     )
                     }

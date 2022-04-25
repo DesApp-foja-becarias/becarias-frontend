@@ -4,11 +4,15 @@ import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, Selec
 import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
+import { getScholar } from '../../services/Scholar/servicesScholar';
 import { createAccount } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import LoadingScreen from '../../components/LoadingScreen';
+import SingleSeacher from '../../components/Searcher/SingleSeacher';
+import { columnsTutorShort } from '../../constants/searcherConstant';
+import { mapTutorsForSearcherSelect } from '../../utils/tutorUtils';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -42,8 +46,9 @@ export default function EditScholarData() {
     const {loading} = useContext(LoadingScreenContext)
 
     const classes = useStyles()
+    const [scholar, setScholar] = useState({});
     const [tutors, setTutors] = useState([]);
-    const [tutorSelected, setTutorSelected] = useState({});
+    const [tutorSelected, setTutorSelected] = useState([]);
     const [account, setAccount] = useState({
         bank: '',
         accountHolder: '',
@@ -53,7 +58,7 @@ export default function EditScholarData() {
         cbu: '',
         BecariaId: id
     })
-
+//TODO: fALTA ARMAR LOS ERRORES
     const {
         areValidFields,
         errors,
@@ -74,6 +79,15 @@ export default function EditScholarData() {
         announcement: false,   
     })
 
+    const getScholarAxios = useAxios({
+        call:  
+        () => getScholar(id)
+        , successMessage: 'Becaria encontrada'
+        , errorMessage: 'No se encontro la becaria'
+        , loadingMessage: 'Buscando becaria...'
+        , redirectErr: '/'
+    })
+
     const getTutorsAxios = useAxios({
         call:
         () => getTutors()
@@ -83,13 +97,6 @@ export default function EditScholarData() {
         , redirectErr: '/'
     })
 
-    const updateAccountState =  (e) => {
-        setAccount({
-            ...account,
-            [e.target.name]: e.target.value,
-        })
-    }
-
     const createAccountCall = useAxios({
         call: () => createAccount(account)
         , successMessage: 'Cuenta Creada'
@@ -98,6 +105,31 @@ export default function EditScholarData() {
         , redirectErr: '/'
         , redirectSuccess: '/becaria'
     })
+/*
+    const updateScholarAxios = useAxios({
+        call:  
+        () => updateScholar(id, scholar)
+        , successMessage: 'Becaria Actualizada'
+        , errorMessage: 'No se pudo actualizar la becaria'
+        , loadingMessage: 'Actualizando becaria...'
+        , redirectErr: '/'
+        , redirectSucc: `/becaria/${id}`
+    })
+*/
+    const updateAccountState =  (e) => {
+        setAccount({
+            ...account,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const setTutor = (e) => {
+        setTutorSelected({
+            ...tutorSelected,
+            [e.target.name]: e.target.value
+        })
+        console.log(tutorSelected)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -106,7 +138,11 @@ export default function EditScholarData() {
     
     useEffect(() => {
         getTutorsAxios.useAxiosCall().then(res => {
-            setTutors(res.data);
+            setTutors(res.data); 
+        })
+        
+        getScholarAxios.useAxiosCall().then(res => {
+            setScholar(res.data)
         })
     }, [])
 
@@ -219,28 +255,21 @@ export default function EditScholarData() {
                     </Grid>
                 </Grid>   
                 <Grid container mt={3} spacing={4}>
-                <Typography variant='subtitle1' align="left">Tutor Asignado</Typography>
+                <Typography variant='subtitle1' align="left">Asignar Tutor</Typography>
                     <Grid item xs={6}></Grid>
-                    <Grid item 
-                        xs={6} 
-                    >
-                        <InputLabel htmlFor='tutor'>Seleccione un Tutor</InputLabel>
-                        <FormControl required>
-                            <Select
-                                name="Tutor"
-                                value={tutorSelected.name}
-                                onChange={setTutorSelected}
-                                placeholder="Tutor"
-                                sx={{width: '13em' , marginTop:'1em'}}
-                            >
-                                {tutors.map(tutor => (
-                                    <MenuItem key={tutor.id} value={tutor}>
-                                        {tutor.lastname + " " + tutor.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
+
+                    {tutorSelected.length === 0 ?
+                        <Typography htmlFor='tutor' margin={2}>Tutor seleccionado: No hay un tutor seleccionado</Typography>
+                        :
+                        tutorSelected.map(tutor => {
+                            return (
+                                <Typography htmlFor='tutor' margin={2}>Tutor seleccionado: {tutor.lastname + " " +tutor.name}</Typography>
+                            )
+                        })
+                    }
+                   
+                    <SingleSeacher setStateCallback={setTutorSelected} items={tutors} columns={columnsTutorShort}/>
+
                 </Grid>   
             <Box mt={3} mb={3}/>
             <Box mt={6} mb={6}>
