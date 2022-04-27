@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+//TODO Falta definir los endpoints con el back
 export const getAccountFromUser = (userId) => {
     return axios.get(`/api/account/${userId}`);
 }

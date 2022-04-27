@@ -4,7 +4,7 @@ import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, Selec
 import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
-import { getScholar } from '../../services/Scholar/servicesScholar';
+import { getScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
 import { createAccount } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
@@ -12,7 +12,6 @@ import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import LoadingScreen from '../../components/LoadingScreen';
 import SingleSeacher from '../../components/Searcher/SingleSeacher';
 import { columnsTutorShort } from '../../constants/searcherConstant';
-import { mapTutorsForSearcherSelect } from '../../utils/tutorUtils';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -58,25 +57,21 @@ export default function EditScholarData() {
         cbu: '',
         BecariaId: id
     })
-//TODO: fALTA ARMAR LOS ERRORES
+
     const {
         areValidFields,
         errors,
         validateNotEmpty,
-        validateDni,
-        validateEmail,
-        validatePhone
+        validateAccountNumber,
+        validateCBU
     } = useFieldValidator({
-        name: false,
-        lastname: false,
-        dni: false,
-        cuit: false,
-        email: false,
-        birthday: false,
-        telephone: false,
-        address: false,
-        city: false,
-        announcement: false,   
+        Bank: false,
+        accountHolder: false,
+        accountNumber: false,
+        accountType: false,
+        branchOffice: false,
+        cbu: false,
+        BecariaId: false
     })
 
     const getScholarAxios = useAxios({
@@ -103,19 +98,18 @@ export default function EditScholarData() {
         , errorMessage: 'No se pudo crear la cuenta'
         , loadingMessage: 'Creando Cuenta...'
         , redirectErr: '/'
-        , redirectSuccess: '/becaria'
+        , redirectSuccess: `/becaria/${id}`
     })
-/*
-    const updateScholarAxios = useAxios({
+
+    const acceptScholarAxios = useAxios({
         call:  
-        () => updateScholar(id, scholar)
-        , successMessage: 'Becaria Actualizada'
-        , errorMessage: 'No se pudo actualizar la becaria'
-        , loadingMessage: 'Actualizando becaria...'
-        , redirectErr: '/'
-        , redirectSucc: `/becaria/${id}`
+        () => acceptScholar({
+            ...scholar,
+            TutorId: tutorSelected.id,
+            actualState: 'Aceptada'
+        })
     })
-*/
+
     const updateAccountState =  (e) => {
         setAccount({
             ...account,
@@ -123,17 +117,10 @@ export default function EditScholarData() {
         })
     }
 
-    const setTutor = (e) => {
-        setTutorSelected({
-            ...tutorSelected,
-            [e.target.name]: e.target.value
-        })
-        console.log(tutorSelected)
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        //updateScholarAxios.useAxiosCall()
+        createAccountCall.useAxiosCall(account);
+        acceptScholarAxios.useAxiosCall();
     }
     
     useEffect(() => {
@@ -163,15 +150,15 @@ export default function EditScholarData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="lastname">Banco</InputLabel>
+                        <InputLabel htmlFor="bank">Banco</InputLabel>
                         <TextField 
                             placeholder="Banco"
                             variant="outlined"
                             name="Bank"
                             margin="normal"
                             onBlur={(e)=>validateNotEmpty(e)} onChange={updateAccountState}
-                            error={errors.lastname}
-                            helperText={errors.lastname ? 'Campo obligatorio' : ''}
+                            error={errors.bank}
+                            helperText={errors.bank ? 'Campo obligatorio' : ''}
                             required
                             />
                     </Grid>
@@ -186,32 +173,32 @@ export default function EditScholarData() {
                             margin="normal"
                             onBlur={(e) =>validateNotEmpty(e)}  
                             onChange={updateAccountState}
-                            error={errors.name}
-                            helperText={errors.name ? 'Campo obligatorio' : ''}
+                            error={errors.accountHolder}
+                            helperText={errors.accountHolder ? 'Campo obligatorio' : ''}
                             required
                         />
                     </Grid>
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="dni">Numero de Cuenta</InputLabel>
+                        <InputLabel htmlFor="accountNumber">Numero de Cuenta</InputLabel>
                         <TextField  
                             placeholder="Numero de cuenta" 
                             variant="outlined"
                             name="accountNumber"
                             type="number"
-                            onBlur={(e) => validateDni(e)}   
+                            onBlur={(e) => validateAccountNumber(e)}   
                             onChange={updateAccountState}
                             margin="normal"
-                            helperText={errors.dni?'Dni Invalido':''}
-                            error={errors.dni}
+                            helperText={errors.accountNumber?'Numero de cuenta Invalido':''}
+                            error={errors.accountNumber}
                             required
                             />
                     </Grid>
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="cuit">Tipo</InputLabel>
+                        <InputLabel htmlFor="accountType">Tipo</InputLabel>
                         <TextField  
                             placeholder="Tipo" 
                             variant="outlined"
@@ -219,57 +206,58 @@ export default function EditScholarData() {
                             onBlur={(e) => validateNotEmpty(e)}   
                             onChange={updateAccountState}
                             margin="normal"
-                            helperText={errors.cuit?'CUIT Invalido':''}
-                            error={errors.cuit}
+                            helperText={errors.accountType?'Campo obligatorio':''}
+                            error={errors.accountType}
                             required
                             />
                     </Grid>
                     <Grid item xs={6} >
-                        <InputLabel htmlFor="Correo electronico">Sucursal</InputLabel>
+                        <InputLabel htmlFor="branchOffice">Sucursal</InputLabel>
                         <TextField className={classes.textField}
                             placeholder="Sucursal"
                             variant="outlined"
                             size="normal"
                             margin="normal"
                             name="branchOffice"
-                            onBlur={(e)=>validateEmail(e)}
+                            onBlur={(e)=>validateNotEmpty(e)}
                             onChange={updateAccountState}
-                            error={errors.email}
-                            helperText={errors.email?'Correo electronico invalido':''}
+                            error={errors.branchOffice}
+                            helperText={errors.branchOffice? 'Campo obligatorio' : ''}
                             required
                         />
                     </Grid>
                     <Grid item xs={6} >
-                        <InputLabel htmlFor="fechaDeNacimiento">CBU</InputLabel>
+                        <InputLabel htmlFor="cbu">CBU</InputLabel>
                         <TextField 
                             type='number'
                             variant='outlined'  
                             placeholder='CBU'  
                             margin="normal"
                             name="cbu"
-                            onBlur={(e) =>validateNotEmpty(e)} onChange={updateAccountState}
-                            error={errors.birthday}
-                            helperText={errors.birthday?'Fecha de nacimiento invalida':''}
+                            onBlur={(e) =>validateCBU(e)} 
+                            onChange={updateAccountState}
+                            error={errors.cbu}
+                            helperText={errors.cbu?'Numero de cbu invalido':''}
                             required
                         />
                     </Grid>
                 </Grid>   
                 <Grid container mt={3} spacing={4}>
                 <Typography variant='subtitle1' align="left">Asignar Tutor</Typography>
-                    <Grid item xs={6}></Grid>
-
+                <Grid item xs={6}></Grid>
+                <Grid item xs={12}>
                     {tutorSelected.length === 0 ?
-                        <Typography htmlFor='tutor' margin={2}>Tutor seleccionado: No hay un tutor seleccionado</Typography>
+                        <InputLabel htmlFor='tutor'>Tutor: No hay un tutor asignado</InputLabel>
                         :
                         tutorSelected.map(tutor => {
                             return (
-                                <Typography htmlFor='tutor' margin={2}>Tutor seleccionado: {tutor.lastname + " " +tutor.name}</Typography>
+                                <InputLabel htmlFor='tutor'>Tutor: {tutor.lastname + " " +tutor.name}</InputLabel>
                             )
                         })
                     }
                    
                     <SingleSeacher setStateCallback={setTutorSelected} items={tutors} columns={columnsTutorShort}/>
-
+                </Grid>
                 </Grid>   
             <Box mt={3} mb={3}/>
             <Box mt={6} mb={6}>
@@ -277,6 +265,7 @@ export default function EditScholarData() {
                 <Button className={classes.boton}
                     variant="contained" 
                     type="submit"
+                    disabled={tutorSelected.length > 0 ? false : true}
                 >
                     APROBAR BECARIA
                 </Button>
