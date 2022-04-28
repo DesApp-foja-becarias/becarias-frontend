@@ -64,7 +64,15 @@ function ActivitiesData() {
 		, successMessage: 'Actividad encontrada'
 		, loadingMessage: 'Buscando actividad...'
 		, redirectErr: '/actividades'
-})
+	})
+	const deleteActivityAxios = useAxios({
+		call: () => deleteActivity(id)
+		, errorMessage: 'No se pudo eliminar la actividad'
+		, successMessage: 'Actividad eliminada'
+		, loadingMessage: 'Eliminando actividad...'
+		, redirectErr: '/actividades'
+		, redirectSucc: '/actividades'
+	})
 
 useEffect(() => {
 		const fetchData = async () => await getActivityAxios.useAxiosCall().then(
@@ -124,7 +132,7 @@ useEffect(() => {
 				</Container>
 				<Container disableGutters>
 					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}> ❕ Vaciar Tabla</Button>
-					<Button onClick={()=> deleteActivity(id)} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
+					<Button onClick={()=> deleteActivityAxios.useAxiosCall()} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
 				</Container>
 			</>
 			}
