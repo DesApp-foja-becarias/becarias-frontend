@@ -49,7 +49,7 @@ const MainScholars = () => {
     }, []);
 
     if (loading) {
-        return <LoadingScreen/>
+      return <LoadingScreen/>
     }
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>

@@ -49,8 +49,7 @@ function NewActivity() {
 		successMessage: 'Actividad creada con éxito',
 		errorMessage: 'Error al crear la actividad',
 		loadingMessage: 'Creando actividad...',
-		redirectSucc: '/activities',
-		redirectErr: '/activities'
+		redirectSucc: '/actividades',
 	})
 	return (
 		<Container maxWidth='md'>

@@ -1,9 +1,13 @@
-import React, {useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { Button, Container, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Searcher from '../../components/Searcher/Searcher'
 import { actividadesRows } from '../../constants/searcherConstant'
-import { margin } from '@mui/system'
+import { LoadingScreenContext } from '../../context/LoadingScreenContext'
+import LoadingScreen from '../../components/LoadingScreen'
+import useAxios from '../../hooks/useAxios'
+import { useParams } from 'react-router-dom'
+import { deleteActivity, getActivity, updateActivity } from '../../services/Activities/serviceActivities'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -42,32 +46,63 @@ const useStyles = makeStyles((theme) => ({
 
 function ActivitiesData() {
 	const classes = useStyles();
+	const {id} = useParams()
 	// avanced optiosn state
 	const [advancedOptions, setAdvancedOptions] = useState(false);
+	
+	const { loading } = useContext(LoadingScreenContext);
+	const [activity, setActivity] = useState({
+		name: '',
+		description: '',
+		startDate: '',
+		endDate: '',
+		vigency: '',
+	});
+	const getActivityAxios = useAxios({
+		call: () => getActivity(id)
+		, errorMessage: 'No se pudo encontrar la actividad'
+		, successMessage: 'Actividad encontrada'
+		, loadingMessage: 'Buscando actividad...'
+		, redirectErr: '/actividades'
+})
+
+useEffect(() => {
+		const fetchData = async () => await getActivityAxios.useAxiosCall().then(
+				res => setActivity(( res.data ))
+				);
+		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
+	if (loading) {
+		return <LoadingScreen/>
+	}
 	return (
 		<Container>
 			<Paper elevation={1} sx={{padding:2}}>
 				<Container>
-					<Typography variant='h3' color='secondary'> aqui va el nombre </Typography>
-					<Typography variant='h5' color='secondary'> aqui va la descripcion </Typography>
+					<Typography variant='h3' color='secondary'> {activity.name} </Typography>
+					<Typography variant='h5' color='secondary'> {activity.description} </Typography>
 				</Container>
 				<Container className={classes.mainDatoContainer}>
 					<Container disableGutters className={classes.datoContainer}>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de inicio: </Typography>
-							<Typography variant='body1'> 12/12/12 </Typography>
+							<Typography variant='body1'> {activity.startDate} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de Fin estimada:  </Typography>
-							<Typography variant='body1'> 12/12/12 </Typography>
+							<Typography variant='body1'> {activity.endDate} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Estado:  </Typography>
-							<Typography variant='body1'> En curso </Typography>
+							<Typography variant='body1'> {activity.vigency? 'En curso' : 'Terminada'} </Typography>
 						</Container>
 					</Container>
 					<Container className={classes.buttonDatoContainer}>
-						<Button variant='contained' color='error'> Terminar Actividad</Button>
+						<Button onClick={()=> updateActivity(id, {
+							vigency: false
+						})} variant='contained' color='error'> Terminar Actividad</Button>
 					</Container>
 				</Container>
 			</Paper>
@@ -89,7 +124,7 @@ function ActivitiesData() {
 				</Container>
 				<Container disableGutters>
 					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}> ❕ Vaciar Tabla</Button>
-					<Button variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
+					<Button onClick={()=> deleteActivity(id)} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
 				</Container>
 			</>
 			}

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 
 const activitiesUrl = '/api/actividades'
 
@@ -15,6 +15,15 @@ export const getAllActivities = () => {
 }
 
 export const createActivity = (activity) => {
+	/**
+	 * {
+	 * 	name: 
+	 * 	description:
+	 * 	startDate:
+	 * 	endDate:
+	 * 	validity:
+	 * }
+	 */
     return axios.post(activitiesUrl, activity);
 }
 

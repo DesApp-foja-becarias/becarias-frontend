@@ -21,6 +21,7 @@ const useLoadingScreen = () => {
 
     
     return {  hideLoadingScreen, showLoadingScreen }
+		
     }
 
 export default useLoadingScreen
