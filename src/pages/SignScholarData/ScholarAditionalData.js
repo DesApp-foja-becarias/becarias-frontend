@@ -117,6 +117,7 @@ export default function EditScholarData() {
             ...account,
             [e.target.name]: e.target.value
         })
+        console.log(account)
     }
 
     const handleSubmit = (e) => {
@@ -217,7 +218,7 @@ export default function EditScholarData() {
                         >
                             {accountTypes.map(type => {
                                 return (
-                                    <MenuItem key={type.id} value={type}>
+                                    <MenuItem key={type.key} value={type.name}>
                                         {type.name}
                                     </MenuItem>
                                 )
