@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
-import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, Select, MenuItem, FormControl  } from '@mui/material';
+import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, Select, MenuItem } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
@@ -12,6 +12,8 @@ import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import LoadingScreen from '../../components/LoadingScreen';
 import SingleSeacher from '../../components/Searcher/SingleSeacher';
 import { columnsTutorShort } from '../../constants/searcherConstant';
+import { accountTypes } from '../../constants/constants';
+
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -199,17 +201,28 @@ export default function EditScholarData() {
                         xs={6}
                     >
                         <InputLabel htmlFor="accountType">Tipo</InputLabel>
-                        <TextField  
+                        <TextField
+                            select
                             placeholder="Tipo" 
                             variant="outlined"
                             name="accountType"
+                            value={account.accountType}
                             onBlur={(e) => validateNotEmpty(e)}   
                             onChange={updateAccountState}
                             margin="normal"
                             helperText={errors.accountType?'Campo obligatorio':''}
                             error={errors.accountType}
+                            sx={{width: '13em' , marginTop:'1em'}}
                             required
-                            />
+                        >
+                            {accountTypes.map(type => {
+                                return (
+                                    <MenuItem key={type.id} value={type}>
+                                        {type.name}
+                                    </MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </Grid>
                     <Grid item xs={6} >
                         <InputLabel htmlFor="branchOffice">Sucursal</InputLabel>
