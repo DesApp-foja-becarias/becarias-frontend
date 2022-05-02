@@ -5,7 +5,7 @@ import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
 import { getScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
-import { createAccount } from '../../services/Account/serviceAccount';
+import { getAccountFromId, updateAccount } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
@@ -50,15 +50,7 @@ export default function EditScholarData() {
     const [scholar, setScholar] = useState({});
     const [tutors, setTutors] = useState([]);
     const [tutorSelected, setTutorSelected] = useState([]);
-    const [account, setAccount] = useState({
-        bank: '',
-        accountHolder: '',
-        accountNumber: '',
-        accountType: '',
-        branchOffice: '',
-        cbu: '',
-        BecariaId: id
-    })
+    const [account, setAccount] = useState({});
 
     const {
         areValidFields,
@@ -75,6 +67,10 @@ export default function EditScholarData() {
         cbu: false,
         BecariaId: false
     })
+
+    ////////////////////////////////////
+    // Axios Calls
+    ///////////////////////////////////
 
     const getScholarAxios = useAxios({
         call:  
@@ -94,13 +90,23 @@ export default function EditScholarData() {
         , redirectErr: '/'
     })
 
-    const createAccountCall = useAxios({
-        call: () => createAccount(account)
-        , successMessage: 'Cuenta Creada'
-        , errorMessage: 'No se pudo crear la cuenta'
-        , loadingMessage: 'Creando Cuenta...'
-        , redirectErr: '/'
-        , redirectSuccess: `/becaria/${id}`
+    const getAccountAxios = useAxios({
+        call:
+        () => getAccountFromId(id)
+        , successMessage: 'Cuenta encontrada'
+        , errorMessage: 'No se encontro la cuenta asociada'
+        , loadingMessage: 'Buscando cuenta...'
+        , redirectErr: `/becaria/${id}`
+    })
+
+    const updateAccountAxios = useAxios({
+        call:
+        () => updateAccount(id, account)
+        , successMessage: 'Cuenta Actualizada'
+        , errorMessage: 'No se pudo actualizar la cuenta'
+        , loadingMessage: 'Actualizando cuenta...'
+        , redirectErr: `/becaria/${id}`
+        , redirectSucc: `/becaria/${id}`
     })
 
     const acceptScholarAxios = useAxios({
@@ -117,12 +123,11 @@ export default function EditScholarData() {
             ...account,
             [e.target.name]: e.target.value
         })
-        console.log(account)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createAccountCall.useAxiosCall(account);
+        updateAccountAxios.useAxiosCall(account.id, account);
         acceptScholarAxios.useAxiosCall();
     }
     
@@ -133,6 +138,10 @@ export default function EditScholarData() {
         
         getScholarAxios.useAxiosCall().then(res => {
             setScholar(res.data)
+        })
+
+        getAccountAxios.useAxiosCall().then(res => {
+            setAccount(res.data)
         })
     }, [])
 
