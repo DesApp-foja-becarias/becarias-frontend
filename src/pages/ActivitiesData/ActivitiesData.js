@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { Button, Container, Paper, Typography } from '@mui/material'
+import { Button, Container, Dialog, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Searcher from '../../components/Searcher/Searcher'
 import { actividadesRows } from '../../constants/searcherConstant'
@@ -9,6 +9,8 @@ import useAxios from '../../hooks/useAxios'
 import { useParams } from 'react-router-dom'
 import { deleteActivity, getActivity, updateActivity } from '../../services/Activities/serviceActivities'
 import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria'
+import { DateTime } from 'luxon'
+import useDialog from '../../hooks/useDialog'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -50,14 +52,14 @@ function ActivitiesData() {
 	const {id} = useParams()
 	// avanced optiosn state
 	const [advancedOptions, setAdvancedOptions] = useState(false);
-	
+	const {openDialog} = useDialog()
 	const { loading } = useContext(LoadingScreenContext);
 	const [activity, setActivity] = useState({
 		name: '',
 		description: '',
 		startDate: '',
 		endDate: '',
-		vigency: '',
+		validity: '',
 	});
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
@@ -81,7 +83,7 @@ useEffect(() => {
 				);
 		fetchData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+}, [activity.validity]);
 
 	if (loading) {
 		return <LoadingScreen/>
@@ -97,21 +99,34 @@ useEffect(() => {
 					<Container disableGutters className={classes.datoContainer}>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de inicio: </Typography>
-							<Typography variant='body1'> {activity.startDate} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).toLocaleString( )} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de Fin estimada:  </Typography>
-							<Typography variant='body1'> {activity.endDate} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).toLocaleString( )} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Estado:  </Typography>
-							<Typography variant='body1'> {activity.vigency? 'En curso' : 'Terminada'} </Typography>
+							<Typography variant='body1'> {activity.validity? 'En curso' : 'Terminada'} </Typography>
 						</Container>
 					</Container>
 					<Container className={classes.buttonDatoContainer}>
-						<Button onClick={()=> updateActivity(id, {
-							vigency: false
-						})} variant='contained' color='error'> Terminar Actividad</Button>
+						<Button onClick={
+							() =>{
+								openDialog('Actualizar actividad', <Typography>Estas a punto de terminar con una actividad, Estas segur@?</Typography>, 						
+									() => {
+										setActivity({
+											...activity,
+											validity:  false
+										})
+										updateActivity(id, {
+											validity: false
+										})
+									})								
+									
+							}
+						}
+						variant='contained' color='error'> Terminar Actividad</Button>
 					</Container>
 				</Container>
 			</Paper>
@@ -133,8 +148,11 @@ useEffect(() => {
 				</Container>
 				<Container disableGutters>
 					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}> ❕ Vaciar Tabla</Button>
-					<Button onClick={()=> deleteActivityAxios.useAxiosCall()} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
+					<Button onClick={() =>
+						openDialog('Eliminar actividad', <Typography>Estas a punto de eliminar una actividad, Estas segur@?</Typography>,() => deleteActivityAxios.useAxiosCall())} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
 				</Container>
+				<Dialog
+				/>
 			</>
 			}
 		</Container>

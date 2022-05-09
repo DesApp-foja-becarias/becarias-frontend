@@ -4,6 +4,8 @@ import { Box } from '@mui/system';
 import React, { useState } from 'react'
 import { createActivity } from '../../services/Activities/serviceActivities'
 import useAxios from '../../hooks/useAxios'
+import { DateTime }	from 'luxon'
+import useSnackbar from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles((theme) => 
 
@@ -34,13 +36,42 @@ const useStyles = makeStyles((theme) =>
 }));
 
 function NewActivity() {
+	const { showSnackbar } =useSnackbar()
+	const valid_Date = (text) => {
+		const startDate = DateTime.fromFormat(activityForm.startDate, 'yyyy-MM-dd')
+		const endDate = DateTime.fromFormat(activityForm.endDate, 'yyyy-MM-dd')
+		if(text === 'startDate'){
+			if (endDate.toMillis() >= startDate.toMillis()) {
+				return true
+			}
+			return false
+		}
+		else if (text === 'endDate'){
+			if (startDate.toMillis() <= endDate.toMillis()) {
+				return true
+			}
+			return false
+		}
+		return true
+	}
+	
 	const [activityForm, setActivityForm] = useState({
 		name: '',
 		description: '',
-		startDate: '',
-		endDate: '',
+		startDate: DateTime.local().toFormat('yyyy-MM-dd'),
+		endDate: DateTime.local().plus({ months:3 }).toFormat('yyyy-MM-dd'),
 		validity: true
 	})
+
+	const handleSubmit = async () => {
+		if(valid_Date('startDate') && valid_Date('endDate')){
+			newActivityCall.useAxiosCall()
+		}
+		else{
+			Promise.reject('Fechas inválidas')
+			showSnackbar('Error Fechas inválidas, intentelo nuevamente', 'error')
+		}
+	}
 
 	const classes = useStyles();
 
@@ -60,26 +91,48 @@ function NewActivity() {
 				<Container>
 					<form onSubmit={(e)=> {
 					e.preventDefault();
-					newActivityCall.useAxiosCall()
+					handleSubmit()
 					}
 				}
 					>
 						<Container>
 							<Typography>Nombre</Typography>
-							<TextField fullWidth type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}/>
+							<TextField fullWidth type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}
+							required
+							/>
 						</Container>
 						<Container mt={3}>
 							<Typography>Descripción</Typography>
-							<TextField fullWidth type="text" value={activityForm.description} onChange={(e) => setActivityForm({...activityForm, description: e.target.value})}/>
+							<TextField fullWidth type="text" value={activityForm.description} onChange={(e) => setActivityForm({...activityForm, description: e.target.value})}
+							
+							required
+							/>
 						</Container>
 						<Container sx={{display:'flex', justifyContent:'space-evenly'}}>
 							<Box className={classes.date}>
 								<Typography>Fecha de inicio</Typography>
-								<TextField fullWidth type="date" value={activityForm.startDate} onChange={(e) => setActivityForm({...activityForm, startDate: e.target.value})}/>
+								<TextField 
+								fullWidth 
+								type="date" 
+								defaultValue={DateTime.local().toFormat('yyyy-MM-dd')}
+								error={!valid_Date('startDate')}
+								helperText={!valid_Date('startDate') ? 'La fecha de inicio debe ser menor que la fecha de fin' : ''}
+								onChange={(e) => setActivityForm({...activityForm, startDate: e.target.value})}
+								
+								required
+								/>
 							</Box>
 							<Box className={classes.date}>
 								<Typography>Fecha de fin estimada</Typography>
-								<TextField fullWidth type="date" value={activityForm.endDate} onChange={(e) => setActivityForm({...activityForm, endDate: e.target.value})}/>
+								<TextField 
+								fullWidth 
+								type="date" 
+								defaultValue={DateTime.local().plus({ months:3 }).toFormat('yyyy-MM-dd')}
+								onChange={(e) => setActivityForm({...activityForm, endDate: e.target.value})}
+								error={!valid_Date('endDate')}
+								helperText={!valid_Date('endDate') ? 'La fecha de fin debe ser mayor que la fecha de inicio' : ''}
+								required
+							/>
 							</Box>
 						</Container>
 						<Box mt={3}/>
