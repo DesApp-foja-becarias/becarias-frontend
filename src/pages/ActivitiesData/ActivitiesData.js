@@ -8,6 +8,7 @@ import LoadingScreen from '../../components/LoadingScreen'
 import useAxios from '../../hooks/useAxios'
 import { useParams } from 'react-router-dom'
 import { deleteActivity, getActivity, updateActivity } from '../../services/Activities/serviceActivities'
+import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -115,7 +116,7 @@ useEffect(() => {
 				</Container>
 			</Paper>
 			<Container >
-				<Button sx={{margin:2}} variant='contained'>Agregar Becarias</Button>
+				<ModalActividadBecaria/>
 				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
 			</Container>
 			<Searcher items={[{ id:1 ,name:'Ailen', lastName:'Giordanengo', carreer:'Tecnicatura en informatica'},{ id:2 ,name:'Ailen', lastName:'Giordanengo', carreer:'Tecnicatura en informatica'}]} 
