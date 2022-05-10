@@ -1,6 +1,7 @@
 import axios from '../axios';
 
 const activitiesUrl = '/api/actividades'
+const activityScholarsUrl = '/api/becariaActividad/BecariaEnActividad'
 
 export const getActivitiesFromUser = (userId) => {
     return axios.get(`${activitiesUrl}/${userId}`);
@@ -33,4 +34,8 @@ export const updateActivity = (activityId, activity) => {
 
 export const deleteActivity = (activityId) => {
     return axios.delete(`${activitiesUrl}/${activityId}`);
+}
+
+export const getScholarInActivity = (activityId) => {
+		return axios.get(`${activityScholarsUrl}/${activityId}`);
 }

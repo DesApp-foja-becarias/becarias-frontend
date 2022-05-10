@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Divider, Modal, Paper, Table } from '@mui/material';
 import { Button, Container, Typography } from '@mui/material'
 import SelectedUsersDashboard from '../SelectedUsersDashboard'
@@ -6,7 +6,8 @@ import { Box } from '@mui/system';
 import FreeScholarsDataTable from '../FreeScholarsDataTable/FreeScholarsDataTable';
 import becariasMock from '../../constants/mock/MOCK_DATA.json'
 import {makeStyles} from '@mui/styles'
-
+import { getScholars } from '../../services/Scholar/servicesScholar';
+import useAxios from '../../hooks/useAxios';
 const useStyles = makeStyles((theme) => ({
 	modal: {
 		overflowY: 'scroll',
@@ -29,14 +30,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function ModalActividadBecaria() {
+function ModalActividadBecaria({activityScholars}) {
 	const classes = useStyles();
 	const [open,setOpen] = useState(false)
-	const [avilableUsers, setAvilableUsers] = useState(becariasMock)
+	const [avilableUsers, setAvilableUsers] = useState([])
 	const [selectedUsers,setSelectedUsers] = useState([])
 	const handleOpen = () => {
 		setOpen(true)
 	}
+
+	const scholarsNotInTheActivity = async () => {
+		const {data} = await getScholars()
+		const availableUsers = data.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id))
+		setAvilableUsers(availableUsers)
+	}
+
+	useEffect(() => {
+		scholarsNotInTheActivity()
+	}, [open])
 
 	return (
 		<>

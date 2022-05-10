@@ -7,7 +7,7 @@ import { LoadingScreenContext } from '../../context/LoadingScreenContext'
 import LoadingScreen from '../../components/LoadingScreen'
 import useAxios from '../../hooks/useAxios'
 import { useParams } from 'react-router-dom'
-import { deleteActivity, getActivity, updateActivity } from '../../services/Activities/serviceActivities'
+import { deleteActivity, getActivity, updateActivity, getScholarInActivity } from '../../services/Activities/serviceActivities'
 import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria'
 import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
@@ -61,10 +61,10 @@ function ActivitiesData() {
 		endDate: '',
 		validity: '',
 	});
+	const [activityScholars, setActivityScholars] = useState([]);
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
 		, errorMessage: 'No se pudo encontrar la actividad'
-		, successMessage: 'Actividad encontrada'
 		, loadingMessage: 'Buscando actividad...'
 		, redirectErr: '/actividades'
 	})
@@ -76,12 +76,25 @@ function ActivitiesData() {
 		, redirectErr: '/actividades'
 		, redirectSucc: '/actividades'
 	})
+	const getScholarsInActivity = useAxios({
+		call: () => getScholarInActivity(id)
+		, errorMessage: 'Ocurrio un error al obtener los becarios de la actividad'
+		, loadingMessage: 'Buscando becarias...'
+	})
+
 
 useEffect(() => {
-		const fetchData = async () => await getActivityAxios.useAxiosCall().then(
+		const fetchData = async () => 
+			await getActivityAxios.useAxiosCall().then(
 				res => setActivity(( res.data ))
-				);
-		fetchData();
+				)
+				const fetchScholars = async () =>
+
+				await getScholarsInActivity.useAxiosCall().then(
+					res => setActivityScholars(( res.data ))
+					)
+					fetchData();
+					fetchScholars();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [activity.validity]);
 
@@ -131,11 +144,13 @@ useEffect(() => {
 				</Container>
 			</Paper>
 			<Container >
-				<ModalActividadBecaria/>
+				<ModalActividadBecaria activiyScholars={activityScholars}/>
 				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
 			</Container>
-			<Searcher items={[{ id:1 ,name:'Ailen', lastName:'Giordanengo', carreer:'Tecnicatura en informatica'},{ id:2 ,name:'Ailen', lastName:'Giordanengo', carreer:'Tecnicatura en informatica'}]} 
-			columns={actividadesRows}/>
+			<Searcher 
+			items={activityScholars} 
+			columns={actividadesRows}
+			/>
 			{
 				!advancedOptions ?				
 			<Container disableGutters>
