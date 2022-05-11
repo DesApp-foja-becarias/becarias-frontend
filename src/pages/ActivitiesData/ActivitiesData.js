@@ -62,7 +62,7 @@ function ActivitiesData() {
 		description: '',
 		startDate: '',
 		endDate: '',
-		validity: '',
+		validity: true,
 	});
 	const [activityScholars, setActivityScholars] = useState([]);
 	const getActivityAxios = useAxios({
@@ -151,6 +151,8 @@ useEffect(() => {
 						</Container>
 					</Container>
 					<Container className={classes.buttonDatoContainer}>
+					{
+					activity.validity?
 						<Button onClick={
 							() =>{
 								openDialog('Actualizar actividad', <Typography>Estas a punto de terminar con una actividad, Estas segur@?</Typography>, 						
@@ -169,11 +171,15 @@ useEffect(() => {
 							}
 						}
 						variant='contained' color='error'> Terminar Actividad</Button>
+					:null}
 					</Container>
 				</Container>
 			</Paper>
 			<Container >
-				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>
+				{
+					activity.validity?
+				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>: null
+				}
 				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
 			</Container>
 			<Searcher 
