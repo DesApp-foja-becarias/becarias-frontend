@@ -26,3 +26,7 @@ export const downScholar = (scholar) => {
 export const acceptScholar = (scholar) => {
     return axios.put(`${scholarUrl}/${scholar.id}`, {...scholar, actualState: 'Aceptada'})
 }
+
+export const setTutorForScholar = (relation) => {
+    return axios.post('/api/becariaTutor', relation);
+}

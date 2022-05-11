@@ -1,11 +1,11 @@
 import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
-import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, Select, MenuItem } from '@mui/material';
+import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box, MenuItem } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
-import { getScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
-import { getAccountFromId, updateAccount } from '../../services/Account/serviceAccount';
+import { getScholar, acceptScholar, setTutorForScholar } from '../../services/Scholar/servicesScholar';
+import { getAccounts, getAccountFromId, updateAccount } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
@@ -42,15 +42,22 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function EditScholarData() {
-    const {id} = useParams()
-    const {loading} = useContext(LoadingScreenContext)
-
+export default function ScholarAditionalData() {
     const classes = useStyles()
     const [scholar, setScholar] = useState({});
     const [tutors, setTutors] = useState([]);
     const [tutorSelected, setTutorSelected] = useState([]);
-    const [account, setAccount] = useState({});
+    const [account, setAccount] = useState({
+        bank: "",     
+        accountHolder: "",
+        accountNumber: "",
+        accountType: "",
+        branchOffice: "",
+        cbu: ""
+    });
+    
+    const {id, CuentaId} = useParams()
+    const {loading} = useContext(LoadingScreenContext)
 
     const {
         areValidFields,
@@ -59,7 +66,7 @@ export default function EditScholarData() {
         validateAccountNumber,
         validateCBU
     } = useFieldValidator({
-        Bank: false,
+        bank: false,
         accountHolder: false,
         accountNumber: false,
         accountType: false,
@@ -75,7 +82,6 @@ export default function EditScholarData() {
     const getScholarAxios = useAxios({
         call:  
         () => getScholar(id)
-        , successMessage: 'Becaria encontrada'
         , errorMessage: 'No se encontro la becaria'
         , loadingMessage: 'Buscando becaria...'
         , redirectErr: '/'
@@ -84,37 +90,43 @@ export default function EditScholarData() {
     const getTutorsAxios = useAxios({
         call:
         () => getTutors()
-        , successMessage: 'Tutores encontrados'
         , errorMessage: 'No se encontraron tutores'
-        , loadingMessage: 'Buscando tutores...'
         , redirectErr: '/'
     })
 
+    //TODO No trae los datos de la cuenta
     const getAccountAxios = useAxios({
         call:
-        () => getAccountFromId(id)
-        , successMessage: 'Cuenta encontrada'
-        , errorMessage: 'No se encontro la cuenta asociada'
-        , loadingMessage: 'Buscando cuenta...'
-        , redirectErr: `/becaria/${id}`
+        () => getAccountFromId(CuentaId)
+        , successMessage: 'Datos cargados correctamente'
+        , errorMessage: 'No se pudo cargar los datos de cuenta'
+        , redirectErr: '/'
     })
 
     const updateAccountAxios = useAxios({
         call:
-        () => updateAccount(id, account)
+        () => updateAccount(account.id, account)
         , successMessage: 'Cuenta Actualizada'
         , errorMessage: 'No se pudo actualizar la cuenta'
         , loadingMessage: 'Actualizando cuenta...'
-        , redirectErr: `/becaria/${id}`
-        , redirectSucc: `/becaria/${id}`
+        , redirectErr: '/'
     })
 
     const acceptScholarAxios = useAxios({
         call:  
-        () => acceptScholar({
-            ...scholar,
-            TutorId: tutorSelected.id,
-            actualState: 'Aceptada'
+        () => acceptScholar({ ...scholar, actualState: 'Aceptada' })
+        , successMessage: 'Becaria aceptada'
+        , errorMessage: 'No se pudo aceptar a la becaria'
+        , loadingMessage: 'Actualizando becaria...'
+        , redirectSucc: `/becaria/${id}`
+        , redirectErr: '/'
+    })
+
+    const setRelationScholarTutorAxios = useAxios({
+        call:
+        () => setTutorForScholar({
+            BecariaId: `${scholar.id}`,
+            TutorId: `${tutorSelected[0].id}`
         })
     })
 
@@ -127,22 +139,28 @@ export default function EditScholarData() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        updateAccountAxios.useAxiosCall(account.id, account);
+        updateAccountAxios.useAxiosCall();
+        setRelationScholarTutorAxios.useAxiosCall();
         acceptScholarAxios.useAxiosCall();
     }
     
     useEffect(() => {
-        getTutorsAxios.useAxiosCall().then(res => {
-            setTutors(res.data); 
-        })
-        
-        getScholarAxios.useAxiosCall().then(res => {
-            setScholar(res.data)
-        })
+        const fechData = async() => {
+            await getScholarAxios.useAxiosCall().then(res => {
+                setScholar(res.data);
+            })
 
-        getAccountAxios.useAxiosCall().then(res => {
-            setAccount(res.data)
-        })
+            await getTutorsAxios.useAxiosCall().then(res => {
+                setTutors(res.data); 
+            })
+
+            await getAccountAxios.useAxiosCall().then(res => {
+                setAccount(res.data);
+            })
+        } 
+        
+        fechData();
+
     }, [])
 
     if (loading) {
@@ -166,8 +184,9 @@ export default function EditScholarData() {
                         <TextField 
                             placeholder="Banco"
                             variant="outlined"
-                            name="Bank"
+                            name="bank"
                             margin="normal"
+                            value={account.bank}
                             onBlur={(e)=>validateNotEmpty(e)} onChange={updateAccountState}
                             error={errors.bank}
                             helperText={errors.bank ? 'Campo obligatorio' : ''}
@@ -183,6 +202,7 @@ export default function EditScholarData() {
                             variant="outlined"
                             name="accountHolder"
                             margin="normal"
+                            value={account.accountHolder}
                             onBlur={(e) =>validateNotEmpty(e)}  
                             onChange={updateAccountState}
                             error={errors.accountHolder}
@@ -199,6 +219,7 @@ export default function EditScholarData() {
                             variant="outlined"
                             name="accountNumber"
                             type="number"
+                            value={account.accountNumber}
                             onBlur={(e) => validateAccountNumber(e)}   
                             onChange={updateAccountState}
                             margin="normal"
@@ -216,7 +237,6 @@ export default function EditScholarData() {
                             placeholder="Tipo" 
                             variant="outlined"
                             name="accountType"
-                            value={account.accountType}
                             onBlur={(e) => validateNotEmpty(e)}   
                             onChange={updateAccountState}
                             margin="normal"
@@ -242,6 +262,7 @@ export default function EditScholarData() {
                             size="normal"
                             margin="normal"
                             name="branchOffice"
+                            value={account.branchOffice}
                             onBlur={(e)=>validateNotEmpty(e)}
                             onChange={updateAccountState}
                             error={errors.branchOffice}
@@ -257,6 +278,7 @@ export default function EditScholarData() {
                             placeholder='CBU'  
                             margin="normal"
                             name="cbu"
+                            value={account.cbu}
                             onBlur={(e) =>validateCBU(e)} 
                             onChange={updateAccountState}
                             error={errors.cbu}
@@ -269,7 +291,7 @@ export default function EditScholarData() {
                 <Typography variant='subtitle1' align="left">Asignar Tutor</Typography>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={12}>
-                    {tutorSelected.length === 0 ?
+                    {tutorSelected.length === 0?
                         <InputLabel htmlFor='tutor'>Tutor: No hay un tutor asignado</InputLabel>
                         :
                         tutorSelected.map(tutor => {

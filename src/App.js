@@ -66,7 +66,7 @@ export default function App() {
             <Route exact path="/becaria/edit/:id">
               <EditScholarData />
             </Route>
-            <Route exact path="/becaria/aditional/:id">
+            <Route exact path="/becaria/aditional/:id/:CuentaId">
               <ScholarAditionalData />
             </Route>
             <Route exact path="/becaria/:id">
