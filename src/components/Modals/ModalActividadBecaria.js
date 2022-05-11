@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Divider, Modal, Paper, Table } from '@mui/material';
+import { Divider, Modal, Paper } from '@mui/material';
 import { Button, Container, Typography } from '@mui/material'
 import SelectedUsersDashboard from '../SelectedUsersDashboard'
 import { Box } from '@mui/system';
 import FreeScholarsDataTable from '../FreeScholarsDataTable/FreeScholarsDataTable';
-import becariasMock from '../../constants/mock/MOCK_DATA.json'
+import { pushScholarInActivity } from '../../services/Activities/serviceActivities'
 import {makeStyles} from '@mui/styles'
 import { getScholars } from '../../services/Scholar/servicesScholar';
 import useAxios from '../../hooks/useAxios';
@@ -30,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function ModalActividadBecaria({activityScholars}) {
+
+
+function ModalActividadBecaria({activityID,activityScholars}) {
 	const classes = useStyles();
 	const [open,setOpen] = useState(false)
 	const [avilableUsers, setAvilableUsers] = useState([])
@@ -39,9 +41,23 @@ function ModalActividadBecaria({activityScholars}) {
 		setOpen(true)
 	}
 
+	const handlePushScholarInActivity = async () => {
+		await pushScholarInActivityCall.useAxiosCall().then(() => {
+			setOpen(false)
+			window.location.reload(false)
+		})
+	}
+		const pushScholarInActivityCall = useAxios({
+		call: () => pushScholarInActivity(activityID, selectedUsers),
+		loadingMessage: 'Agregando Becarias a la actividad...',
+		successMessage: 'Becarias agregadas a la actividad',
+		errorMessage: 'Error al agregar becarias a la actividad',
+		
+	})
+
 	const scholarsNotInTheActivity = async () => {
 		const {data} = await getScholars()
-		const availableUsers = data.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id))
+		const availableUsers = data.data.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id))
 		setAvilableUsers(availableUsers)
 	}
 
@@ -66,7 +82,7 @@ function ModalActividadBecaria({activityScholars}) {
 						<Box m={2}>
 							<Divider/>
 						</Box>
-						<Button variant='contained' onClick={() => null}>
+						<Button variant='contained' onClick={async () => await handlePushScholarInActivity()}>
 							Agregar a las becarias seleccionadas
 						</Button>
 						<SelectedUsersDashboard selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>

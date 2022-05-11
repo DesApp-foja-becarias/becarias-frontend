@@ -54,6 +54,12 @@ function NewActivity() {
 		}
 		return true
 	}
+	const isValidLimit = (text,limit) => {
+		if (text.length > limit) {
+			return false
+		}
+		return true
+	}
 	
 	const [activityForm, setActivityForm] = useState({
 		name: '',
@@ -64,12 +70,13 @@ function NewActivity() {
 	})
 
 	const handleSubmit = async () => {
-		if(valid_Date('startDate') && valid_Date('endDate')){
-			newActivityCall.useAxiosCall()
+		console.log()
+		if(valid_Date('startDate') && valid_Date('endDate') && isValidLimit(activityForm.name,40) && isValidLimit(activityForm.description,100)){
+			await newActivityCall.useAxiosCall()
 		}
 		else{
-			Promise.reject('Fechas inválidas')
-			showSnackbar('Error Fechas inválidas, intentelo nuevamente', 'error')
+			Promise.reject()
+			showSnackbar('Tiene errores en el formulario, intentelo nuevamente', 'error')
 		}
 	}
 
@@ -90,22 +97,24 @@ function NewActivity() {
 				<Typography variant="h3" color="primary">Nueva Actividad</Typography>
 				<Container>
 					<form onSubmit={(e)=> {
-					e.preventDefault();
-					handleSubmit()
+						e.preventDefault();
+						handleSubmit()
 					}
 				}
 					>
 						<Container>
 							<Typography>Nombre</Typography>
-							<TextField fullWidth type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}
+							<TextField error={!isValidLimit(activityForm.name,40)} 
+							helperText={!isValidLimit(activityForm.name,40) ? 'El nombre debe tener menos de 40 caracteres' : ''}
+							fullWidth type="text" value={activityForm.name} onChange={(e) => setActivityForm({...activityForm, name: e.target.value})}
 							required
 							/>
 						</Container>
 						<Container mt={3}>
 							<Typography>Descripción</Typography>
-							<TextField fullWidth type="text" value={activityForm.description} onChange={(e) => setActivityForm({...activityForm, description: e.target.value})}
-							
-							required
+							<TextField fullWidth type="text" error={!isValidLimit(activityForm.description,100)}
+							helperText={!isValidLimit(activityForm.description,100) ? 'La descripción debe tener menos de 100 caracteres' : ''}
+							value={activityForm.description} onChange={(e) => setActivityForm({...activityForm, description: e.target.value})}
 							/>
 						</Container>
 						<Container sx={{display:'flex', justifyContent:'space-evenly'}}>

@@ -6,9 +6,9 @@ import Searcher from '../Searcher/Searcher';
 function FreeScholarsDataTable({scholars, setScholars}) {
 	const columns = [
 		{ headerName: 'Nombre', field: 'name' },
-		{ headerName: 'Apellido', field: 'lastName' },
+		{ headerName: 'Apellido', field: 'lastname' },
 		{ headerName: 'Correo', field: 'email' },
-		{ headerName: 'Telefono', field: 'phone' },
+		{ headerName: 'Telefono', field: 'telephone' },
 	]
 
 	return <Searcher

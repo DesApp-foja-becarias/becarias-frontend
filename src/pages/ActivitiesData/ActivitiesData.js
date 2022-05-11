@@ -7,10 +7,12 @@ import { LoadingScreenContext } from '../../context/LoadingScreenContext'
 import LoadingScreen from '../../components/LoadingScreen'
 import useAxios from '../../hooks/useAxios'
 import { useParams } from 'react-router-dom'
-import { deleteActivity, getActivity, updateActivity, getScholarInActivity } from '../../services/Activities/serviceActivities'
+import { useHistory } from 'react-router-dom'
+import { deleteActivity, getActivity, updateActivity, getScholarInActivity, deleteScholarActivityRelations, deleteEveryScholarActivityRelations } from '../../services/Activities/serviceActivities'
 import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria'
 import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -49,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ActivitiesData() {
 	const classes = useStyles();
+	const navigate = useHistory();
 	const {id} = useParams()
 	// avanced optiosn state
 	const [advancedOptions, setAdvancedOptions] = useState(false);
@@ -84,17 +87,41 @@ function ActivitiesData() {
 
 
 useEffect(() => {
-		const fetchData = async () => 
-			await getActivityAxios.useAxiosCall().then(
-				res => setActivity(( res.data ))
-				)
-				const fetchScholars = async () =>
-
-				await getScholarsInActivity.useAxiosCall().then(
-					res => setActivityScholars(( res.data ))
-					)
-					fetchData();
-					fetchScholars();
+	const fetchData = async () => 
+	await getActivityAxios.useAxiosCall().then(
+		res => setActivity(( res.data ))
+		)
+		const fetchScholars = async () =>
+			await getScholarsInActivity.useAxiosCall().then(
+				res => {
+					const mappedScholars = res.data.map(scholar => {
+						console.log(scholar)
+						return {
+							...scholar,
+							profile: (
+							<Link style={{textDecoration:"none"}} to={`/becaria/${scholar.id}`}>
+								<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
+									Ver Perfil
+								</Button>
+							</Link>
+							),
+							delete: (
+								<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
+									openDialog('Eliminar becaria', `¿Esta seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
+										deleteScholarActivityRelations([scholar.id], id)
+										window.location.reload(false)
+									})
+								}}>
+									Eliminar
+								</Button>
+							)
+						}
+					})
+					setActivityScholars(mappedScholars)
+				}
+			)
+		fetchData();
+		fetchScholars();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [activity.validity]);
 
@@ -112,11 +139,11 @@ useEffect(() => {
 					<Container disableGutters className={classes.datoContainer}>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de inicio: </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).toLocaleString( )} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).plus({ hours: 3 }).toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de Fin estimada:  </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).toLocaleString( )} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).plus({ hours: 3 }).toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Estado:  </Typography>
@@ -135,6 +162,8 @@ useEffect(() => {
 										updateActivity(id, {
 											validity: false
 										})
+										//redigir a actividades
+										navigate.push('/actividades')
 									})								
 									
 							}
@@ -144,7 +173,7 @@ useEffect(() => {
 				</Container>
 			</Paper>
 			<Container >
-				<ModalActividadBecaria activiyScholars={activityScholars}/>
+				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>
 				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
 			</Container>
 			<Searcher 
@@ -162,12 +191,29 @@ useEffect(() => {
 					<Button variant='outlined' color='warning' onClick={()=> setAdvancedOptions(false) } sx={{margin:'5px 0'}}> ⚠ Cerrar Opciones Avanzadas</Button>
 				</Container>
 				<Container disableGutters>
-					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}> ❕ Vaciar Tabla</Button>
+					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}
+					onClick={()=>{
+						openDialog('Vaciar Tabla', <Typography>Estas a punto de vaciar toda la actividad, Estas segur@?</Typography>,() => {
+							const mappedScholars = activityScholars.map(scholar => {
+								return scholar.id
+							})
+							deleteScholarActivityRelations(mappedScholars, id)
+							window.location.reload(false)
+							})}
+						}
+					> 
+					❕ Vaciar Tabla</Button>
 					<Button onClick={() =>
-						openDialog('Eliminar actividad', <Typography>Estas a punto de eliminar una actividad, Estas segur@?</Typography>,() => deleteActivityAxios.useAxiosCall())} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad</Button>
+						openDialog('Eliminar actividad', <Typography>Estas a punto de eliminar una actividad, Estas segur@?</Typography>,() => {
+							const mappedScholars = activityScholars.map(scholar => {
+								return scholar.id
+							})
+							deleteScholarActivityRelations(mappedScholars, id)
+							deleteActivityAxios.useAxiosCall()
+							})} variant='contained' color='error' sx={{margin:'5px 0 10px 0'}}> ☠ Borrar Actividad
+					</Button>
 				</Container>
-				<Dialog
-				/>
+				<Dialog/>
 			</>
 			}
 		</Container>
