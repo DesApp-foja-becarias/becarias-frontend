@@ -5,7 +5,7 @@ import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getTutors } from '../../services/Tutor/serviceTutor';
 import { getScholar, acceptScholar, setTutorForScholar } from '../../services/Scholar/servicesScholar';
-import { getAccounts, getAccountFromId, updateAccount } from '../../services/Account/serviceAccount';
+import { getAccountFromId, updateAccount } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
@@ -240,6 +240,7 @@ export default function ScholarAditionalData() {
                             onBlur={(e) => validateNotEmpty(e)}   
                             onChange={updateAccountState}
                             margin="normal"
+                            value={account.accountType}
                             helperText={errors.accountType?'Campo obligatorio':''}
                             error={errors.accountType}
                             sx={{width: '13em' , marginTop:'1em'}}

@@ -30,3 +30,7 @@ export const acceptScholar = (scholar) => {
 export const setTutorForScholar = (relation) => {
     return axios.post('/api/becariaTutor', relation);
 }
+
+export const deleteTutorForScholar = (idRelation) => {
+    return axios.delete(`/api/becariaTutor/tutorBecaria/${idRelation}`);
+}

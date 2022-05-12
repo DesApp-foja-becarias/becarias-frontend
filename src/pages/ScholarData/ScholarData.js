@@ -1,12 +1,12 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Dato from '../../components/Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container, Modal, Button } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
-import { getScholar, downScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
+import { getScholar, downScholar, deleteTutorForScholar} from '../../services/Scholar/servicesScholar';
 import BackButton from '../../components/BackButton';
 import TableMock from '../../constants/mock/TablaMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
@@ -46,14 +46,17 @@ export default function ScholarData() {
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
 
-    const acceptScholarAxios = useAxios({
-      call:  
-      () => acceptScholar(scholar)
-    })
+    const [scholar, setScholar] = useState({});
+    const [scholarRelations, setScholarRelations] = useState({});
 
     const downScholarAxios = useAxios({
       call:  
       () => downScholar(scholar)
+    })
+
+    const deleteTutorForScholarAxios = useAxios({
+      call:
+      () => deleteTutorForScholar(scholarRelations.tutor[0].id)
     })
 
     const getScholarAxios = useAxios({
@@ -65,16 +68,14 @@ export default function ScholarData() {
       , redirectErr: '/'
   })
 
-    const [scholar, setScholar] = useState({});
-    const [scholarRelations, setScholarRelations] = useState({});
 
     useEffect(() => {
       getScholarAxios.useAxiosCall().then( response => {
         setScholar({...response.data,
         })
-        const {Tutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
+        const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
         setScholarRelations({
-          tutor: Tutor,
+          tutor: BecariasTutor,
           assignments: MateriasDeBecaria,
           documents: Documentos,
           careers: CarrerasDeBecaria,
@@ -130,6 +131,7 @@ export default function ScholarData() {
                       ()=>
                       {
                         downScholarAxios.useAxiosCall()
+                        deleteTutorForScholarAxios.useAxiosCall()
                         setScholar({...scholar, actualState: 'Baja'})
                       }
                       } followCursor>
@@ -171,7 +173,7 @@ export default function ScholarData() {
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
-                    <Typography variant="subtitle1">Datos de carrera</Typography>
+                    <Typography variant="subtitle1">  </Typography>
                     <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
                     {/* <Dato name='carrera'  title='Carrera' value={scholar.career} career/> */}
                     {
@@ -179,7 +181,7 @@ export default function ScholarData() {
                       scholar.actualState === "Aceptada",
                       
                         scholarRelations.tutor?
-                        <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor} />
+                        <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor[0].Tutor} />
                         :
                         <Dato name='tutor' title='Tutor' value='No tiene tutor' />
                       
