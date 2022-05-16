@@ -94,7 +94,6 @@ export default function ScholarAditionalData() {
         , redirectErr: '/'
     })
 
-    //TODO No trae los datos de la cuenta
     const getAccountAxios = useAxios({
         call:
         () => getAccountFromId(CuentaId)
@@ -274,6 +273,7 @@ export default function ScholarAditionalData() {
                     <Grid item xs={6} >
                         <InputLabel htmlFor="cbu">CBU</InputLabel>
                         <TextField 
+                            fullWidth
                             type='number'
                             variant='outlined'  
                             placeholder='CBU'  

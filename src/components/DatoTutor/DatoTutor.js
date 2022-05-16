@@ -45,7 +45,7 @@ const DatoTutor = ({title, value}) => {
                 <Typography variant="body1">{`${value.lastname}, ${value.name}`}</Typography>
             <Box mr='1em'/>
                 <Link to={`/tutor/${value.id}`} style={{textDecoration:'none'}}>
-                    <Button size="small" variant='contained'>ir</Button>
+                    <Button size="small" variant='contained'>Ver perfil</Button>
                 </Link>
             </Box >
         </div>

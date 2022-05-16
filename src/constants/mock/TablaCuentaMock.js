@@ -2,15 +2,17 @@ import React from 'react';
 import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper } from '@mui/material';
 
 const rows = [
-    {name: 'Banco', valor: 'Banco Nacion'},
-    {name: 'Nombre de dueño de cuenta', valor: 'Juan Perez'},
-    {name: 'Número', valor: '123456789'},
-    {name: 'Tipo', valor: 'Caja de Ahorro en pesos'},
-    {name: 'Sucursal', valor: "Hurlingham"},
-    {name: 'CVU', valor:'2850590940090418135201'},
+    {field:'bank', name: 'Banco', value: ''},
+    {field:'accountHolder', name: 'Nombre de dueño de cuenta', value: ''},
+    {field:'accountNumber', name: 'Número', value: ''},
+    {field:'accountType', name: 'Tipo', value: ''},
+    {field:'branchOffice', name: 'Sucursal', value: ""},
+    {field:'cbu', name: 'CBU', value:''},
 ]
 
-const TablaMock = () => {
+
+const TablaMock = (values) => {
+    
     return (
     <TableContainer component={Paper}>
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -18,13 +20,13 @@ const TablaMock = () => {
         <TableBody>
         {rows.map((row) => (
             <TableRow
-            key={row.name}
+            key={row.field}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
-                <TableCell align="right">{row.valor}</TableCell>
+                <TableCell align="right">{row.value}</TableCell>
             </TableRow>
         ))}
         </TableBody>

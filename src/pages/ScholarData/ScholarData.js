@@ -7,6 +7,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar} from '../../services/Scholar/servicesScholar';
+import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import TableMock from '../../constants/mock/TablaMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
@@ -48,6 +49,7 @@ export default function ScholarData() {
 
     const [scholar, setScholar] = useState({});
     const [scholarRelations, setScholarRelations] = useState({});
+    const [account, setAccount] = useState({});
 
     const downScholarAxios = useAxios({
       call:  
@@ -57,6 +59,10 @@ export default function ScholarData() {
     const deleteTutorForScholarAxios = useAxios({
       call:
       () => deleteTutorForScholar(scholarRelations.tutor[0].id)
+      , successMessage: 'Becaria actualizada'
+      , errorMessage: 'No se pudo actualizar a la becaria'
+      , loadingMessage: 'Actualizando becaria...'
+      , redirectErr: `/becaria/${id}`
     })
 
     const getScholarAxios = useAxios({
@@ -66,22 +72,26 @@ export default function ScholarData() {
       , errorMessage: 'No se encontro la becaria'
       , loadingMessage: 'Buscando becaria...'
       , redirectErr: '/'
-  })
+    })
 
 
     useEffect(() => {
       getScholarAxios.useAxiosCall().then( response => {
-        setScholar({...response.data,
-        })
-        const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
+        setScholar({...response.data, })
+        const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria, CuentaId} = response.data;
         setScholarRelations({
           tutor: BecariasTutor,
           assignments: MateriasDeBecaria,
           documents: Documentos,
           careers: CarrerasDeBecaria,
-          activities: ActividadesDeBecaria
+          activities: ActividadesDeBecaria,
+          accountId: CuentaId
         })
-      })
+
+        getAccountFromId(CuentaId).then(res => {
+          setAccount(res.data)
+        })
+      })  
     }, [])
 
     const classes = useStyles();
@@ -175,16 +185,13 @@ export default function ScholarData() {
                     </Box>
                     <Typography variant="subtitle1">  </Typography>
                     <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
-                    {/* <Dato name='carrera'  title='Carrera' value={scholar.career} career/> */}
                     {
                     showComponentWhen_(
                       scholar.actualState === "Aceptada",
-                      
-                        scholarRelations.tutor?
-                        <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor[0].Tutor} />
+                        scholarRelations.Tutor ?
+                          <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor[0].Tutor} />
                         :
-                        <Dato name='tutor' title='Tutor' value='No tiene tutor' />
-                      
+                          <Dato name='tutor' title='Tutor' value='No tiene tutor' />
                     )
                     }
                   </Grid>
@@ -205,7 +212,7 @@ export default function ScholarData() {
                 <TableMock/>
                 <Box mb={3} />
                 <Typography variant='subtitle1'>Cuenta</Typography>
-                <TablaCuentaMock/>
+                <TablaCuentaMock values={account}/>
                     </>)
                 }
                 <Box mb={6} />
