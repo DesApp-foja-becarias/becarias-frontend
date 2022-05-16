@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
-import { getScholar, downScholar, deleteTutorForScholar} from '../../services/Scholar/servicesScholar';
+import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import TableMock from '../../constants/mock/TablaMock';
@@ -90,8 +90,7 @@ export default function ScholarData() {
         })
         
         BecariasTutor[0] ? setTutor(BecariasTutor[0].Tutor) : setTutor({});
-        
-        console.log(tutor)
+
         getAccountFromId(CuentaId).then(res => {
           setAccount(res.data)
         })
@@ -209,15 +208,15 @@ export default function ScholarData() {
                 <TableCareers careers={scholarRelations.careers}/>
                 <Box mb={3} />
                 {
-                    showComponentWhen_(
-                      scholar.actualState === "Aceptada",
-                      <>
-                <Typography variant='subtitle1'>Actividad</Typography>             
-                <TableMock/>
-                <Box mb={3} />
-                <Typography variant='subtitle1'>Cuenta</Typography>
-                <TablaCuentaMock values={account}/>
-                    </>)
+                  scholar.actualState === "Aceptada" ?
+                  <>
+                  <Typography variant='subtitle1'>Actividad</Typography>             
+                  <TableMock/>
+                  <Box mb={3} />
+                  <Typography variant='subtitle1'>Cuenta</Typography>
+                  { account.data ? <TablaCuentaMock accountData={account.data}/> : "" }
+                  </>
+                  : <></>
                 }
                 <Box mb={6} />
               </Container>
