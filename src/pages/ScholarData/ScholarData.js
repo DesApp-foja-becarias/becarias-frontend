@@ -49,6 +49,7 @@ export default function ScholarData() {
 
     const [scholar, setScholar] = useState({});
     const [scholarRelations, setScholarRelations] = useState({});
+    const [tutor, setTutor] = useState({});
     const [account, setAccount] = useState({});
 
     const downScholarAxios = useAxios({
@@ -87,7 +88,10 @@ export default function ScholarData() {
           activities: ActividadesDeBecaria,
           accountId: CuentaId
         })
-
+        
+        BecariasTutor[0] ? setTutor(BecariasTutor[0].Tutor) : setTutor({});
+        
+        console.log(tutor)
         getAccountFromId(CuentaId).then(res => {
           setAccount(res.data)
         })
@@ -188,8 +192,8 @@ export default function ScholarData() {
                     {
                     showComponentWhen_(
                       scholar.actualState === "Aceptada",
-                        scholarRelations.Tutor ?
-                          <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor[0].Tutor} />
+                        tutor ?
+                          <DatoTutor name='tutor' title='Tutor' value={tutor} />
                         :
                           <Dato name='tutor' title='Tutor' value='No tiene tutor' />
                     )
