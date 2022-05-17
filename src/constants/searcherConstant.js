@@ -13,6 +13,7 @@ export const columnsTutor = [
     {field: 'type', headerName: 'Tipo', width: 150, }
 ]
 
+
 export const columnsTutorShort = [
     { field: 'id', headerName: 'ID', width: 50, },
     { field: 'name', headerName: 'Nombre/s', width: 160 ,},
@@ -43,11 +44,22 @@ const rowss = [
 
 ];
 
+
 export const actividadesRows = [
-	{ field: 'id', headerName: 'ID', width: 50, },
-	{ field: 'name', headerName: 'Nombre/s', width: 150 ,},
-	{ field: 'lastName', headerName: 'Apellido', width: 150,},
-	{ field: 'carreer', headerName: 'Carrera', width: 150, },
-	{ field: 'profile', headerName: 'Perfil', width: 150, },
-	{ field: 'erase', headerName: 'Eliminar', width: 150, }
+	{ headerName: 'Nombre', field: 'name' },
+	{ headerName: 'Apellido', field: 'lastname' },
+	{ headerName: 'Correo', field: 'email' },
+	{ headerName: 'Telefono', field: 'telephone' },
+	{ headerName: 'Carrera', field: 'career' },
+	{ headerName: 'Estado', field: 'actualState' },
+	{ field: 'profile', headerName: 'Perfil', width: 150, 
+			renderCell: (params) => {
+					return <div>{params.value}</div>
+			},
+  },
+	{ headerName: 'Eliminar', field: 'delete', width: 150, 
+		renderCell: (params) => {
+				return <div>{params.value}</div>
+		},
+},
 ]

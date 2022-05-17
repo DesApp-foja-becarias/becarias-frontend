@@ -1,9 +1,14 @@
 import { Button } from '@mui/material';
+import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 
 export const mapActivitiesForSearcher = (activities) => {
     //add link button to the datagrid from mui
-    return activities.map((activitie) => ({...activitie, link:  
+    return activities.map((activitie) => ({...activitie,
+			startDate: DateTime.fromISO(activitie.startDate).toLocaleString( ),
+			endDate: DateTime.fromISO(activitie.endDate).toLocaleString(),
+			validity: activitie.validity? 'Activa' : 'Inactiva',
+			link:  
  
     <Link style={{textDecoration:"none"}} to={`/actividades/detalles/${activitie.id}`}> 
         <Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}}> 

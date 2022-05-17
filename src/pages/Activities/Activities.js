@@ -39,13 +39,9 @@ export default function Activities(params) {
     useEffect(() => {
         
         const fetchData = async () => 
-        { 
-            /*await getAllActivitiesAxios.useAxiosCall().then(
-                async res => await setItems(prevState=> prevState.concat(mapActivitiesForSearcher(res.data)) )
-                
-            )*/
-            setItems(mapActivitiesForSearcher(rowss));
-        }
+				await getAllActivitiesAxios.useAxiosCall().then(
+					async res => await setItems(prevState=> prevState.concat(mapActivitiesForSearcher(res.data)) )
+				);
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
         
@@ -54,12 +50,12 @@ export default function Activities(params) {
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
-                <Container maxWidth="xl" disableGutters>
-                    <Typography variant="h3">Actividades</Typography>
+                <Container maxWidth="lg" disableGutters>
+                    <Typography variant="h3" color='primary'>Actividades</Typography>
                 </Container>
-                <Container maxWidth="xl" disableGutters>
+                <Container maxWidth="lg" disableGutters>
                     { /*TODO Colocar el redireccionamiento a "agregar actividad" cuando este listo */ }
-                    <Link className={classes.link} to="/login">
+                    <Link className={classes.link} to="/nuevaActividad">
                         <Button variant="contained" sx={{ m: "2rem", py: "1rem" }} >Agregar Actividad</Button>
                     </Link>
                 </Container>
