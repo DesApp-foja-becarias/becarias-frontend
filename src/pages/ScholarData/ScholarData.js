@@ -6,7 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {Link, useParams} from 'react-router-dom';
-import { getScholar, downScholar, acceptScholar } from '../../services/Scholar/servicesScholar';
+import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
+import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import TableMock from '../../constants/mock/TablaMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
@@ -19,6 +20,8 @@ import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
+
+
 
 
 const useStyles = makeStyles(() => ({
@@ -44,14 +47,23 @@ export default function ScholarData() {
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
 
-    const acceptScholarAxios = useAxios({
-      call:  
-      () => acceptScholar(scholar)
-    })
+    const [scholar, setScholar] = useState({});
+    const [scholarRelations, setScholarRelations] = useState({});
+    const [tutor, setTutor] = useState({});
+    const [account, setAccount] = useState({});
 
     const downScholarAxios = useAxios({
       call:  
       () => downScholar(scholar)
+    })
+
+    const deleteTutorForScholarAxios = useAxios({
+      call:
+      () => deleteTutorForScholar(scholarRelations.tutor[0].id)
+      , successMessage: 'Becaria actualizada'
+      , errorMessage: 'No se pudo actualizar a la becaria'
+      , loadingMessage: 'Actualizando becaria...'
+      , redirectErr: `/becaria/${id}`
     })
 
     const getScholarAxios = useAxios({
@@ -61,24 +73,28 @@ export default function ScholarData() {
       , errorMessage: 'No se encontro la becaria'
       , loadingMessage: 'Buscando becaria...'
       , redirectErr: '/'
-  })
+    })
 
-    const [scholar, setScholar] = useState({});
-    const [scholarRelations, setScholarRelations] = useState({});
 
     useEffect(() => {
       getScholarAxios.useAxiosCall().then( response => {
-        setScholar({...response.data,
-        })
-        const {Tutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria} = response.data;
+        setScholar({...response.data, })
+        const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria, CuentaId} = response.data;
         setScholarRelations({
-          tutor: Tutor,
+          tutor: BecariasTutor,
           assignments: MateriasDeBecaria,
           documents: Documentos,
           careers: CarrerasDeBecaria,
-          activities: ActividadesDeBecaria
+          activities: ActividadesDeBecaria,
+          accountId: CuentaId
         })
-      })
+        
+        BecariasTutor[0] ? setTutor(BecariasTutor[0].Tutor) : setTutor({});
+
+        getAccountFromId(CuentaId).then(res => {
+          setAccount(res.data)
+        })
+      })  
     }, [])
 
     const classes = useStyles();
@@ -113,13 +129,11 @@ export default function ScholarData() {
                     showComponentWhen_(
                       scholar.actualState !== "Aceptada",
                         <Tooltip title='Aprobar' followCursor>
-                          <IconButton onClick={()=>{
-                            acceptScholarAxios.useAxiosCall()
-                            setScholar({...scholar, actualState: 'Aceptada'})
-                          }} 
-                          color='success'>
-                            <PersonAddAlt1Icon  fontSize='large'/>
-                          </IconButton>
+                          <Link to={`/becaria/aditional/${id}/${scholar.CuentaId}`}>
+                            <IconButton color='success'> 
+                              <PersonAddAlt1Icon  fontSize='large'/>
+                            </IconButton>
+                          </Link>
                         </Tooltip>
                     )
                     }
@@ -130,6 +144,7 @@ export default function ScholarData() {
                       ()=>
                       {
                         downScholarAxios.useAxiosCall()
+                        deleteTutorForScholarAxios.useAxiosCall()
                         setScholar({...scholar, actualState: 'Baja'})
                       }
                       } followCursor>
@@ -171,18 +186,15 @@ export default function ScholarData() {
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
-                    <Typography variant="subtitle1">Datos de carrera</Typography>
+                    <Typography variant="subtitle1">  </Typography>
                     <Dato name='estadoActual' title='Estado Actual' value={scholar.actualState} />
-                    {/* <Dato name='carrera'  title='Carrera' value={scholar.career} career/> */}
                     {
                     showComponentWhen_(
                       scholar.actualState === "Aceptada",
-                      
-                        scholarRelations.tutor?
-                        <DatoTutor name='tutor' title='Tutor' value={scholarRelations.tutor} />
+                        tutor ?
+                          <DatoTutor name='tutor' title='Tutor' value={tutor} />
                         :
-                        <Dato name='tutor' title='Tutor' value='No tiene tutor' />
-                      
+                          <Dato name='tutor' title='Tutor' value='No tiene tutor' />
                     )
                     }
                   </Grid>
@@ -196,15 +208,15 @@ export default function ScholarData() {
                 <TableCareers careers={scholarRelations.careers}/>
                 <Box mb={3} />
                 {
-                    showComponentWhen_(
-                      scholar.actualState === "Aceptada",
-                      <>
-                <Typography variant='subtitle1'>Actividad</Typography>             
-                <TableMock/>
-                <Box mb={3} />
-                <Typography variant='subtitle1'>Cuenta</Typography>
-                <TablaCuentaMock/>
-                    </>)
+                  scholar.actualState === "Aceptada" ?
+                  <>
+                  <Typography variant='subtitle1'>Actividad</Typography>             
+                  <TableMock/>
+                  <Box mb={3} />
+                  <Typography variant='subtitle1'>Cuenta</Typography>
+                  { account.data ? <TablaCuentaMock accountData={account.data}/> : "" }
+                  </>
+                  : <></>
                 }
                 <Box mb={6} />
               </Container>
