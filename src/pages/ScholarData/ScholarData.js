@@ -9,7 +9,7 @@ import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
-import TableMock from '../../constants/mock/TablaMock';
+import TableActividadMock from '../../constants/mock/TablaActividadMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
 import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -52,6 +52,7 @@ export default function ScholarData() {
     const [scholarRelations, setScholarRelations] = useState({});
     const [tutor, setTutor] = useState({});
     const [account, setAccount] = useState({});
+    const [activities, setActivities] = useState([]);
 
     const downScholarAxios = useAxios({
       call:  
@@ -91,6 +92,7 @@ export default function ScholarData() {
         })
         
         BecariasTutor[0] ? setTutor(BecariasTutor[0].Tutor) : setTutor({});
+        ActividadesDeBecaria[0] ? setActivities(ActividadesDeBecaria) : setActivities([]);
 
         getAccountFromId(CuentaId).then(res => {
           setAccount(res.data)
@@ -216,7 +218,7 @@ export default function ScholarData() {
                   scholar.actualState === "Aceptada" ?
                   <>
                   <Typography variant='subtitle1'>Actividad</Typography>             
-                  <TableMock/>
+                  { activities ?  <TableActividadMock activities={activities}/> :  ""}
                   <Box mb={3} />
                   <Typography variant='subtitle1'>Cuenta</Typography>
                   { account.data ? <TablaCuentaMock accountData={account.data}/> : "" }
