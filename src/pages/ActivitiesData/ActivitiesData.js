@@ -164,8 +164,7 @@ useEffect(() => {
 										updateActivity(id, {
 											validity: false
 										})
-										//redigir a actividades
-										navigate.push('/actividades')
+										window.location.reload(false)
 									})								
 									
 							}
