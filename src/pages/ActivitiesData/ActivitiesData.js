@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { Button, Container, Dialog, Paper, Typography } from '@mui/material'
+import { Box, Button, Container, Dialog, Paper, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Searcher from '../../components/Searcher/Searcher'
 import { actividadesRows } from '../../constants/searcherConstant'
@@ -13,6 +13,7 @@ import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria
 import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
 import { Link } from 'react-router-dom'
+import BackButton from '../../components/BackButton'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -130,6 +131,9 @@ useEffect(() => {
 	}
 	return (
 		<Container>
+			<Box mb={2}>
+				<BackButton path={'/actividades'}/> 
+			</Box>
 			<Paper elevation={1} sx={{padding:2}}>
 				<Container>
 					<Typography variant='h3' color='secondary'> {activity.name} </Typography>
