@@ -20,7 +20,7 @@ import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
-
+import useDialog from '../../hooks/useDialog';
 
 
 
@@ -46,6 +46,7 @@ const useStyles = makeStyles(() => ({
 export default function ScholarData() {
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
+    const { openDialog } = useDialog();
 
     const [scholar, setScholar] = useState({});
     const [scholarRelations, setScholarRelations] = useState({});
@@ -143,9 +144,13 @@ export default function ScholarData() {
                     <Tooltip title='Dar de baja' onClick={
                       ()=>
                       {
-                        downScholarAxios.useAxiosCall()
-                        deleteTutorForScholarAxios.useAxiosCall()
-                        setScholar({...scholar, actualState: 'Baja'})
+                        openDialog('Dar de baja', <Typography>Estas a punto de dar de baja a la becaria. Estas segur@?</Typography>,
+                          () => {
+                            downScholarAxios.useAxiosCall()
+                            deleteTutorForScholarAxios.useAxiosCall()
+                            setScholar({...scholar, actualState: 'Baja'})
+                          }
+                        )
                       }
                       } followCursor>
                       <IconButton color='error'>
