@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "https://becarias-back.herokuapp.com/",
+		baseURL: "http://localhost:3001/",
+    //baseURL: "https://becarias-back.herokuapp.com/",
 });
 
 instance.interceptors.response.use(

@@ -42,10 +42,10 @@ const DatoTutor = ({title, value}) => {
                 <Typography sx={{}}  variant="h6" >{title}</Typography>
             </Box>
             <Box sx={{display:'flex', alignItems:'center'}}>
-                <Typography variant="body1">{`${value.lastname} ,${value.name}`}</Typography>
+                <Typography variant="body1">{`${value.lastname}, ${value.name}`}</Typography>
             <Box mr='1em'/>
                 <Link to={`/tutor/${value.id}`} style={{textDecoration:'none'}}>
-                    <Button size="small" variant='contained'>ir</Button>
+                    <Button size="small" variant='contained'>Ver perfil</Button>
                 </Link>
             </Box >
         </div>

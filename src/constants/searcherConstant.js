@@ -14,6 +14,14 @@ export const columnsTutor = [
 ]
 
 
+export const columnsTutorShort = [
+    { field: 'id', headerName: 'ID', width: 50, },
+    { field: 'name', headerName: 'Nombre/s', width: 160 ,},
+    { field: 'lastname', headerName: 'Apellido', width: 160,},
+    { field: 'dni', headerName: 'DNI', width:160 ,},
+]
+
+
 const rowss = [
 { id: 1, lastName: 'Fabiola', firstName: 'Suarez', dni: "42.312.342" ,age: 35 , state: 'Aceptada',career: " Tec. en Electrónica",announcement: 2019,weighing: 2020,tutor: "Sabrina Schiaretti"},
 { id: 2, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada',career: " Tec. en Informática",announcement: 2020,weighing: 2021,tutor: "Sabrina Schiaretti"},
@@ -35,3 +43,23 @@ const rowss = [
 { id: 20, lastName: 'Carol', firstName: 'Suris', dni: "12.345.678" ,age: 25 , state: 'Rechazada',career: " Tec. en Electrónica",announcement: 2019,weighing: 2020,tutor: "Alicia Ramos"}
 
 ];
+
+
+export const actividadesRows = [
+	{ headerName: 'Nombre', field: 'name' },
+	{ headerName: 'Apellido', field: 'lastname' },
+	{ headerName: 'Correo', field: 'email' },
+	{ headerName: 'Telefono', field: 'telephone' },
+	{ headerName: 'Carrera', field: 'career' },
+	{ headerName: 'Estado', field: 'actualState' },
+	{ field: 'profile', headerName: 'Perfil', width: 150, 
+			renderCell: (params) => {
+					return <div>{params.value}</div>
+			},
+  },
+	{ headerName: 'Eliminar', field: 'delete', width: 150, 
+		renderCell: (params) => {
+				return <div>{params.value}</div>
+		},
+},
+]

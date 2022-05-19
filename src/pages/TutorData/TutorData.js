@@ -4,7 +4,7 @@ import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '../../components/BackButton';
-import { getTutor } from '../../services/Tutor/serviceTutor';
+import { getTutor, getBecariasDeTutor } from '../../services/Tutor/serviceTutor';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import tutorPhoto from '../../assets/tutor.svg'
@@ -42,6 +42,7 @@ export default function TutorData() {
 
     const [tutor, setTutor] = useState({});
     const [tutorRelations, setTutorRelations] = useState({});
+		const [tutorScholars, setTutorScholars] = useState({});
     const tutorAxios = useAxios({
         call:  
         () => getTutor(id)
@@ -51,19 +52,23 @@ export default function TutorData() {
         , redirectErr: '/'
     })
 
-
     useEffect(() => {
-      tutorAxios.useAxiosCall().then(response => {
+      tutorAxios.useAxiosCall().then( response => {
         setTutor(response.data)
-      
-      const {Tutor,  MateriasDeTutor, CarrerasDeTutor, Becarias} = response.data;
-      setTutorRelations({
-          assignments: MateriasDeTutor,
-          careers: CarrerasDeTutor,
-          scholars: Becarias
-        })
-      })
-      }, [])
+				const { MateriasDeTutor, CarrerasDeTutor} = response.data;
+
+				setTutorRelations({
+						assignments: MateriasDeTutor,
+						careers: CarrerasDeTutor,
+					})
+				getBecariasDeTutor(id).then(response => {
+					setTutorRelations({
+						...tutorRelations,
+						scholars: response.data.data,
+					})
+				})
+			})
+		}, [])
     
     const classes = useStyles();
 
@@ -142,15 +147,3 @@ export default function TutorData() {
     </>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-

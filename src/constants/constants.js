@@ -61,3 +61,14 @@ export const estadoBecarias = [
   },
   
 ]
+
+export const accountTypes = [
+  {
+    id: 1,
+    name: 'Caja de ahorro'
+  },
+  {
+    id:2,
+    name: 'Cuenta corriente'
+  }
+]

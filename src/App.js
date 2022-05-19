@@ -10,9 +10,13 @@ import SignTutorData from "./pages/SignTutorData";
 import TutorData from "./pages/TutorData";
 import EditTutorData from "./pages/TutorData/EditTutorData";
 import EditScholarData from "./pages/ScholarData/EditScholarData";
+import ScholarAditionalData from "./pages/SignScholarData/ScholarAditionalData";
 import MainTutor from "./pages/MainTutor";
 import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
+import ActivitiesPage from "./pages/Activities/Activities";
+import NewActivity from "./pages/NewActivity";
+import ActivitiesData from "./pages/ActivitiesData";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -62,6 +66,9 @@ export default function App() {
             <Route exact path="/becaria/edit/:id">
               <EditScholarData />
             </Route>
+            <Route exact path="/becaria/aditional/:id/:CuentaId">
+              <ScholarAditionalData />
+            </Route>
             <Route exact path="/becaria/:id">
               <ScholarData />
             </Route>
@@ -71,6 +78,15 @@ export default function App() {
             <Route exact path="/configuracion">
               <ConfigurationPage/>
             </Route>
+            <Route exact path="/actividades">
+              <ActivitiesPage />
+            </Route>
+						<Route exact path="/nuevaActividad">
+							<NewActivity />
+						</Route>
+						<Route exact path="/actividades/detalles/:id">
+							<ActivitiesData/>
+						</Route>
             <Route exact path="/">
               <Main />
             </Route>

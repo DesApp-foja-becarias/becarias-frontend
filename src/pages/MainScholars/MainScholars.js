@@ -9,6 +9,7 @@ import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import { columnsTutor } from '../../constants/searcherConstant';
 import { mapScholarsForSearcher } from '../../utils/scholarUtils';
+import MailSender from '../../components/MailSender/MailSender';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const MainScholars = () => {
     const classes = useStyles();
     const [scholars, setScholars] = useState([]);
+		const [users, setUsers] = useState([]);
     const { loading } = useContext(LoadingScreenContext);
     
     const getScholarsAxios = useAxios({
@@ -47,7 +49,7 @@ const MainScholars = () => {
     }, []);
 
     if (loading) {
-        return <LoadingScreen/>
+      return <LoadingScreen/>
     }
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
@@ -58,7 +60,8 @@ const MainScholars = () => {
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher items={scholars? mapScholarsForSearcher(scholars):[]} columns={columnsTutor}/>
+										<MailSender users={users} />
+										<Searcher setStateCallback={setUsers} items={scholars? mapScholarsForSearcher(scholars):[]} columns={columnsTutor}/>
                 </Container>
             </Container>
         </Container>

@@ -32,6 +32,16 @@ export default function useFieldValidator(initialValue){
             e,!(e.target.value > 0 && e.target.value <100000000000)
         );
     
+    const validateAccountNumber = (e) =>
+        updateError (
+            e, !(e.target.value.length == 10 && e.target.value > 0)
+        )
+
+    const validateCBU = (e) =>
+        updateError (
+            e, !(e.target.value.length == 22 && e.target.value > 0)
+        )
+    
         const allValid = () => {
             let valid = true;
             for (let key in errors) {
@@ -54,6 +64,8 @@ export default function useFieldValidator(initialValue){
         validateNotEmpty,
         validateDni,
         validateEmail,
-        validatePhone
+        validatePhone,
+        validateAccountNumber,
+        validateCBU
     }
 }

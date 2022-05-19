@@ -13,14 +13,12 @@ export default function Searcher({setStateCallback,items,columns}) {
   };
 
   return (
-    <div style={{ height: 650, width: '100%' }}>
+    <div style={{ height: 600, width: '100%' }}>
       <DataGrid
         rows={items}
         columns={columns}
         pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
-        disableSelectionOnClick
+        rowsPerPageOptions={[8]}
         //set state of the selection of the datagrid
         onSelectionModelChange={onSelectionChange}
 
