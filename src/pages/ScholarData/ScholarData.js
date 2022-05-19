@@ -9,7 +9,7 @@ import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
-import TableMock from '../../constants/mock/TablaMock';
+import TableActividadMock from '../../constants/mock/TablaActividadMock';
 import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
 import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -20,7 +20,7 @@ import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
-
+import useDialog from '../../hooks/useDialog';
 
 
 
@@ -46,11 +46,13 @@ const useStyles = makeStyles(() => ({
 export default function ScholarData() {
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
+    const { openDialog } = useDialog();
 
     const [scholar, setScholar] = useState({});
     const [scholarRelations, setScholarRelations] = useState({});
     const [tutor, setTutor] = useState({});
     const [account, setAccount] = useState({});
+    const [activities, setActivities] = useState([]);
 
     const downScholarAxios = useAxios({
       call:  
@@ -90,6 +92,7 @@ export default function ScholarData() {
         })
         
         BecariasTutor[0] ? setTutor(BecariasTutor[0].Tutor) : setTutor({});
+        ActividadesDeBecaria[0] ? setActivities(ActividadesDeBecaria) : setActivities([]);
 
         getAccountFromId(CuentaId).then(res => {
           setAccount(res.data)
@@ -143,9 +146,13 @@ export default function ScholarData() {
                     <Tooltip title='Dar de baja' onClick={
                       ()=>
                       {
-                        downScholarAxios.useAxiosCall()
-                        deleteTutorForScholarAxios.useAxiosCall()
-                        setScholar({...scholar, actualState: 'Baja'})
+                        openDialog('Dar de baja', <Typography>Estas a punto de dar de baja a la becaria. Estas segur@?</Typography>,
+                          () => {
+                            downScholarAxios.useAxiosCall()
+                            deleteTutorForScholarAxios.useAxiosCall()
+                            setScholar({...scholar, actualState: 'Baja'})
+                          }
+                        )
                       }
                       } followCursor>
                       <IconButton color='error'>
@@ -211,7 +218,7 @@ export default function ScholarData() {
                   scholar.actualState === "Aceptada" ?
                   <>
                   <Typography variant='subtitle1'>Actividad</Typography>             
-                  <TableMock/>
+                  { activities ?  <TableActividadMock activities={activities}/> :  ""}
                   <Box mb={3} />
                   <Typography variant='subtitle1'>Cuenta</Typography>
                   { account.data ? <TablaCuentaMock accountData={account.data}/> : "" }
