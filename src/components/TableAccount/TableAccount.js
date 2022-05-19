@@ -2,7 +2,7 @@ import React from 'react';
 import { TableContainer,Table,TableRow,TableCell, TableBody,Paper } from '@mui/material';
 
 
-const TablaMock = (props) => {
+const TableAccount = (props) => {
     const { bank, accountHolder, accountNumber, accountType, branchOffice, cbu } = props.accountData;
 
     return (
@@ -40,4 +40,4 @@ const TablaMock = (props) => {
     );
 }
 
-export default TablaMock;
+export default TableAccount;

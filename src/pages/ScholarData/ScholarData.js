@@ -9,8 +9,8 @@ import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
-import TableActividadMock from '../../constants/mock/TablaActividadMock';
-import TablaCuentaMock from '../../constants/mock/TablaCuentaMock';
+import TableActivities from '../../components/TableActivities/TableActivities';
+import TableAccount from '../../components/TableAccount/TableAccount';
 import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
@@ -177,7 +177,7 @@ export default function ScholarData() {
                     <Dato name='dni' title='DNI' value={scholar.dni} />
                     <Dato name='birthday' title='Fecha de nacimiento' value=
                     {
-											DateTime.fromISO(scholar.birthday).toLocaleString()
+											DateTime.fromISO(scholar.birthday).plus({ hours: 3 }).toLocaleString()
                     } 
 										/>
                     {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
@@ -218,10 +218,10 @@ export default function ScholarData() {
                   scholar.actualState === "Aceptada" ?
                   <>
                   <Typography variant='subtitle1'>Actividad</Typography>             
-                  { activities ?  <TableActividadMock activities={activities}/> :  ""}
+                  { activities ?  <TableActivities activities={activities}/> :  "" }
                   <Box mb={3} />
                   <Typography variant='subtitle1'>Cuenta</Typography>
-                  { account.data ? <TablaCuentaMock accountData={account.data}/> : "" }
+                  { account.data ? <TableAccount accountData={account.data}/> : "" }
                   </>
                   : <></>
                 }

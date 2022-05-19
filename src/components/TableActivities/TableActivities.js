@@ -3,15 +3,8 @@ import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper, But
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 
-const rows = [
-    {name: '1 Estudiante, 1 Compañero', fechaInicio: '03/01/2020', fechaFinal: '01/06/2020'},
-    {name: 'Rally Inovacion', fechaInicio: '16/06/2020', fechaFinal: '24/12/2020'},
-    {name: 'Colaborador', fechaInicio: '07/03/2020', fechaFinal: '03/08/2020'},
-]
-
-const TablaActividadMock = (props) => {
+const TableActivities = (props) => {
     const activities = props.activities;
-    console.log(activities)
 
     return (
     <TableContainer component={Paper}>
@@ -52,4 +45,4 @@ const TablaActividadMock = (props) => {
     );
 }
 
-export default TablaActividadMock;
+export default TableActivities;
