@@ -182,11 +182,12 @@ useEffect(() => {
 				</Container>
 			</Paper>
 			<Container >
+				<MailSender users={selectedScholars}/>
 				{
 					activity.validity?
 				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>: null
 				}
-				<MailSender users={selectedScholars}/>
+
 			</Container>
 			<Searcher 
 			items={activityScholars} 
