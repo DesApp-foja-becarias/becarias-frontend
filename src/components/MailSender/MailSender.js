@@ -4,136 +4,10 @@ import { Button, Chip, Container, Divider, Input, Paper, TextField, Typography }
 import { Box } from '@mui/system';
 import Proptypes from 'prop-types';
 import useMailSender from '../../hooks/useMailSender';
+
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
-const usersMock = [
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-	{
-		id: 1,
-		name: 'Juan Perez',
-		email: ' jperez@gmail.com',
-	},
-]
+import CsvButton from '../CsvButton/CsvButton';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -191,6 +65,7 @@ const classes = useStyles();
 					<Paper elevation={8} className={classes.paperContainer}>
 						<Container>
 							<Box display="flex" justifyContent="flex-end">
+								
 								<Button
 									variant="contained"
 									color="error"	
@@ -209,8 +84,13 @@ const classes = useStyles();
 								{selectedUsers.map((value) => (
 										<Chip key={value.id} label={value.email} />
 								))}
+								
 								</Box>		
 							</Box>
+							<Box sx={{marginRight:1}}>
+
+								<CsvButton users={users}/>
+								</Box>
 							<Divider />
 							{/* Armado del mail */}
 							<Container>
@@ -239,10 +119,12 @@ const classes = useStyles();
 										}
 									}
 									/>
-								<Typography variant="h6">
+								{
+								//FIXME: HACERLO FUNCIONAR A FUTURO
+								/* <Typography variant="h6">
 									Adjuntos
 								</Typography>
-									<Input sx={{marginBottom:'1rem'}} type="file" id="contained-button-file" fullWidth />
+									<Input sx={{marginBottom:'1rem'}} type="file" id="contained-button-file" fullWidth /> */}
 								<Button variant="contained" color="primary" onClick={() => {
 									sendMail({selectedUsers, subject, htmlText: text})
 								}}>
