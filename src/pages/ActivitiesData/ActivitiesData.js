@@ -14,6 +14,7 @@ import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
 import { Link } from 'react-router-dom'
 import BackButton from '../../components/BackButton'
+import MailSender from '../../components/MailSender'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -66,6 +67,8 @@ function ActivitiesData() {
 		validity: true,
 	});
 	const [activityScholars, setActivityScholars] = useState([]);
+	const [selectedScholars, setSelectedScholars] = useState([]);
+
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
 		, errorMessage: 'No se pudo encontrar la actividad'
@@ -183,11 +186,12 @@ useEffect(() => {
 					activity.validity?
 				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>: null
 				}
-				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
+				<MailSender users={selectedScholars}/>
 			</Container>
 			<Searcher 
 			items={activityScholars} 
 			columns={actividadesRows}
+			setStateCallback={setSelectedScholars}
 			/>
 			{
 				!advancedOptions ?				
