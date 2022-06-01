@@ -57,7 +57,10 @@ function ModalActividadBecaria({activityID,activityScholars}) {
 
 	const scholarsNotInTheActivity = async () => {
 		const {data} = await getScholars()
-		const availableUsers = data.data.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id))
+		// availableUsers son aquellos que
+		// no estan en la actividad Y tampoco estan dados de baja
+		const ActiveAvailableUsers = data.data.filter(scholar => scholar.actualState === 'Aceptada')
+		const availableUsers = ActiveAvailableUsers.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id ))
 		setAvilableUsers(availableUsers)
 	}
 
@@ -67,9 +70,11 @@ function ModalActividadBecaria({activityID,activityScholars}) {
 
 	return (
 		<>
-		<Button variant='contained' onClick={handleOpen}>
-			Agregar Becaria
-		</Button>
+		<Box sx={{margin:'1rem 0rem'}}>
+			<Button variant='contained' onClick={handleOpen}>
+				Agregar Becaria
+			</Button>
+		</Box>
 		<Modal open={open} onClose={() => setOpen(false)} className={classes.modal}
 		>
 			<Container maxWidth='lg' >
