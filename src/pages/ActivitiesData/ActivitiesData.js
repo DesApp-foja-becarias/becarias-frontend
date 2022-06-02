@@ -146,11 +146,11 @@ useEffect(() => {
 					<Container disableGutters className={classes.datoContainer}>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de inicio: </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).plus({ hours: 3 }).toLocaleString()} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de Fin estimada:  </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).plus({ hours: 3 }).toLocaleString()} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Estado:  </Typography>
