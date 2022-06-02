@@ -4,7 +4,7 @@ import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowCircleDownRoundedIcon from '@mui/icons-material/ArrowCircleDownRounded';
 import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
@@ -156,7 +156,7 @@ export default function ScholarData() {
                       }
                       } followCursor>
                       <IconButton color='error'>
-                        <CancelIcon fontSize='large'/>
+                        <ArrowCircleDownRoundedIcon fontSize='large'/>
                       </IconButton>
                     </Tooltip>
                     )
