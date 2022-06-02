@@ -27,8 +27,8 @@ const TableActivities = (props) => {
                 <TableCell component="th" scope="row">
                     {activitie.Actividad.name}
                 </TableCell>
-                <TableCell align="right">{DateTime.fromISO(activitie.Actividad.startDate).plus({ hours: 3 }).toLocaleString()}</TableCell>
-                <TableCell align="right">{DateTime.fromISO(activitie.Actividad.endDate).plus({ hours: 3 }).toLocaleString()}</TableCell>
+                <TableCell align="right">{DateTime.fromISO(activitie.Actividad.startDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()}</TableCell>
+                <TableCell align="right">{DateTime.fromISO(activitie.Actividad.endDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()}</TableCell>
                 <TableCell align='right'>{activitie.Actividad.validity ? "En curso" : "Terminada"}</TableCell>
                 <TableCell align='right'>
                     <Link style={{textDecoration:"none"}} to={`/actividades/detalles/${activitie.ActividadId}`}>

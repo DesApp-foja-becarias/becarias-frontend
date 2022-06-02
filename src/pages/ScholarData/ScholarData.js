@@ -177,7 +177,7 @@ export default function ScholarData() {
                     <Dato name='dni' title='DNI' value={scholar.dni} />
                     <Dato name='birthday' title='Fecha de nacimiento' value=
                     {
-											DateTime.fromISO(scholar.birthday).plus({ hours: 3 }).toLocaleString()
+											DateTime.fromISO(scholar.birthday).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()
                     } 
 										/>
                     {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
