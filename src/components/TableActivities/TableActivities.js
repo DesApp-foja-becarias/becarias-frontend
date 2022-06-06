@@ -11,7 +11,7 @@ const TableActivities = (props) => {
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
         <TableRow>
-            <TableCell>Actividad</TableCell>
+            <TableCell>Nombre</TableCell>
             <TableCell align="right">Fecha Inicio</TableCell>
             <TableCell align="right">Fecha Final</TableCell>
             <TableCell align='right'>Estado   </TableCell>

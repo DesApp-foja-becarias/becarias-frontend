@@ -217,13 +217,17 @@ export default function ScholarData() {
                 {
                   scholar.actualState === "Aceptada" ?
                   <Grid container>
-                    <Grid container mb={2}>
-                      <Typography variant='subtitle1'>Actividad</Typography>
-                    </Grid>             
-                    <Grid container mb={3}>
-                      { activities ?  <TableActivities activities={activities}/> :  "" }
-                    </Grid>
-
+                    { activities.length > 0 ?
+                      <>
+                        <Grid container mb={2}>
+                          <Typography variant='subtitle1'>Actividad</Typography>
+                        </Grid>             
+                        <Grid container mb={3}>
+                          <TableActivities activities={activities}/>
+                        </Grid>
+                      </>
+                      : ""
+                    }
                     <Grid container mb={3}>
                       <Grid container item xs={10}>
                       <Typography variant='subtitle1'>Cuenta</Typography>
