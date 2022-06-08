@@ -17,7 +17,7 @@ export default function useFieldValidator(initialValue){
     
     const validateDni = (e) => {
             updateError(e, 
-                !(e.target.value > 0 && e.target.value <100000000)
+                !(e.target.value > 0 && e.target.value <1000000000)
             );
     }
     
@@ -29,7 +29,7 @@ export default function useFieldValidator(initialValue){
     
     const validatePhone = (e) =>
         updateError (
-            e,!(e.target.value > 0 && e.target.value <100000000000)
+            e,!(e.target.value > 0 && e.target.value <10000000000)
         );
     
     const validateAccountNumber = (e) =>

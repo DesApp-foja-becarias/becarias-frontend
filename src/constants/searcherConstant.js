@@ -1,5 +1,4 @@
 export const columnsTutor = [
-    { field: 'id', headerName: 'ID', width: 50, },
     { field: 'name', headerName: 'Nombre/s', width: 150 ,},
     { field: 'lastname', headerName: 'Apellido', width: 150,},
     { field: 'dni', headerName: 'DNI', width:160 ,},
@@ -15,7 +14,6 @@ export const columnsTutor = [
 
 
 export const columnsTutorShort = [
-    { field: 'id', headerName: 'ID', width: 50, },
     { field: 'name', headerName: 'Nombre/s', width: 160 ,},
     { field: 'lastname', headerName: 'Apellido', width: 160,},
     { field: 'dni', headerName: 'DNI', width:160 ,},
