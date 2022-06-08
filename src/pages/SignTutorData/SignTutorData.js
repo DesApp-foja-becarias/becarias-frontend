@@ -42,7 +42,6 @@ export default function SignTutorData() {
         dni: '',
         email: '',
         telephone: '',
-        actualState: 1 , // aca deberia de ir un Estado
     });
     
     const {

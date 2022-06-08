@@ -1,10 +1,8 @@
 import {useState, useContext, useEffect} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Select, MenuItem, TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box, Input  } from '@mui/material';
-import { carreras } from '../../constants';
+import {TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box} from '@mui/material';
 import BackButton from '../../components/BackButton';
 import useFieldValidator from '../../hooks/useValidator';
-import {someEmptyField} from '../../utils/func';
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -41,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     export default function SignScholarData() {
     const history = useHistory()
     const classes = useStyles()
-    const [carreers, setCarreers] = useState([])
     const [scholar, setScholar] = useState({
         name: '',
         lastname: '',
@@ -52,14 +49,12 @@ const useStyles = makeStyles((theme) => ({
         address: '',
         cuit: '',
         city: '',
-        carreer: carreers.map(carreer => carreer.id),
         announcement: '',
         actualState: 'pendiente'
     })
 
 
     const {
-        areValidFields,
         errors,
         validateNotEmpty,
         validateDni,
@@ -85,10 +80,6 @@ const useStyles = makeStyles((theme) => ({
             [e.target.name]: e.target.value,
         })
     }
-    const updateCarreer = (e) => {
-        setCarreers(e.target.value)
-    }
-
     const handleSubmit = (e) => {
     e.preventDefault();
         createScholarCall.useAxiosCall(scholar).then(res => {
@@ -97,16 +88,8 @@ const useStyles = makeStyles((theme) => ({
             }, 2000);
         })
     }
-    
 
-    useEffect(() => {
-        setScholar({
-            ...scholar,
-            carreer: carreers.map(carreer => carreer.id),
-        })
-    }, [carreers])
-
-    const { loading, setLoading } = useContext( LoadingScreenContext )
+    const { loading } = useContext( LoadingScreenContext )
     const createScholarCall = useAxios({
         call: () => createScholar(scholar)
         , successMessage: 'Becaria Creada'
@@ -274,36 +257,9 @@ const useStyles = makeStyles((theme) => ({
                             required
                         />
                     </Grid>
-                    <Grid item 
-                        xs={6} 
-                    >
-                        <InputLabel htmlFor='carreer'>Carrera/s</InputLabel>
-                        <Select
-                            multiple
-                            name="carreer"
-                            value={carreers}
-                            renderValue={selected =>
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                {selected.map((value) => (
-                                    <Chip key={value} label={value.name} />
-                                ))}
-                                </Box>}
-                            onChange={updateCarreer}
-                            placeholder="Carrera/s"
-                            sx={{width: '13em' , marginTop:'1em'}}
-                        >
-                            
-                            {carreras.map(car => (
-                                <MenuItem key={car.id} value={car}>
-                                    {car.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </Grid>       
+                    
                     <Grid item xs={6} >
-                        
                         <InputLabel htmlFor='announcement'>Fecha de convocatoria</InputLabel>
-
                         <TextField 
                             type="string" 
                             variant='outlined'
