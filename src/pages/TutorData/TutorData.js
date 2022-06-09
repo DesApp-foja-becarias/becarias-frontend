@@ -11,7 +11,7 @@ import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
-import TableCareers from '../../components/TableCareers';
+import DisplayCarreers from '../../components/DisplayCarreers';
 import TableScholars from '../../components/TableScholars';
 
 const useStyles = makeStyles((theme) => ({
@@ -135,7 +135,7 @@ export default function TutorData() {
               </Box>
               <Container id='datosGeneralesBottom'>
               <Typography variant='subtitle1'>Carrera/s</Typography>
-              <TableCareers careers={tutorRelations.careers}/>
+              <DisplayCarreers careers={tutorRelations.academicData}/>
               <Box mb={6} />
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
                 <TableScholars scholars={tutorRelations.scholars}/>

@@ -16,13 +16,11 @@ import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import ScholarPhoto from '../../assets/scholarPhoto.svg'
 import DatoTutor from '../../components/DatoTutor';
-import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
 import useDialog from '../../hooks/useDialog';
-
-
+import DisplayCarreers from '../../components/DisplayCarreers';
 
 const useStyles = makeStyles(() => ({
     rootContainer:{
@@ -80,6 +78,7 @@ export default function ScholarData() {
 
     useEffect(() => {
       getScholarAxios.useAxiosCall().then( response => {
+				console.log(response)
         setScholar({...response.data, })
         const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria, CuentaId} = response.data;
         setScholarRelations({
@@ -98,6 +97,7 @@ export default function ScholarData() {
           setAccount(res.data)
         })
       })  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const classes = useStyles();
@@ -212,7 +212,7 @@ export default function ScholarData() {
 							<MailSender users={[scholar]}/>
               <Container id='datosGeneralesBottom'>
                 <Typography variant='subtitle1'>Carreras</Typography>
-                <TableCareers careers={scholarRelations.careers}/>
+                <DisplayCarreers careers={scholar.academicStatus? scholar.academicStatus:[]}/>
                 <Box mb={3} />
                 {
                   scholar.actualState === "Aceptada" ?
