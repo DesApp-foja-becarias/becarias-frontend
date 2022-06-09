@@ -1,6 +1,6 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Dato from '../../components/Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container,Button } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -216,13 +216,36 @@ export default function ScholarData() {
                 <Box mb={3} />
                 {
                   scholar.actualState === "Aceptada" ?
-                  <>
-                  <Typography variant='subtitle1'>Actividad</Typography>             
-                  { activities ?  <TableActivities activities={activities}/> :  "" }
-                  <Box mb={3} />
-                  <Typography variant='subtitle1'>Cuenta</Typography>
-                  { account.data ? <TableAccount accountData={account.data}/> : "" }
-                  </>
+                  <Grid container>
+                    { activities.length > 0 ?
+                      <>
+                        <Grid container mb={2}>
+                          <Typography variant='subtitle1'>Actividad</Typography>
+                        </Grid>             
+                        <Grid container mb={3}>
+                          <TableActivities activities={activities}/>
+                        </Grid>
+                      </>
+                      : ""
+                    }
+                    <Grid container mb={3}>
+                      <Grid container item xs={10}>
+                      <Typography variant='subtitle1'>Cuenta</Typography>
+                      </Grid>
+                      <Grid container item xs={2} mb={2}>
+                      
+                        <Link style={{textDecoration:"none"}} to={`/becaria/aditional/${id}/${scholar.CuentaId}`}>
+                        <Button color="primary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
+                          Editar cuenta
+                        </Button>
+                        </Link>
+                      
+                      </Grid>
+                      
+                      { account.data ? <TableAccount accountData={account.data}/> : "" }
+                      
+                    </Grid>
+                  </Grid>
                   : <></>
                 }
                 <Box mb={6} />
