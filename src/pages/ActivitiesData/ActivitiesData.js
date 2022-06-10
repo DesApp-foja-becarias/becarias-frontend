@@ -99,9 +99,11 @@ useEffect(() => {
 			await getScholarsInActivity.useAxiosCall().then(
 				res => {
 					const mappedScholars = res.data.map(scholar => {
-						console.log(scholar)
 						return {
 							...scholar,
+							carreras: scholar.academicStatus.reduce((acc, curr) => {
+								return acc.concat(`${curr.carrera.carrera} ,`)
+							}, ''),
 							profile: (
 							<Link style={{textDecoration:"none"}} to={`/becaria/${scholar.id}`}>
 								<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
@@ -132,7 +134,8 @@ useEffect(() => {
 	if (loading) {
 		return <LoadingScreen/>
 	}
-	return (
+	else{
+	 return (
 		<Container>
 			<Box mb={2}>
 				<BackButton path={'/actividades'}/> 
@@ -231,7 +234,8 @@ useEffect(() => {
 			</>
 			}
 		</Container>
-	)
+		)
+	}
 }
 
 export default ActivitiesData

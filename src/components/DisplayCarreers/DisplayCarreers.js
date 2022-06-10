@@ -30,14 +30,14 @@ const CarreerDisplay = ({career}) => {
 					{career.carrera.carrera}
 				</Typography>
 				<Container>
-					<Dato title='Ultimo Periodo Cursado' value={career.lastPeriod.nombre}/>
-					<Typography variant='h6' style={{marginTop:'1em'}}> Materias cursadas en el ultimo periodo correspondiente </Typography>
+					<Typography variant='h5'>Ultimo periodo cursado</Typography>
+					<Typography variant='subtitle2' color='green'> {career.lastPeriod.nombre}</Typography>
 					<TableContainer>
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>Materia</TableCell>
-									<TableCell>Carga Horaria Total</TableCell>
+									<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
+									<TableCell sx={{fontWeight:'bold'}}>Carga Horaria Total</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -77,12 +77,13 @@ const CarreerDisplay = ({career}) => {
 							</Table>
 						</TableContainer>
 						<Typography variant='h6' style={{marginTop:'1em'}}> Materias Regularizadas </Typography>
-					<TableContainer>
+					<TableContainer sx={{marginBottom:'2em'}}>
 						<Table size='small'>
 							<TableHead>
 								<TableRow>
 									<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
 									<TableCell sx={{fontWeight:'bold'}}>Nota</TableCell>
+									<TableCell sx={{fontWeight:'bold'}}>Periodo</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -90,6 +91,7 @@ const CarreerDisplay = ({career}) => {
 									<TableRow key={index}>
 										<TableCell width={300}>{materia.materia}</TableCell>
 										<TableCell >{materia.nota}</TableCell>
+										<TableCell >{materia.periodo.nombre.toLowerCase()}</TableCell>
 									</TableRow>
 								)}
 							</TableBody>
