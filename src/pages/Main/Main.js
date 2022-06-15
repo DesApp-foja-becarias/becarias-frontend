@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useContext, useEffect,useState } from 'react';
 import { Button, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Searcher from '../../components/Searcher/Searcher';
@@ -10,7 +10,8 @@ import { getScholars } from '../../services/Scholar/servicesScholar';
 import { mapScholarsForSearcher } from '../../utils/scholarUtils';
 import { mapTutorsForSearcher } from '../../utils/tutorUtils';
 import MailSender from '../../components/MailSender/MailSender';
-
+import { LoadingScreenContext } from '../../context/LoadingScreenContext';
+import LoadingScreen from '../../components/LoadingScreen';
 const useStyles = makeStyles((theme) => ({
     logo: {
         width: "100%",
@@ -30,7 +31,7 @@ export default function Main() {
     const classes = useStyles();
     const [items, setItems] = useState([]);
     const [users, setUsers] = useState([]);
-
+	 	const { loading } = useContext(LoadingScreenContext);
     const getScholarsAxios = useAxios({
         call: () => getScholars()
     })
@@ -52,7 +53,9 @@ export default function Main() {
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+		if (loading) {
+			return <LoadingScreen/>
+	}  
     return (
         <Container sx={{ display: 'flex' }} maxWidth="xl" disableGutters>
             <Container maxWidth="xl" disableGutters>
