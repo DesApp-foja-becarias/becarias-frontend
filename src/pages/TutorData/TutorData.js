@@ -13,6 +13,7 @@ import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
 import DisplayCarreers from '../../components/DisplayCarreers';
 import TableScholars from '../../components/TableScholars';
+import DisplayTutorCarreers from '../../components/DisplayTutorCarreers/DisplayTutorCarreers';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -135,7 +136,7 @@ export default function TutorData() {
               </Box>
               <Container id='datosGeneralesBottom'>
               <Typography variant='subtitle1'>Carrera/s</Typography>
-              <DisplayCarreers careers={tutorRelations.academicData}/>
+              <DisplayTutorCarreers carreers={tutor.academicStatus?tutor.academicStatus:[]}/>
               <Box mb={6} />
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
                 <TableScholars scholars={tutorRelations.scholars}/>

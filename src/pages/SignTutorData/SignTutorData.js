@@ -9,6 +9,7 @@ import useAxios from '../../hooks/useAxios';
 import LoadingScreen from '../../components/LoadingScreen';
 import { LoadingScreenContext } from '../../context/LoadingScreenContext';
 import { useHistory } from 'react-router';
+import DropdownMultiple from '../../components/DropdownMultiple';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -35,13 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignTutorData() {
     const classes = useStyles();
-    const { loading, setLoading } = useContext( LoadingScreenContext );
+    const { loading } = useContext( LoadingScreenContext );
     const [tutor, setTutor] = useState({
         name: '',
         lastname: '',
         dni: '',
         email: '',
         telephone: '',
+				carreers: [],
     });
     
     const {
@@ -75,6 +77,12 @@ export default function SignTutorData() {
             [e.target.name]: e.target.value,
         })
     }
+		const updateCarrer = (e) => {
+			setTutor({
+				...tutor,
+				carreers: e.target.value,
+			})
+		}
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -165,6 +173,12 @@ export default function SignTutorData() {
                             required
                         />
                     </Grid>
+										<Grid item
+											xs={12}
+										>
+											{/*dropdown de carreras */}
+											<DropdownMultiple update={updateCarrer} signedCarreers={tutor.carreers}/>
+											</Grid>
                     <Grid item 
                         xs={12}
                     >
@@ -183,7 +197,7 @@ export default function SignTutorData() {
                             sx={{width:"30em"}}
                         />
                     </Grid>
-                </Grid>   
+                </Grid>
                 <Box mt={3} mb={3}>
                     <Button  className={classes.boton}
                         variant="contained" 
