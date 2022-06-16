@@ -11,7 +11,6 @@ import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
-import DisplayCarreers from '../../components/DisplayCarreers';
 import TableScholars from '../../components/TableScholars';
 import DisplayTutorCarreers from '../../components/DisplayTutorCarreers/DisplayTutorCarreers';
 
@@ -42,8 +41,8 @@ export default function TutorData() {
     const {id} = useParams()
 
     const [tutor, setTutor] = useState({});
-    const [tutorRelations, setTutorRelations] = useState({});
-		const [tutorScholars, setTutorScholars] = useState({});
+    const [tutorRelations, setTutorRelations] = useState([]);
+		const [tutorScholars, setTutorScholars] = useState([]);
     const tutorAxios = useAxios({
         call:  
         () => getTutor(id)
@@ -63,6 +62,7 @@ export default function TutorData() {
 						careers: CarrerasDeTutor,
 					})
 				getBecariasDeTutor(id).then(response => {
+					setTutorScholars(response.data.data)
 					setTutorRelations({
 						...tutorRelations,
 						scholars: response.data.data,
@@ -139,7 +139,7 @@ export default function TutorData() {
               <DisplayTutorCarreers carreers={tutor.academicStatus?tutor.academicStatus:[]}/>
               <Box mb={6} />
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
-                <TableScholars scholars={tutorRelations.scholars}/>
+                <TableScholars scholars={tutorScholars}/>
                 <Box mb={6} />
               </Container>
             </Container>

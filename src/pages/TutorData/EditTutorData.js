@@ -10,6 +10,8 @@ import { updateTutor } from '../../services/Tutor/serviceTutor';
 import useSnackbar from '../../hooks/useSnackbar';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
+import DropdownMultiple from '../../components/DropdownMultiple';
+import { getCarreers } from '../../services/carrers/carreersService';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -42,10 +44,14 @@ export default function EditTutorData() {
     const { loading } = useContext(LoadingScreenContext);
     const classes = useStyles()
     const {id} = useParams()
-    const history = useHistory()
-    const { openSnackbar } = useSnackbar()
     const [tutor, setTutor] = useState({});
-    
+		const [carreers, setCarreers] = useState([])
+    const updateCarrer = (e) => {
+			setTutor({
+				...tutor,
+				carrerasDeTutor: e.target.value,
+			})
+		}
     
     const getTutorAxios = useAxios({
         call:  
@@ -66,7 +72,14 @@ export default function EditTutorData() {
     })
 
     useEffect(() => {
-        const tutorAxios = async () => await getTutorAxios.useAxiosCall().then(res => setTutor(res.data))
+        const tutorAxios = async () => await getTutorAxios.useAxiosCall().then(async (res) => {
+					const carreras = await getCarreers()
+					console.log(carreras.data)
+					const carrerasDeTutor = await res.data.carrerasDeTutor.map(car => carreras.data.find(car2 => car2.id == car))
+					
+					setTutor({...res.data, carrerasDeTutor: carrerasDeTutor})
+				}
+					)
         tutorAxios()
         }, [])
 
@@ -183,6 +196,12 @@ export default function EditTutorData() {
                                 required
                             />
                         </Grid>
+												<Grid item
+											xs={12}
+										>
+											{/*dropdown de carreras */}
+											{/* <DropdownMultiple update={updateCarrer} signedCarreers={tutor.carreers}/> */}
+											</Grid>
                     
                         <Grid item 
                             xs={6}
@@ -206,7 +225,6 @@ export default function EditTutorData() {
                     
                     </Grid>   
                     <Box mt={6} mb={6}>
-                    
                         <Button className={classes.boton}
                             variant="contained" 
                             type="submit"

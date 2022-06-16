@@ -2,7 +2,6 @@ import { Container, Paper, Table, TableBody, TableCell, TableRow, Typography } f
 import React from 'react'
 
 const DisplayTutorCarreers = ({carreers}) => {
-	console.log(carreers)
     return (
 			<Paper style={{padding:'1em'}}>
 				<Table>
