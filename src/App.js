@@ -18,6 +18,7 @@ import ActivitiesPage from "./pages/Activities/Activities";
 import NewActivity from "./pages/NewActivity";
 import ActivitiesData from "./pages/ActivitiesData";
 import Carreers from "./pages/Carreers";
+import EditTutorCarreer from "./pages/EditTutorCarreer";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -58,6 +59,9 @@ export default function App() {
             <Route exact path="/tutor">
               <MainTutor />
             </Route>
+						<Route exact path="/tutor/aditional/editarCarrera/:id">
+							<EditTutorCarreer/>
+						</Route>
             <Route exact path="/inscribirtutor">
               <SignTutorData />
             </Route>
