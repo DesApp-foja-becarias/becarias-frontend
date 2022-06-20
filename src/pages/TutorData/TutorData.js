@@ -1,18 +1,18 @@
 import Dato from '../../components/Datos/Dato';
 import React, { useEffect, useState, useContext} from 'react'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container, Button } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import BackButton from '../../components/BackButton';
 import { getTutor, getBecariasDeTutor } from '../../services/Tutor/serviceTutor';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import tutorPhoto from '../../assets/tutor.svg'
 import useAxios from '../../hooks/useAxios';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
-import DisplayCarreers from '../../components/DisplayCarreers';
 import TableScholars from '../../components/TableScholars';
+import DisplayTutorCarreers from '../../components/DisplayTutorCarreers/DisplayTutorCarreers';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -39,10 +39,10 @@ export default function TutorData() {
     
     const { loading } = useContext(LoadingScreenContext);
     const {id} = useParams()
-
+		const history = useHistory();
     const [tutor, setTutor] = useState({});
-    const [tutorRelations, setTutorRelations] = useState({});
-		const [tutorScholars, setTutorScholars] = useState({});
+    const [tutorRelations, setTutorRelations] = useState([]);
+		const [tutorScholars, setTutorScholars] = useState([]);
     const tutorAxios = useAxios({
         call:  
         () => getTutor(id)
@@ -62,6 +62,7 @@ export default function TutorData() {
 						careers: CarrerasDeTutor,
 					})
 				getBecariasDeTutor(id).then(response => {
+					setTutorScholars(response.data.data)
 					setTutorRelations({
 						...tutorRelations,
 						scholars: response.data.data,
@@ -135,10 +136,11 @@ export default function TutorData() {
               </Box>
               <Container id='datosGeneralesBottom'>
               <Typography variant='subtitle1'>Carrera/s</Typography>
-              <DisplayCarreers careers={tutorRelations.academicData}/>
+							<Button variant="contained" color="primary" onClick={() => history.push(`/tutor/aditional/editarCarrera/${id}`)}> Editar Carreras de tutor</Button>
+              <DisplayTutorCarreers carreers={tutor.academicStatus?tutor.academicStatus:[]}/>
               <Box mb={6} />
                 <Typography variant='subtitle1'>Becarias Asignadas</Typography>
-                <TableScholars scholars={tutorRelations.scholars}/>
+                <TableScholars scholars={tutorScholars}/>
                 <Box mb={6} />
               </Container>
             </Container>

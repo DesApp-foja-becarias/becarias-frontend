@@ -2,6 +2,7 @@ import axios from '../axios';
 
 const tutorServiceURL = '/api/tutores'
 const becariaTutorURL = '/api/becariaTutor'
+const tutorCarreraURL = '/api/tutorCarrera'
 
 export const getTutor =  (id) => {
     return  axios.get( tutorServiceURL +`/${id}`);
@@ -26,4 +27,9 @@ export const deleteTutor = async (id) => {
 
 export const getBecariasDeTutor = async (id) => {
 		return await axios.get(becariaTutorURL + `/verBecarias/${id}`);
+}
+
+export const updateTutorCarreers = async (id, carreras) => {
+		return await axios.put(tutorCarreraURL + `/${id}/carreras`,
+			carreras);
 }

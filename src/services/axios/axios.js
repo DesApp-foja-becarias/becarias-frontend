@@ -3,9 +3,6 @@ import axios from "axios";
 const instance = axios.create({
 		baseURL: "http://localhost:3001/",
     //baseURL: "https://becarias-back.herokuapp.com/",
-		onDownloadProgress: (progressEvent) => {
-			console.log(progressEvent)
-		}
 });
 
 instance.interceptors.response.use(
