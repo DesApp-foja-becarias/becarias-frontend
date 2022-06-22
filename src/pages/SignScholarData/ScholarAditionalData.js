@@ -108,13 +108,14 @@ export default function ScholarAditionalData() {
         , successMessage: 'Cuenta Actualizada'
         , errorMessage: 'No se pudo actualizar la cuenta'
         , loadingMessage: 'Actualizando cuenta...'
+        , redirectSucc: `/becaria/${id}`
         , redirectErr: '/'
     })
 
     const acceptScholarAxios = useAxios({
         call:  
         () => acceptScholar({ ...scholar, actualState: 'Aceptada' })
-        , successMessage: 'Becaria aceptada'
+        , successMessage: 'Becaria actualizada'
         , errorMessage: 'No se pudo aceptar a la becaria'
         , loadingMessage: 'Actualizando becaria...'
         , redirectSucc: `/becaria/${id}`
@@ -138,9 +139,13 @@ export default function ScholarAditionalData() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        updateAccountAxios.useAxiosCall();
-        setRelationScholarTutorAxios.useAxiosCall();
-        acceptScholarAxios.useAxiosCall();
+        if (scholar.actualState != 'Aceptada') {
+            updateAccountAxios.useAxiosCall();
+            setRelationScholarTutorAxios.useAxiosCall();
+            acceptScholarAxios.useAxiosCall();
+        } else {
+            updateAccountAxios.useAxiosCall();
+        }
     }
     
     useEffect(() => {
@@ -287,35 +292,53 @@ export default function ScholarAditionalData() {
                             required
                         />
                     </Grid>
-                </Grid>   
-                <Grid container mt={3} spacing={4}>
-                <Typography variant='subtitle1' align="left">Asignar Tutor</Typography>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={12}>
-                    {tutorSelected.length === 0?
-                        <InputLabel htmlFor='tutor'>Tutor: No hay un tutor asignado</InputLabel>
-                        :
-                        tutorSelected.map(tutor => {
-                            return (
-                                <InputLabel htmlFor='tutor'>Tutor: {tutor.lastname + " " +tutor.name}</InputLabel>
-                            )
-                        })
-                    }
-                   
-                    <SingleSeacher setStateCallback={setTutorSelected} items={tutors} columns={columnsTutorShort}/>
                 </Grid>
-                </Grid>   
-            <Box mt={3} mb={3}/>
-            <Box mt={6} mb={6}>
-            
-                <Button className={classes.boton}
-                    variant="contained" 
-                    type="submit"
-                    disabled={tutorSelected.length > 0 ? false : true}
-                >
-                    APROBAR BECARIA
-                </Button>
-            </Box>
+                {scholar.actualState === 'Aceptada' ?
+                        <> 
+                        <Box mt={3} mb={3}/>
+                        <Box mt={6} mb={6}>
+                
+                        <Button className={classes.boton}
+                            variant="contained" 
+                            type="submit"
+                        >
+                            ACTUALIZAR CUENTA
+                        </Button>
+                        </Box>
+                        </>
+                    :
+                        <>  
+                        <Grid container mt={3} spacing={4}>
+                            <Typography variant='subtitle1' align="left">Asignar Tutor</Typography>
+                            <Grid item xs={6}></Grid>
+                            <Grid item xs={12}>
+                                {tutorSelected.length === 0?
+                                    <InputLabel htmlFor='tutor'>Tutor: No hay un tutor asignado</InputLabel>
+                                    :
+                                    tutorSelected.map(tutor => {
+                                        return (
+                                            <InputLabel htmlFor='tutor'>Tutor: {tutor.lastname + " " +tutor.name}</InputLabel>
+                                        )
+                                    })
+                                }
+
+                                <SingleSeacher setStateCallback={setTutorSelected} items={tutors} columns={columnsTutorShort}/>
+                            </Grid>
+                        </Grid>   
+                        <Box mt={3} mb={3}/>
+                        <Box mt={6} mb={6}>
+                            
+                            <Button className={classes.boton}
+                                variant="contained" 
+                                type="submit"
+                                disabled={tutorSelected.length > 0 ? false : true}
+                            >
+                                APROBAR BECARIA
+                            </Button>
+                        </Box>
+                        </>
+                }
+                
 
         </Container>
         </form>

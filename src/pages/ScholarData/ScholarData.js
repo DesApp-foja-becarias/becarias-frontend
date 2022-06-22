@@ -1,10 +1,10 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Dato from '../../components/Datos/Dato'
-import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container } from '@mui/material';
+import {Divider, IconButton, Box, Grid, Typography, Tooltip, Container,Button } from '@mui/material';
 import { makeStyles } from "@mui/styles";
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowCircleDownRoundedIcon from '@mui/icons-material/ArrowCircleDownRounded';
 import {Link, useParams} from 'react-router-dom';
 import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
@@ -16,13 +16,11 @@ import LoadingScreen from '../../components/LoadingScreen';
 import {LoadingScreenContext} from '../../context/LoadingScreenContext';
 import ScholarPhoto from '../../assets/scholarPhoto.svg'
 import DatoTutor from '../../components/DatoTutor';
-import TableCareers from '../../components/TableCareers';
 import { showComponentWhen_ } from '../../utils/scholarUtils';
 import MailSender from '../../components/MailSender';
 import { DateTime } from 'luxon';
 import useDialog from '../../hooks/useDialog';
-
-
+import DisplayCarreers from '../../components/DisplayCarreers';
 
 const useStyles = makeStyles(() => ({
     rootContainer:{
@@ -80,6 +78,7 @@ export default function ScholarData() {
 
     useEffect(() => {
       getScholarAxios.useAxiosCall().then( response => {
+				console.log(response)
         setScholar({...response.data, })
         const {BecariasTutor, MateriasDeBecaria, Documentos, CarrerasDeBecaria, ActividadesDeBecaria, CuentaId} = response.data;
         setScholarRelations({
@@ -98,6 +97,7 @@ export default function ScholarData() {
           setAccount(res.data)
         })
       })  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const classes = useStyles();
@@ -156,7 +156,7 @@ export default function ScholarData() {
                       }
                       } followCursor>
                       <IconButton color='error'>
-                        <CancelIcon fontSize='large'/>
+                        <ArrowCircleDownRoundedIcon fontSize='large'/>
                       </IconButton>
                     </Tooltip>
                     )
@@ -177,7 +177,7 @@ export default function ScholarData() {
                     <Dato name='dni' title='DNI' value={scholar.dni} />
                     <Dato name='birthday' title='Fecha de nacimiento' value=
                     {
-											DateTime.fromISO(scholar.birthday).plus({ hours: 3 }).toLocaleString()
+											DateTime.fromISO(scholar.birthday).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()
                     } 
 										/>
                     {/* <DatoDate name='fechaNacimiento' date title='Fecha de nacimiento' value={scholar.birthday}/> */}
@@ -211,20 +211,40 @@ export default function ScholarData() {
               </Box>
 							<MailSender users={[scholar]}/>
               <Container id='datosGeneralesBottom'>
-                <Typography variant='subtitle1'>Carreras</Typography>
-                <TableCareers careers={scholarRelations.careers}/>
-                <Box mb={3} />
+                
                 {
                   scholar.actualState === "Aceptada" ?
-                  <>
-                  <Typography variant='subtitle1'>Actividad</Typography>             
-                  { activities ?  <TableActivities activities={activities}/> :  "" }
-                  <Box mb={3} />
-                  <Typography variant='subtitle1'>Cuenta</Typography>
-                  { account.data ? <TableAccount accountData={account.data}/> : "" }
-                  </>
+                  <Grid container>
+                    { activities.length > 0 ?
+                      <>
+                        <Grid container mb={2}>
+                          <Typography variant='subtitle1'>Actividad</Typography>
+                        </Grid>             
+                        <Grid container mb={3}>
+                          <TableActivities activities={activities}/>
+                        </Grid>
+                      </>
+                      : ""
+                    }
+                    <Grid container mb={3}>
+                      <Grid container item xs={10}>
+                      <Typography variant='subtitle1'>Cuenta</Typography>
+                      </Grid>
+                      <Grid container item xs={2} mb={2}>
+                        <Link style={{textDecoration:"none"}} to={`/becaria/aditional/${id}/${scholar.CuentaId}`}>
+                        <Button color="warning" variant="contained" size='small' sx={{color:'#fafafa'}}> 
+                          Editar cuenta
+                        </Button>
+                        </Link>
+                      </Grid>
+                      { account.data ? <TableAccount accountData={account.data}/> : "" }
+                    </Grid>
+                  </Grid>
                   : <></>
                 }
+                <Box mb={3} />
+								<Typography variant='subtitle1'>Carreras</Typography>
+                <DisplayCarreers careers={scholar.academicStatus? scholar.academicStatus:[]}/>
                 <Box mb={6} />
               </Container>
             </Container>

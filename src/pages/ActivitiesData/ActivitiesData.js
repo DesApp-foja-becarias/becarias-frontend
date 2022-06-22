@@ -14,6 +14,8 @@ import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
 import { Link } from 'react-router-dom'
 import BackButton from '../../components/BackButton'
+import MailSender from '../../components/MailSender'
+import useLoadingScreen from '../../hooks/useLoadingScreen'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {
@@ -55,8 +57,9 @@ function ActivitiesData() {
 	const navigate = useHistory();
 	const {id} = useParams()
 	// avanced optiosn state
-	const [advancedOptions, setAdvancedOptions] = useState(false);
 	const {openDialog} = useDialog()
+	const { hideLoadingScreen, showLoadingScreen } = useLoadingScreen()
+	const [advancedOptions, setAdvancedOptions] = useState(false);
 	const { loading } = useContext(LoadingScreenContext);
 	const [activity, setActivity] = useState({
 		name: '',
@@ -66,6 +69,9 @@ function ActivitiesData() {
 		validity: true,
 	});
 	const [activityScholars, setActivityScholars] = useState([]);
+	const [selectedScholars, setSelectedScholars] = useState([]);
+
+	//NOTE: estas son llamadas hechas con hook para no tener que rehacer todo el setLoadingContext en cada llamada.
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
 		, errorMessage: 'No se pudo encontrar la actividad'
@@ -83,53 +89,60 @@ function ActivitiesData() {
 	const getScholarsInActivity = useAxios({
 		call: () => getScholarInActivity(id)
 		, errorMessage: 'Ocurrio un error al obtener los becarios de la actividad'
-		, loadingMessage: 'Buscando becarias...'
+		, loadingMessage: 'Buscando becarias de la actividad...'
 	})
 
 
 useEffect(() => {
+	
 	const fetchData = async () => 
 	await getActivityAxios.useAxiosCall().then(
 		res => setActivity(( res.data ))
-		)
-		const fetchScholars = async () =>
-			await getScholarsInActivity.useAxiosCall().then(
-				res => {
-					const mappedScholars = res.data.map(scholar => {
-						console.log(scholar)
-						return {
-							...scholar,
-							profile: (
-							<Link style={{textDecoration:"none"}} to={`/becaria/${scholar.id}`}>
-								<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
-									Ver Perfil
-								</Button>
-							</Link>
-							),
-							delete: (
-								<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
-									openDialog('Eliminar becaria', `¿Esta seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
-										deleteScholarActivityRelations([scholar.id], id)
-										window.location.reload(false)
-									})
-								}}>
-									Eliminar
-								</Button>
-							)
-						}
-					})
+		).finally(async () => await fetchScholars())
+
+	const fetchScholars = async () =>{
+		await getScholarsInActivity.useAxiosCall().then(
+			res => {
+				const mappedScholars = res.data.map(scholar => {
+					return {
+						...scholar,
+						carreras: scholar.academicStatus.reduce((acc, curr) => {
+							return acc.concat(`${curr.carrera.carrera} ,`)
+						}, ''),
+						profile: (
+						<Link style={{textDecoration:"none"}} to={`/becaria/${scholar.id}`}>
+							<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
+								Ver Perfil
+							</Button>
+						</Link>
+						),
+						delete: (
+							<Button color="error" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
+								openDialog('Eliminar becaria', `¿Esta seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
+									deleteScholarActivityRelations([scholar.id], id)
+									window.location.reload(false)
+								})
+							}}>
+								Eliminar
+							</Button>
+						)
+					}
+				})
+				console.log('llegue')
 					setActivityScholars(mappedScholars)
 				}
 			)
+			
+		}
 		fetchData();
-		fetchScholars();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [activity.validity]);
 
 	if (loading) {
 		return <LoadingScreen/>
 	}
-	return (
+	else{
+		return (
 		<Container>
 			<Box mb={2}>
 				<BackButton path={'/actividades'}/> 
@@ -143,11 +156,11 @@ useEffect(() => {
 					<Container disableGutters className={classes.datoContainer}>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de inicio: </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).plus({ hours: 3 }).toLocaleString()} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.startDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Fecha de Fin estimada:  </Typography>
-							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).plus({ hours: 3 }).toLocaleString()} </Typography>
+							<Typography variant='body1'> {DateTime.fromISO(activity.endDate).plus({ hours: 3 }).toFormat('dd/MM/yyyy').toLocaleString()} </Typography>
 						</Container>
 						<Container className={classes.dato}>
 							<Typography variant='body1' fontWeight='bold'> Estado:  </Typography>
@@ -179,15 +192,17 @@ useEffect(() => {
 				</Container>
 			</Paper>
 			<Container >
+				<MailSender users={selectedScholars}/>
 				{
 					activity.validity?
 				<ModalActividadBecaria activityID={id} activityScholars={activityScholars}/>: null
 				}
-				<Button sx={{margin:2}} variant='contained'>Enviar Correo</Button>
+
 			</Container>
 			<Searcher 
 			items={activityScholars} 
 			columns={actividadesRows}
+			setStateCallback={setSelectedScholars}
 			/>
 			{
 				!advancedOptions ?				
@@ -226,7 +241,8 @@ useEffect(() => {
 			</>
 			}
 		</Container>
-	)
+		)
+	}
 }
 
 export default ActivitiesData
