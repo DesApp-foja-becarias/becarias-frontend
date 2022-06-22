@@ -211,9 +211,7 @@ export default function ScholarData() {
               </Box>
 							<MailSender users={[scholar]}/>
               <Container id='datosGeneralesBottom'>
-                <Typography variant='subtitle1'>Carreras</Typography>
-                <DisplayCarreers careers={scholar.academicStatus? scholar.academicStatus:[]}/>
-                <Box mb={3} />
+                
                 {
                   scholar.actualState === "Aceptada" ?
                   <Grid container>
@@ -233,21 +231,20 @@ export default function ScholarData() {
                       <Typography variant='subtitle1'>Cuenta</Typography>
                       </Grid>
                       <Grid container item xs={2} mb={2}>
-                      
                         <Link style={{textDecoration:"none"}} to={`/becaria/aditional/${id}/${scholar.CuentaId}`}>
-                        <Button color="primary" variant="contained" size='small' sx={{color:'#fafafa'}}> 
+                        <Button color="warning" variant="contained" size='small' sx={{color:'#fafafa'}}> 
                           Editar cuenta
                         </Button>
                         </Link>
-                      
                       </Grid>
-                      
                       { account.data ? <TableAccount accountData={account.data}/> : "" }
-                      
                     </Grid>
                   </Grid>
                   : <></>
                 }
+                <Box mb={3} />
+								<Typography variant='subtitle1'>Carreras</Typography>
+                <DisplayCarreers careers={scholar.academicStatus? scholar.academicStatus:[]}/>
                 <Box mb={6} />
               </Container>
             </Container>

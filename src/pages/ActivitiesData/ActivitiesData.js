@@ -117,7 +117,7 @@ useEffect(() => {
 						</Link>
 						),
 						delete: (
-							<Button color="secondary" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
+							<Button color="error" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
 								openDialog('Eliminar becaria', `¿Esta seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
 									deleteScholarActivityRelations([scholar.id], id)
 									window.location.reload(false)
