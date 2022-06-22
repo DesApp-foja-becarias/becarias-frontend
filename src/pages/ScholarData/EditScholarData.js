@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
-import { TextField,InputLabel,Paper,Chip, Button,Grid,Typography,Container,Box  } from '@mui/material';
+import { TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box  } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
 import { useParams } from 'react-router';
 import { getScholar, updateScholar } from '../../services/Scholar/servicesScholar';
@@ -44,7 +44,6 @@ export default function EditScholarData() {
     const {loading} = useContext(LoadingScreenContext)
 
     const {
-        areValidFields,
         errors,
         validateNotEmpty,
         validateDni,
