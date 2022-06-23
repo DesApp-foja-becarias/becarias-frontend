@@ -58,7 +58,7 @@ const classes = useStyles();
 								color="primary"	
 								onClick={() => setShowMailSender(true)}
 								>
-									Mandar Mail
+									Enviar Correo
 						</Button>
 					}
 					{showMailSender &&

@@ -54,11 +54,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ActivitiesData() {
 	const classes = useStyles();
-	const navigate = useHistory();
 	const {id} = useParams()
 	// avanced optiosn state
 	const {openDialog} = useDialog()
-	const { hideLoadingScreen, showLoadingScreen } = useLoadingScreen()
 	const [advancedOptions, setAdvancedOptions] = useState(false);
 	const { loading } = useContext(LoadingScreenContext);
 	const [activity, setActivity] = useState({
@@ -72,6 +70,7 @@ function ActivitiesData() {
 	const [selectedScholars, setSelectedScholars] = useState([]);
 
 	//NOTE: estas son llamadas hechas con hook para no tener que rehacer todo el setLoadingContext en cada llamada.
+	
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
 		, errorMessage: 'No se pudo encontrar la actividad'
