@@ -219,7 +219,7 @@ export default function ScholarAditionalData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="accountNumber">Numero de Cuenta</InputLabel>
+                        <InputLabel htmlFor="accountNumber">Número de Cuenta</InputLabel>
                         <TextField  
                             placeholder="Numero de cuenta" 
                             variant="outlined"

@@ -29,7 +29,7 @@ const ConfigurationPage = () => {
 								Carreras
 							</Typography>
 							<Typography variant="body2" color="text.secondary">
-								Aqui podras ver las carreras que estan disponibles en el sistema, editarlas y administrarlas a tu gusto.
+								Aquí podrás ver las carreras que están disponibles en el sistema, editarlas y administrarlas a tu gusto.
 							</Typography>
 						</CardContent>
 					</CardActionArea>
@@ -49,7 +49,7 @@ const ConfigurationPage = () => {
 							Actividades
 						</Typography>
 						<Typography variant="body2" color="text.secondary">
-							Aqui podras ver las actividades que estan disponibles en el sistema, editarlas y administrarlas a tu gusto.
+							Aquí podrás ver las actividades que están disponibles en el sistema, editarlas y administrarlas a tu gusto.
 						</Typography>
 					</CardContent>
 				</CardActionArea>
