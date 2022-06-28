@@ -69,9 +69,9 @@ export default function ScholarData() {
     const getScholarAxios = useAxios({
       call:  
       () => getScholar(id)
-      , successMessage: 'Becaria encontrada'
+      , successMessage: 'Becaria cargada'
       , errorMessage: 'No se encontro la becaria'
-      , loadingMessage: 'Buscando becaria...'
+      , loadingMessage: 'Cargando becaria...'
       , redirectErr: '/'
     })
 

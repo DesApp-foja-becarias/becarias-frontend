@@ -46,9 +46,9 @@ export default function TutorData() {
     const tutorAxios = useAxios({
         call:  
         () => getTutor(id)
-        , successMessage: 'Tutor encontrado'
+        , successMessage: 'Tutor cargado'
         , errorMessage: 'No se encontro el tutor'
-        , loadingMessage: 'Buscando tutor...'
+        , loadingMessage: 'Cargando tutor...'
         , redirectErr: '/'
     })
 

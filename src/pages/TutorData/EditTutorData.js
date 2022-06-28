@@ -56,9 +56,9 @@ export default function EditTutorData() {
     const getTutorAxios = useAxios({
         call:  
         () => getTutor(id)
-        , successMessage: 'Tutor encontrado'
+        , successMessage: 'Datos cargados correctamente'
         , errorMessage: 'No se encontro el tutor'
-        , loadingMessage: 'Buscando tutor...'
+        , loadingMessage: 'Precargando datos...'
         , redirectErr: '/'
     })
     const updateTutorCall = useAxios({
@@ -73,11 +73,11 @@ export default function EditTutorData() {
 
     useEffect(() => {
         const tutorAxios = async () => await getTutorAxios.useAxiosCall().then(async (res) => {
-					const carreras = await getCarreers()
-					console.log(carreras.data)
-					const carrerasDeTutor = await res.data.carrerasDeTutor.map(car => carreras.data.find(car2 => car2.id == car))
+					//const carreras = await getCarreers()
+					//console.log(carreras.data)
+					//const carrerasDeTutor = await res.data.carrerasDeTutor.map(car => carreras.data.find(car2 => car2.id == car))
 					
-					setTutor({...res.data, carrerasDeTutor: carrerasDeTutor})
+					setTutor({...res.data})
 				}
 					)
         tutorAxios()
@@ -196,13 +196,6 @@ export default function EditTutorData() {
                                 required
                             />
                         </Grid>
-												<Grid item
-											xs={12}
-										>
-											{/*dropdown de carreras */}
-											{/* <DropdownMultiple update={updateCarrer} signedCarreers={tutor.carreers}/> */}
-											</Grid>
-                    
                         <Grid item 
                             xs={6}
                         >
