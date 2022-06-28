@@ -73,9 +73,11 @@ const CarreerDisplay = ({career}) => {
 							<Typography variant='h5'> Historial </Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Typography variant='h6' style={{marginTop:'1em'}}> Materias Aprobadas </Typography>
+							<Typography variant='h6' > Materias Aprobadas </Typography>
 							<TableContainer>
 							<Table size='small'>
+								{career.materiasAprobadas.length > 0 ?
+								<>
 								<TableHead>
 									<TableRow>
 										<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
@@ -94,11 +96,21 @@ const CarreerDisplay = ({career}) => {
 										</TableRow>
 									)}
 								</TableBody>
+								</>
+								:
+								<TableHead>
+									<TableRow>
+									<TableCell>No registra materias aprobadas</TableCell>
+									</TableRow>
+								</TableHead>
+								}
 								</Table>
 							</TableContainer>
 							<Typography variant='h6' style={{marginTop:'1em'}}> Materias Regularizadas </Typography>
 							<TableContainer sx={{marginBottom:'2em'}}>
 							<Table size='small'>
+								{career.materiasRegularizadas.length > 0 ?
+								<>
 								<TableHead>
 									<TableRow>
 										<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
@@ -115,6 +127,14 @@ const CarreerDisplay = ({career}) => {
 										</TableRow>
 									)}
 								</TableBody>
+								</>
+								:
+								<TableHead>
+									<TableRow>
+									<TableCell>No registra materias regularizadas</TableCell>
+									</TableRow>
+								</TableHead>
+								}
 								</Table>
 							</TableContainer>
 						</AccordionDetails>
