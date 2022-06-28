@@ -2,6 +2,7 @@ import React from 'react';
 import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper, Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dato from '../Datos/Dato';
+import { DateTime } from 'luxon';
 
 const DisplayCarreers = ({careers}) => {
 	console.log(careers)
@@ -87,7 +88,7 @@ const CarreerDisplay = ({career}) => {
 									{career.materiasAprobadas.map((materia,index) =>
 										<TableRow key={index}>
 											<TableCell width={300}>{materia.materia}</TableCell>
-											<TableCell >{materia.fecha}</TableCell>
+											<TableCell >{DateTime.fromISO(materia.fecha).toFormat('dd/MM/yyyy') }</TableCell>
 											<TableCell >{materia.nota}</TableCell>
 											<TableCell >{materia.condicion}</TableCell>
 										</TableRow>
