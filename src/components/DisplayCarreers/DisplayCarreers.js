@@ -70,7 +70,7 @@ const CarreerDisplay = ({career}) => {
           					aria-controls="panel1a-content"
           					id="panel1a-header"
         				>
-							<Typography variant='h5'> Historial de materias </Typography>
+							<Typography variant='h5'> Historia académica </Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant='h6' > Materias Aprobadas </Typography>
