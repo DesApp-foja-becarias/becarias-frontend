@@ -38,7 +38,7 @@ const CarreerDisplay = ({career}) => {
           					aria-controls="panel1a-content"
           					id="panel1a-header"
         				>
-							<Typography variant='h5'>Ultimo periodo cursado</Typography>
+							<Typography variant='h5'>Último periodo cursado</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant='subtitle2' color='green'> {career.lastPeriod.nombre}</Typography>
