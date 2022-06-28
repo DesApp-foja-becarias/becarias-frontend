@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const listItems = [
   {
-    name: "Pagina Principal",
+    name: "Página Principal",
     path: "/",
     icon: <HomeIcon />,
   },
@@ -82,7 +82,7 @@ const listItems = [
     icon: <PersonAddIcon />
   },
   {
-    name: "Configuracion",
+    name: "Configuración",
     path: "/configuracion",
     icon: <SettingsIcon />,
   },

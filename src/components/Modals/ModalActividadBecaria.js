@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Divider, Modal, Paper } from '@mui/material';
+import { CircularProgress, Divider, Modal, Paper } from '@mui/material';
 import { Button, Container, Typography } from '@mui/material'
 import SelectedUsersDashboard from '../SelectedUsersDashboard'
 import { Box } from '@mui/system';
@@ -30,23 +30,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-
-
 function ModalActividadBecaria({activityID,activityScholars}) {
 	const classes = useStyles();
 	const [open,setOpen] = useState(false)
 	const [avilableUsers, setAvilableUsers] = useState([])
 	const [selectedUsers,setSelectedUsers] = useState([])
+	const [loading, setLoading] = useState(false)
 	const handleOpen = () => {
 		setOpen(true)
 	}
 
+	
 	const handlePushScholarInActivity = async () => {
 		await pushScholarInActivityCall.useAxiosCall().then(() => {
 			setOpen(false)
 			window.location.reload(false)
 		})
 	}
+
 		const pushScholarInActivityCall = useAxios({
 		call: () => pushScholarInActivity(activityID, selectedUsers),
 		loadingMessage: 'Agregando Becarias a la actividad...',
@@ -55,51 +56,99 @@ function ModalActividadBecaria({activityID,activityScholars}) {
 		
 	})
 
-	const scholarsNotInTheActivity = async () => {
-		const {data} = await getScholars()
-		// availableUsers son aquellos que
-		// no estan en la actividad Y tampoco estan dados de baja
-		const ActiveAvailableUsers = data.data.filter(scholar => scholar.actualState === 'Aceptada')
-		const availableUsers = ActiveAvailableUsers.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id ))
-		setAvilableUsers(availableUsers)
-	}
-
 	useEffect(() => {
-		scholarsNotInTheActivity()
-	}, [open])
-
-	return (
-		<>
-		<Box sx={{margin:'1rem 0rem'}}>
-			<Button variant='contained' onClick={handleOpen}>
-				Agregar Becaria
-			</Button>
-		</Box>
-		<Modal open={open} onClose={() => setOpen(false)} className={classes.modal}
-		>
-			<Container maxWidth='lg' >
-				<Box >
-				<Paper className={classes.paper}>
-					<Box  className={classes.container}>
-						<Typography variant='h4'>
-							Agregar Becaria
-						</Typography>
-						<Box m={2}>
-							<Divider/>
-						</Box>
-						<Button variant='contained' onClick={async () => await handlePushScholarInActivity()}>
-							Agregar a las becarias seleccionadas
-						</Button>
-						<SelectedUsersDashboard selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
-						<FreeScholarsDataTable scholars={avilableUsers} setScholars={setSelectedUsers}/>
-					</Box>
-				</Paper>
-				</Box>
-			</Container>		
-		</Modal>
 		
-		</>
-	)
+		const fetchData = async () => {
+			setLoading(true)
+			await getScholars().then(res => {
+				// availableUsers son aquellos que
+				// no estan en la actividad Y tampoco estan dados de baja
+				const data = res.data
+				const activeAvailableUsers = data.data.filter(scholar => scholar.actualState === 'Aceptada')
+				const availableUsers = activeAvailableUsers.filter(scholar => !activityScholars.some(scholarInActivity => scholarInActivity.id === scholar.id ))
+				setAvilableUsers(availableUsers)
+				console.log(availableUsers)
+				setLoading(false)
+				})
+		} 
+		if(open===true){
+			fetchData()
+		}
+	}, [ open ])
+
+		return (
+			<>
+			<Box sx={{margin:'1rem 0rem'}}>
+				<Button variant='contained' onClick={handleOpen}>
+					Agregar Becaria
+				</Button>
+			</Box>
+			<Modal open={open} onClose={() => setOpen(false)} className={classes.modal}
+			>
+				<Container maxWidth='lg' >
+					<Box >
+					<Paper className={classes.paper}>
+						<Box  className={classes.container}>
+							<Typography variant='h4'>
+								Agregar Becaria
+							</Typography>
+							<Box m={2}>
+								<Divider/>
+							</Box>
+							<Button variant='contained' onClick={async () => await handlePushScholarInActivity()}>
+								Agregar a las becarias seleccionadas
+							</Button>
+								{loading ? <LoadingScreenTable/>:
+								<>
+								
+								<SelectedUsersDashboard selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+								<FreeScholarsDataTable scholars={avilableUsers} setScholars={setSelectedUsers}/>
+								</>
+								}
+
+								</Box>
+					</Paper>
+					</Box>
+				</Container>		
+			</Modal>
+			</>
+		)
+	
 }
 
+
 export default ModalActividadBecaria
+
+export const LoadingScreenTable = () => {
+	return (
+			<Box  sx={
+					{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							height: '500px',
+							width: '100%',
+							backgroundColor: '#fff',
+					}
+			}>
+					<Box sx={
+							{ 
+									display:'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									justifyContent: 'center',
+							}}
+					>
+					<CircularProgress/>
+					<Typography mt={2} sx={{
+							fontSize: '1.25rem',
+							fontWeight: 'normal',
+							color: '#666',
+					}}
+					>
+					Por Favor Espere...
+					</Typography>
+					</Box>
+			</Box>
+	)
+}

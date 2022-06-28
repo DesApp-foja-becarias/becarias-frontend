@@ -13,6 +13,7 @@ import LoadingScreen from '../../components/LoadingScreen';
 import SingleSeacher from '../../components/Searcher/SingleSeacher';
 import { columnsTutorShort } from '../../constants/searcherConstant';
 import { accountTypes } from '../../constants/constants';
+import { useHistory } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScholarAditionalData() {
     const classes = useStyles()
+    const history = useHistory()
     const [scholar, setScholar] = useState({});
     const [tutors, setTutors] = useState([]);
     const [tutorSelected, setTutorSelected] = useState([]);
@@ -60,7 +62,6 @@ export default function ScholarAditionalData() {
     const {loading} = useContext(LoadingScreenContext)
 
     const {
-        areValidFields,
         errors,
         validateNotEmpty,
         validateAccountNumber,
@@ -83,7 +84,7 @@ export default function ScholarAditionalData() {
         call:  
         () => getScholar(id)
         , errorMessage: 'No se encontro la becaria'
-        , loadingMessage: 'Buscando becaria...'
+        , loadingMessage: 'Precargando datos...'
         , redirectErr: '/'
     })
 
@@ -108,7 +109,6 @@ export default function ScholarAditionalData() {
         , successMessage: 'Cuenta Actualizada'
         , errorMessage: 'No se pudo actualizar la cuenta'
         , loadingMessage: 'Actualizando cuenta...'
-        , redirectSucc: `/becaria/${id}`
         , redirectErr: '/'
     })
 
@@ -144,7 +144,9 @@ export default function ScholarAditionalData() {
             setRelationScholarTutorAxios.useAxiosCall();
             acceptScholarAxios.useAxiosCall();
         } else {
-            updateAccountAxios.useAxiosCall();
+            updateAccountAxios.useAxiosCall().then(res => {
+                history.push(`/becaria/${id}`)
+            })
         }
     }
     
@@ -217,7 +219,7 @@ export default function ScholarAditionalData() {
                     <Grid item 
                         xs={6}
                     >
-                        <InputLabel htmlFor="accountNumber">Numero de Cuenta</InputLabel>
+                        <InputLabel htmlFor="accountNumber">Número de Cuenta</InputLabel>
                         <TextField  
                             placeholder="Numero de cuenta" 
                             variant="outlined"

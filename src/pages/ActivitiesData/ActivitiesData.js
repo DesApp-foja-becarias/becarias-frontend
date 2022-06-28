@@ -54,11 +54,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ActivitiesData() {
 	const classes = useStyles();
-	const navigate = useHistory();
 	const {id} = useParams()
 	// avanced optiosn state
 	const {openDialog} = useDialog()
-	const { hideLoadingScreen, showLoadingScreen } = useLoadingScreen()
 	const [advancedOptions, setAdvancedOptions] = useState(false);
 	const { loading } = useContext(LoadingScreenContext);
 	const [activity, setActivity] = useState({
@@ -72,6 +70,7 @@ function ActivitiesData() {
 	const [selectedScholars, setSelectedScholars] = useState([]);
 
 	//NOTE: estas son llamadas hechas con hook para no tener que rehacer todo el setLoadingContext en cada llamada.
+	
 	const getActivityAxios = useAxios({
 		call: () => getActivity(id)
 		, errorMessage: 'No se pudo encontrar la actividad'
@@ -118,7 +117,7 @@ useEffect(() => {
 						),
 						delete: (
 							<Button color="error" variant="contained" size='small' sx={{color:'#fafafa'}} onClick={() => {
-								openDialog('Eliminar becaria', `¿Esta seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
+								openDialog('Eliminar becaria', `¿Está seguro que desea eliminar a la becaria ${scholar.name}?`, () => {
 									deleteScholarActivityRelations([scholar.id], id)
 									window.location.reload(false)
 								})
@@ -172,7 +171,7 @@ useEffect(() => {
 					activity.validity?
 						<Button onClick={
 							() =>{
-								openDialog('Actualizar actividad', <Typography>Estas a punto de terminar con una actividad, Estas segur@?</Typography>, 						
+								openDialog('Actualizar actividad', <Typography>Estás a punto de terminar con una actividad, ¿Estas segur@?</Typography>, 						
 									() => {
 										setActivity({
 											...activity,
@@ -217,7 +216,7 @@ useEffect(() => {
 				<Container disableGutters>
 					<Button variant='contained' color='warning' sx={{margin:'5px 5px 10px 0'}}
 					onClick={()=>{
-						openDialog('Vaciar Tabla', <Typography>Estas a punto de vaciar toda la actividad, Estas segur@?</Typography>,() => {
+						openDialog('Vaciar Tabla', <Typography>Estás a punto de vaciar toda la actividad, ¿Estas segur@?</Typography>,() => {
 							const mappedScholars = activityScholars.map(scholar => {
 								return scholar.id
 							})
@@ -228,7 +227,7 @@ useEffect(() => {
 					> 
 					❕ Vaciar Tabla</Button>
 					<Button onClick={() =>
-						openDialog('Eliminar actividad', <Typography>Estas a punto de eliminar una actividad, Estas segur@?</Typography>,() => {
+						openDialog('Eliminar actividad', <Typography>Estás a punto de eliminar una actividad, ¿Estas segur@?</Typography>,() => {
 							const mappedScholars = activityScholars.map(scholar => {
 								return scholar.id
 							})

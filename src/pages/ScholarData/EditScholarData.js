@@ -64,9 +64,9 @@ export default function EditScholarData() {
     const getScholarAxios = useAxios({
         call:  
         () => getScholar(id)
-        , successMessage: 'Becaria encontrada'
+        , successMessage: 'Datos cargados correctamente'
         , errorMessage: 'No se encontro la becaria'
-        , loadingMessage: 'Buscando becaria...'
+        , loadingMessage: 'Precargando datos...'
         , redirectErr: '/'
     })
 
@@ -174,6 +174,7 @@ export default function EditScholarData() {
                 <Grid item xs={6} >
                     <InputLabel htmlFor='Ponderación'>CUIT</InputLabel>                                        
                     <TextField 
+                        margin="normal"
                         type="string" 
                         variant='outlined'
                         name="cuit"
@@ -271,11 +272,13 @@ export default function EditScholarData() {
                         required
                     />
                 </Grid>
+                {/*
                 <Grid item 
                     xs={6} 
                 >
+                    
                     <InputLabel htmlFor='career'>Carrera/s</InputLabel>
-                    {/* <Select
+                     <Select
                         multiple
                         name="career"
                         value={scholar.career}
@@ -295,13 +298,15 @@ export default function EditScholarData() {
                                 {car.name}
                             </MenuItem>
                         ))}
-                    </Select> */}
+                    </Select> 
                 </Grid>
+                */}
                 
                 <Grid item xs={6} >
                     
                     <InputLabel htmlFor='fechaDeConvocatoria'>Fecha de convocatoria</InputLabel>
                     <TextField 
+                        margin='normal'
                         type="string" 
                         variant='outlined'
                         name="announcement"

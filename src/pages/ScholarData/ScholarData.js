@@ -69,9 +69,9 @@ export default function ScholarData() {
     const getScholarAxios = useAxios({
       call:  
       () => getScholar(id)
-      , successMessage: 'Becaria encontrada'
+      , successMessage: 'Becaria cargada'
       , errorMessage: 'No se encontro la becaria'
-      , loadingMessage: 'Buscando becaria...'
+      , loadingMessage: 'Cargando becaria...'
       , redirectErr: '/'
     })
 
@@ -146,7 +146,7 @@ export default function ScholarData() {
                     <Tooltip title='Dar de baja' onClick={
                       ()=>
                       {
-                        openDialog('Dar de baja', <Typography>Estas a punto de dar de baja a la becaria. Estas segur@?</Typography>,
+                        openDialog('Dar de baja', <Typography>Estás a punto de dar de baja a la becaria. Estás segur@?</Typography>,
                           () => {
                             downScholarAxios.useAxiosCall()
                             deleteTutorForScholarAxios.useAxiosCall()

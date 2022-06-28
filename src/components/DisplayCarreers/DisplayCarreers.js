@@ -2,6 +2,7 @@ import React from 'react';
 import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper, Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dato from '../Datos/Dato';
+import { DateTime } from 'luxon';
 
 const DisplayCarreers = ({careers}) => {
 	console.log(careers)
@@ -37,7 +38,7 @@ const CarreerDisplay = ({career}) => {
           					aria-controls="panel1a-content"
           					id="panel1a-header"
         				>
-							<Typography variant='h5'>Ultimo periodo cursado</Typography>
+							<Typography variant='h5'>Último periodo cursado</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography variant='subtitle2' color='green'> {career.lastPeriod.nombre}</Typography>
@@ -69,12 +70,14 @@ const CarreerDisplay = ({career}) => {
           					aria-controls="panel1a-content"
           					id="panel1a-header"
         				>
-							<Typography variant='h5'> Historial </Typography>
+							<Typography variant='h5'> Historia académica </Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Typography variant='h6' style={{marginTop:'1em'}}> Materias Aprobadas </Typography>
+							<Typography variant='h6' > Materias Aprobadas </Typography>
 							<TableContainer>
 							<Table size='small'>
+								{career.materiasAprobadas.length > 0 ?
+								<>
 								<TableHead>
 									<TableRow>
 										<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
@@ -87,17 +90,27 @@ const CarreerDisplay = ({career}) => {
 									{career.materiasAprobadas.map((materia,index) =>
 										<TableRow key={index}>
 											<TableCell width={300}>{materia.materia}</TableCell>
-											<TableCell >{materia.fecha}</TableCell>
+											<TableCell >{DateTime.fromISO(materia.fecha).toFormat('dd/MM/yyyy') }</TableCell>
 											<TableCell >{materia.nota}</TableCell>
 											<TableCell >{materia.condicion}</TableCell>
 										</TableRow>
 									)}
 								</TableBody>
+								</>
+								:
+								<TableHead>
+									<TableRow>
+									<TableCell>No registra materias aprobadas</TableCell>
+									</TableRow>
+								</TableHead>
+								}
 								</Table>
 							</TableContainer>
 							<Typography variant='h6' style={{marginTop:'1em'}}> Materias Regularizadas </Typography>
 							<TableContainer sx={{marginBottom:'2em'}}>
 							<Table size='small'>
+								{career.materiasRegularizadas.length > 0 ?
+								<>
 								<TableHead>
 									<TableRow>
 										<TableCell sx={{fontWeight:'bold'}}>Materia</TableCell>
@@ -114,6 +127,14 @@ const CarreerDisplay = ({career}) => {
 										</TableRow>
 									)}
 								</TableBody>
+								</>
+								:
+								<TableHead>
+									<TableRow>
+									<TableCell>No registra materias regularizadas</TableCell>
+									</TableRow>
+								</TableHead>
+								}
 								</Table>
 							</TableContainer>
 						</AccordionDetails>
