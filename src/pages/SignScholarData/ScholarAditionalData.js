@@ -60,7 +60,6 @@ export default function ScholarAditionalData() {
     const {loading} = useContext(LoadingScreenContext)
 
     const {
-        areValidFields,
         errors,
         validateNotEmpty,
         validateAccountNumber,
@@ -83,7 +82,7 @@ export default function ScholarAditionalData() {
         call:  
         () => getScholar(id)
         , errorMessage: 'No se encontro la becaria'
-        , loadingMessage: 'Buscando becaria...'
+        , loadingMessage: 'Precargando datos...'
         , redirectErr: '/'
     })
 
