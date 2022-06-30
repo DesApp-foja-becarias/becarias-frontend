@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Button, Chip, Container, Divider, Input, Paper, TextField, Typography } from '@mui/material';
+import { Button, Chip, Container, Divider, Paper, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Proptypes from 'prop-types';
 import useMailSender from '../../hooks/useMailSender';
@@ -47,6 +47,7 @@ const MailSender = ({ users }) => {
 			setSelectedUsers(users);
 			console.log(selectedUsers)
 			}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [users]);
 
 const classes = useStyles();

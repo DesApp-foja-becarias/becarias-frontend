@@ -74,6 +74,7 @@ function ModalActividadBecaria({activityID,activityScholars}) {
 		if(open===true){
 			fetchData()
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ open ])
 
 		return (

@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext} from 'react';
 import {makeStyles} from '@mui/styles';
 import {TextField,InputLabel,Paper, Button,Grid,Typography,Container,Box} from '@mui/material';
 import BackButton from '../../components/BackButton';
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
     }));
     
-    export default function SignScholarData() {
+    export default function ScholarSign() {
     const history = useHistory()
     const classes = useStyles()
     const [scholar, setScholar] = useState({

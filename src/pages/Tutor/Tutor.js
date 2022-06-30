@@ -13,6 +13,7 @@ import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
 import TableScholars from '../../components/TableScholars';
 import DisplayTutorCarreers from '../../components/DisplayTutorCarreers/DisplayTutorCarreers';
+import MailSender from '../../components/MailSender';
 
 const useStyles = makeStyles((theme) => ({
     rootContainer:{
@@ -69,6 +70,7 @@ export default function TutorData() {
 					})
 				})
 			})
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, [])
     
     const classes = useStyles();
@@ -128,12 +130,15 @@ export default function TutorData() {
                     <Box mb={2} mt={2}>
                       <Divider />
                     </Box>
-                    
                   </Grid>
               </Grid>
               <Box mb={2} mt={2}>
                 <Divider />
               </Box>
+							<MailSender users={[tutor]}/>
+                    <Box mb={2} mt={2}>
+											<Divider />
+										</Box>
               <Container id='datosGeneralesBottom'>
               <Typography variant='subtitle1'>Carrera/s</Typography>
 							<Button variant="contained" color="primary" onClick={() => history.push(`/tutor/aditional/editarCarrera/${id}`)}> Editar Carreras de tutor</Button>

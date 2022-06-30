@@ -2,7 +2,7 @@ import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function Searcher({setStateCallback,items,columns}) {
-  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [, setSelectedRows] = React.useState([]);
   const onSelectionChange = (selectedRowsFromDG) => {  
     /**
      * selectedRows is an array of selected rows

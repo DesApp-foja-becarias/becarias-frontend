@@ -29,7 +29,7 @@ const ConfigurationPage = () => {
 								Carreras
 							</Typography>
 							<Typography variant="body2" color="text.secondary">
-								Aquí podrás ver las carreras que están disponibles en el sistema, editarlas y administrarlas a tu gusto.
+								Aquí podrás ver las carreras que están disponibles en el sistema.
 							</Typography>
 						</CardContent>
 					</CardActionArea>

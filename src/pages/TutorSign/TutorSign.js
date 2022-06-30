@@ -1,5 +1,5 @@
 import {makeStyles} from '@mui/styles';
-import { useState , useEffect, useContext } from 'react';
+import { useState , useContext } from 'react';
 import BackButton from '../../components/BackButton';
 import {TextField,InputLabel,Paper,Button,Grid,Typography,Container,Box } from '@mui/material';
 import useFieldValidator from '../../hooks/useValidator';
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignTutorData() {
+export default function TutorSign() {
     const classes = useStyles();
     const { loading } = useContext( LoadingScreenContext );
     const [tutor, setTutor] = useState({

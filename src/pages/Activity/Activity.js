@@ -7,15 +7,13 @@ import { LoadingScreenContext } from '../../context/LoadingScreenContext'
 import LoadingScreen from '../../components/LoadingScreen'
 import useAxios from '../../hooks/useAxios'
 import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
-import { deleteActivity, getActivity, updateActivity, getScholarInActivity, deleteScholarActivityRelations, deleteEveryScholarActivityRelations } from '../../services/Activities/serviceActivities'
+import { deleteActivity, getActivity, updateActivity, getScholarInActivity, deleteScholarActivityRelations } from '../../services/Activities/serviceActivities'
 import ModalActividadBecaria from '../../components/Modals/ModalActividadBecaria'
 import { DateTime } from 'luxon'
 import useDialog from '../../hooks/useDialog'
 import { Link } from 'react-router-dom'
 import BackButton from '../../components/BackButton'
 import MailSender from '../../components/MailSender'
-import useLoadingScreen from '../../hooks/useLoadingScreen'
 
 const useStyles = makeStyles((theme) => ({
 	mainDatoContainer: {

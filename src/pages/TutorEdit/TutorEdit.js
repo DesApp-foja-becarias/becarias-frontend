@@ -5,13 +5,10 @@ import useAxios from '../../hooks/useAxios';
 import BackButton from '../../components/BackButton/BackButton';
 import useFieldValidator from '../../hooks/useValidator';
 import { getTutor } from '../../services/Tutor/serviceTutor';
-import { useParams,useHistory } from 'react-router';
+import { useParams } from 'react-router';
 import { updateTutor } from '../../services/Tutor/serviceTutor';
-import useSnackbar from '../../hooks/useSnackbar';
 import { LoadingScreenContext } from "../../context/LoadingScreenContext";
 import LoadingScreen from '../../components/LoadingScreen';
-import DropdownMultiple from '../../components/DropdownMultiple';
-import { getCarreers } from '../../services/carrers/carreersService';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -45,14 +42,7 @@ export default function EditTutorData() {
     const classes = useStyles()
     const {id} = useParams()
     const [tutor, setTutor] = useState({});
-		const [carreers, setCarreers] = useState([])
-    const updateCarrer = (e) => {
-			setTutor({
-				...tutor,
-				carrerasDeTutor: e.target.value,
-			})
-		}
-    
+		
     const getTutorAxios = useAxios({
         call:  
         () => getTutor(id)
@@ -81,6 +71,7 @@ export default function EditTutorData() {
 				}
 					)
         tutorAxios()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
 
     const {

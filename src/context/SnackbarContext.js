@@ -1,6 +1,5 @@
 import { Alert, Snackbar } from "@mui/material";
 import { createContext, useState } from "react";
-import useSnackbar from "../hooks/useSnackbar";
 
 export const SnackbarContext = createContext();
 
