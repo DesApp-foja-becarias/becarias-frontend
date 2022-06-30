@@ -1,24 +1,24 @@
 import { Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "./pages/Login/Login";
-import Main from "./pages/Main/Main";
-import Navbar from "./components/Navbar/Navbar";
-import ScholarData from "./pages/ScholarData";
-import SignScholarData from "./pages/SignScholarData";
-import SignTutorData from "./pages/SignTutorData";
-import TutorData from "./pages/TutorData";
-import EditTutorData from "./pages/TutorData/EditTutorData";
-import EditScholarData from "./pages/ScholarData/EditScholarData";
-import ScholarAditionalData from "./pages/SignScholarData/ScholarAditionalData";
+import Login from "./pages/Login";
+import Main from "./pages/Main";
+import Navbar from "./components/Navbar";
+import Scholar from "./pages/Scholar";
+import ScholarSign from "./pages/ScholarSign";
+import TutorSign from "./pages/TutorSign";
+import Tutor from "./pages/Tutor";
+import TutorEdit from "./pages/TutorEdit";
+import ScholarEdit from "./pages/ScholarEdit";
+import ScholarEnable from "./pages/ScholarEnable";
 import MainTutor from "./pages/MainTutor";
 import MainScholars from "./pages/MainScholars";
 import ConfigurationPage from "./pages/ConfigurationPage";
 import ActivitiesPage from "./pages/Activities/Activities";
 import NewActivity from "./pages/NewActivity";
-import ActivitiesData from "./pages/ActivitiesData";
+import Activity from "./pages/Activity";
 import Carreers from "./pages/Carreers";
-import EditTutorCarreer from "./pages/EditTutorCarreer";
+import TutorEditCarreer from "./pages/TutorEditCarreer";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -51,31 +51,31 @@ export default function App() {
               <Login />
             </Route>
             <Route exact path="/tutor/edit/:id">
-              <EditTutorData />
+              <TutorEdit />
             </Route>
             <Route exact path="/tutor/:id">
-              <TutorData />
+              <Tutor />
             </Route>
             <Route exact path="/tutor">
               <MainTutor />
             </Route>
 						<Route exact path="/tutor/aditional/editarCarrera/:id">
-							<EditTutorCarreer/>
+							<TutorEditCarreer/>
 						</Route>
             <Route exact path="/inscribirtutor">
-              <SignTutorData />
+              <TutorSign />
             </Route>
             <Route exact path="/inscribirbecaria">
-              <SignScholarData />
+              <ScholarSign />
             </Route>
             <Route exact path="/becaria/edit/:id">
-              <EditScholarData />
+              <ScholarEdit />
             </Route>
             <Route exact path="/becaria/aditional/:id/:CuentaId">
-              <ScholarAditionalData />
+              <ScholarEnable />
             </Route>
             <Route exact path="/becaria/:id">
-              <ScholarData />
+              <Scholar />
             </Route>
             <Route exact path="/becaria">
               <MainScholars />
@@ -90,7 +90,7 @@ export default function App() {
 							<NewActivity />
 						</Route>
 						<Route exact path="/actividades/detalles/:id">
-							<ActivitiesData/>
+							<Activity/>
 						</Route>
 						<Route exact path="/carreras">
 							<Carreers/>

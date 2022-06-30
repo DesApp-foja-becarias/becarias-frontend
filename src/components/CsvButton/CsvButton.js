@@ -7,19 +7,6 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 function CsvButton({users}) {
-	const csvData = {
-		data: users,
-		headers: [
-			{ label: "Email", key: "email" },
-			{ label: "Name", key: "name" },
-			{ label: "Phone", key: "phone" },
-			{ label: "Address", key: "address" },
-			{ label: "City", key: "city" },
-			{ label: "State", key: "state" },
-		],
-		filename: "usuarios_correo.csv"
-		}
-
 	return (
 		<ExcelFile element={
 		<Button

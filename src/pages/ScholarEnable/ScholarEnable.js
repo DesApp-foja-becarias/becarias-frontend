@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function ScholarAditionalData() {
+export default function ScholarEnable() {
     const classes = useStyles()
     const history = useHistory()
     const [scholar, setScholar] = useState({});
@@ -81,7 +81,7 @@ export default function ScholarAditionalData() {
     ///////////////////////////////////
 
     const getScholarAxios = useAxios({
-        call:  
+        call:
         () => getScholar(id)
         , errorMessage: 'No se encontro la becaria'
         , loadingMessage: 'Precargando datos...'
@@ -139,7 +139,7 @@ export default function ScholarAditionalData() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (scholar.actualState != 'Aceptada') {
+        if (scholar.actualState !== 'Aceptada') {
             updateAccountAxios.useAxiosCall();
             setRelationScholarTutorAxios.useAxiosCall();
             acceptScholarAxios.useAxiosCall();
@@ -167,6 +167,7 @@ export default function ScholarAditionalData() {
         
         fechData();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (loading) {

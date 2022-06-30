@@ -1,4 +1,4 @@
-import React, {useContext,useEffect} from 'react'
+import  {useContext,useEffect} from 'react'
 import { useHistory } from 'react-router'
 import {AuthContext} from '../context/AuthContext'
 import useSnackbar from './useSnackbar'
@@ -12,6 +12,7 @@ const useAuth = () => {
             setUser(JSON.parse(user))
         }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     ,[])
 
     const {showSnackbar} = useSnackbar()

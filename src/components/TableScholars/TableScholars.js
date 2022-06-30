@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper } from '@mui/material';
-import { mapScholarsForSearcher, mapTutorScholarsForSearcher } from '../../utils/scholarUtils';
+import { mapTutorScholarsForSearcher } from '../../utils/scholarUtils';
 
 const TableScholars = ({scholars}) => {
     const [careersItems, setCareersItems] = useState([]);
