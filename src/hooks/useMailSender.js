@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import  { useState } from "react"
 //put alias to sendEmail
 import { sendEmail } from '../services/email/serviceEmail';
 import useSnackbar from "./useSnackbar";

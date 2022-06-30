@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import ArrowCircleDownRoundedIcon from '@mui/icons-material/ArrowCircleDownRounded';
 import {Link, useParams} from 'react-router-dom';
-import { getScholar, downScholar, deleteTutorForScholar, acceptScholar} from '../../services/Scholar/servicesScholar';
+import { getScholar, downScholar, deleteTutorForScholar} from '../../services/Scholar/servicesScholar';
 import { getAccountFromId } from '../../services/Account/serviceAccount';
 import BackButton from '../../components/BackButton';
 import TableActivities from '../../components/TableActivities/TableActivities';
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
   })
   );
 
-export default function ScholarData() {
+export default function Scholar() {
     const { loading } = useContext( LoadingScreenContext );
     const {id} = useParams()
     const { openDialog } = useDialog();

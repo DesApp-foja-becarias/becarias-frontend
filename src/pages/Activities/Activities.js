@@ -5,7 +5,6 @@ import { makeStyles } from '@mui/styles';
 import Searcher from '../../components/Searcher/Searcher';
 import { Link } from 'react-router-dom';
 import { columnsActivities } from '../../constants/searchedActivities';
-import { rowss } from '../../constants/searchedActivities';
 import { getAllActivities } from '../../services/Activities/serviceActivities';
 import { mapActivitiesForSearcher } from '../../utils/activitiesUtils';
 import useAxios from '../../hooks/useAxios';
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Activities(params) {
     const classes = useStyles();
     const [items, setItems] = useState([]);
-    const [users, setUsers] = useState([]);
 
     const getAllActivitiesAxios = useAxios({
         call: () => getAllActivities()
@@ -42,9 +40,8 @@ export default function Activities(params) {
 				await getAllActivitiesAxios.useAxiosCall().then(
 					async res => await setItems(prevState=> prevState.concat(mapActivitiesForSearcher(res.data)) )
 				);
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        
+        fetchData();        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -60,7 +57,7 @@ export default function Activities(params) {
                     </Link>
                 </Container>
                 <Container className={classes.search} maxWidth="xl" disableGutters>
-                    <Searcher setStateCallback={setUsers} items={items} columns={columnsActivities}/>
+                    <Searcher items={items} columns={columnsActivities}/>
                 </Container>
             </Container>
         </Container>

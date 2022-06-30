@@ -1,7 +1,6 @@
 import React from 'react';
 import { TableContainer,Table,TableHead,TableRow,TableCell, TableBody,Paper, Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Dato from '../Datos/Dato';
 import { DateTime } from 'luxon';
 
 const DisplayCarreers = ({careers}) => {

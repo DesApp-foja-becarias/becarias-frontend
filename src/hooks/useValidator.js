@@ -34,14 +34,17 @@ export default function useFieldValidator(initialValue){
     
     const validateAccountNumber = (e) =>
         updateError (
+            // eslint-disable-next-line eqeqeq
             e, !(e.target.value.length == 10 && e.target.value > 0)
         )
 
     const validateCBU = (e) =>
         updateError (
+					// eslint-disable-next-line eqeqeq
             e, !(e.target.value.length == 22 && e.target.value > 0)
         )
     
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const allValid = () => {
             let valid = true;
             for (let key in errors) {

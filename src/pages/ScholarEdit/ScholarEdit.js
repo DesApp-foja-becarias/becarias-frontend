@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:"#000",}
 }));
 
-export default function EditScholarData() {
+export default function ScholarEdit() {
     const classes = useStyles()
     const [scholar, setScholar] = useState({})
     const {id} = useParams()
@@ -105,6 +105,7 @@ export default function EditScholarData() {
         getScholarAxios.useAxiosCall().then(res => {
             setScholar(res.data)
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (loading) {

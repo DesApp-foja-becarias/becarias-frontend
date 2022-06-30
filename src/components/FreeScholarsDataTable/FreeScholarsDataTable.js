@@ -1,5 +1,4 @@
 import React from 'react'
-import { columnsTutor } from '../../constants/searcherConstant';
 import { mapScholarsForSearcher } from '../../utils/scholarUtils';
 import Searcher from '../Searcher/Searcher';
 
