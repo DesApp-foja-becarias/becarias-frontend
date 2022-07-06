@@ -9,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import becariaUnahur from '../../assets/becarias-logo.svg'
+import becariaUnahurLogo from '../../assets/becarias-logo_alt.svg'
 import ButtonUser from "./ButtonUser";
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import { AuthContext } from "../../context/AuthContext";
@@ -148,7 +149,7 @@ function Navbar() {
             >
               <img
                 className={classes.logoImg}
-                src={becariaUnahur}
+                src={becariaUnahurLogo}
                 alt="icono unahur"
               />
 
