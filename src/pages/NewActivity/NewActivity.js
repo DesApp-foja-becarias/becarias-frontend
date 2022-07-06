@@ -71,7 +71,7 @@ function NewActivity() {
 
 	const handleSubmit = async () => {
 		console.log()
-		if(valid_Date('startDate') && valid_Date('endDate') && isValidLimit(activityForm.name,40) && isValidLimit(activityForm.description,100)){
+		if(valid_Date('startDate') && valid_Date('endDate') && isValidLimit(activityForm.name,150) && isValidLimit(activityForm.description,300)){
 			await newActivityCall.useAxiosCall()
 		}
 		else{
